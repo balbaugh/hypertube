@@ -24,8 +24,35 @@ const play = (magnet) => {
 	return req.then((response) => response.data);
 }
 
+// Signup and Logi stuff below
+
+const register = newObject => {
+	const req = axios.post(`${baseUrl}/register`, newObject);
+	return (req.then(response => response.data));
+}
+
+const verifyemail = () => {
+	const req = axios.get(`${baseUrl}/emailverify/:hashedverify`);
+	return (req.then(response => response.data));
+}
+
+const login = newObject => {
+	const req = axios.post(`${baseUrl}/login`, newObject);
+	return (req.then(response => response.data));
+}
+
+const getCookie = () => {
+	const req = axios.get(`${baseUrl}/login`);
+	return (req.then(response => response.data));
+}
+
+const logout = () => {
+	const req = axios.get(`${baseUrl}/logout`);
+	return (req.then(response => response.data));
+}
+
 const axiosStuff = {
-	test, movieTest, toMovie, play,
+	test, movieTest, toMovie, play, register, verifyemail, login, getCookie, logout
 };
 
 export default axiosStuff;

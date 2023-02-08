@@ -2,6 +2,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.eslintrc
 
 # testing
 /coverage
@@ -20,8 +21,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-<<<<<<< HEAD
 /downloads
-=======
-/downloads
->>>>>>> hypertube-balbaugh
