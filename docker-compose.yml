@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    container_name: back
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      WAIT_HOSTS: db:5432
+    ports:
+      - 3001:3001
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+      - ./server/utils:/app/utils
+    command: npm run dev
+    restart: on-failure
+
+  client:
+    build: ./client
+    container_name: front
+    environment:
+      - NODE_PATH=src
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src
+    links:
+      - server
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: npm start
+
+  db:
+    container_name: database
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hypertube
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:6.18
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: matcha@matcha.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      GUNICORN_ACCESS_LOGFILE: '/dev/null'
+    ports:
+      - 8080:80
+    volumes:
+      - ./db/servers.json:/pgadmin4/servers.json
+    logging:
+      driver: none
+
+networks:
+  default:
+    name: hypertube_network

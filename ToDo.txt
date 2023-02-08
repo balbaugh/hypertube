@@ -1,0 +1,114 @@
+HYPERTUBE
+
+ARCHIVE.ORG S3-Like API Keys
+Your S3 access key: 6SL9PdmSpyXys5p0
+Your S3 secret key: Sf1jokS646MAYctY
+
+
+
+This project proposes to create a web application that allows the user to research and
+watch videos.
+
+The player will be directly integrated to the site, and the videos will be downloaded
+through the BitTorrent protocol.
+
+The research engine will interrogate multiple external sources of your choice, like for
+example http://www.legittorrents.info, or even https://archive.org.
+
+Once the element selected, it will be downloaded from the server and streamed on the
+web player at the same time. Which means that the player won’t only show the video
+once the download is completed, but will be able to stream directly the video feed.
+
+
+GENERAL INSTRUCTIONS
+
+All the framework, micro-framework, libraries etc. . . are authorized within the
+limits where they are not used to create a video stream from a torrent, thus limiting
+the educational purpose of this project. For example, libraries such as webtorrent,
+pulsar and peerflix are forbidden.
+
+Your website must be usable on a mobile phone and keep an acceptable layout on
+small resolutions.
+
+
+MANDATORY PART
+
+• The app must allow a user to register asking at least an email address, a username,
+a last name, a first name and a password that is somehow protected.
+• The user must be able to register and connect via Omniauth. You must then
+implement at least 2 strategies: the 42 strategy and another one of your choice.
+• The user must then be able to connect with his/her username and password. He/She
+must be able to receive an email allowing him/her to re-initialize his/her password
+should the first one be forgotten.
+• The user must be able to disconnect with 1 click from any pages on the site.
+• The user must be able to select a preferred language that will be English by default.
+
+A user will also be able to:
+• Modify the email address, profile picture and information.
+• Consult the profile of any other user, ie see the profile picture and information. The
+email address however will remain private.
+
+
+LIBRARY PART
+
+THIS PART CAN ONLY BE ACCESSIBLE TO CONNECTED USERS.
+
+THIS PART WILL HAVE AT A MINIMUM:
+• A SEARCH / RESEARCH FIELD
+• A THUMBNAILS LIST
+
+– RESEARCH // SEARCH
+• The search engine will interrogate at least two external sources of your choice
+–– comme par exemple http://www.legittorrents.info, ou encore https://archive.org
+• and, return the ensemble of results in thumbnails forms.
+• You will limit search results to videos only.
+
+– THUMBNAILS LIST
+• If a research has been done, the results will show as thumbnails sorted by names.
+• If no research was done, you will show the most popular medias from your external
+sources, sorted as per the criteria of your choice (downloads, peers, seeders, etc...).
+• In addition to the name of the video, a thumbnail must be composed, if available, of
+its production year, its IMDb note and a cover image.
+• You will differentiate the videos watched from unwatched, as you prefer.
+• The list will be paginated, at the end of each page. The following one must be auto-
+matically charged asynchronically. That means there cannot be a link from each page.
+• The page will be sortable and filtered according to criteria such as name, genre, the
+IMDb grade, the gap of production year etc...
+
+
+VIDEO PART
+
+THIS PART CAN ONLY BE ACCESSIBLE TO CONNECTED USERS.
+
+This section will present the details of a video, ie show the player of the video as well
+as – if available - the summary, casting (at least producer, director, main cast etc...) the
+production year, length, IMDb grade, a cover story and anything you think relevant.
+
+You will also give the users the option of leaving a comment on the video, and show
+the list of prior comments.
+
+To launch the video on the server we must - if the file wasn’t downloaded prior –
+launch the download from the associated torrent on the server, and stream the video flux
+from that one as soon as enough data has been downloaded to ensure a seamless watching
+of the video. Of course, any treatment must be done in the background in a non-blocking
+manner.
+
+Once the movie is entirely downloaded, it must be saved on the server, so that we
+don’t need to re-download the movie again. If a movie is unwatched for a month, it will
+have to be erased.
+
+If English subtitles are available for this video, they will need to be downloaded and
+available for the video player. In addition, if the language of the video does not match
+the preferred language of the user, and some subtitles are available for this video, they
+will need to be downloaded and selectable as well.
+
+If the video is not natively readable for the browser (That means it isn’t either mp4, nor webm),
+you will convert it on the fly in an acceptable format. The mkv support is a minimum.
+
+
+BONUS PART
+
+• Some additional Omniauth strategies.
+• Manage various video resolutions.
+• Develop an RESTful API.
+• Stream the video via the MediaStream API.
