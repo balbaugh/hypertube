@@ -209,11 +209,11 @@ const Homepage = () => {
                                                                         className="font-medium text-gray-900">{section.name}</span>
                                                                                 <span
                                                                                     className="ml-6 flex items-center">
-                                  <ChevronDownIcon
-                                      className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
-                                      aria-hidden="true"
-                                  />
-                                </span>
+                                                                                  <ChevronDownIcon
+                                                                                      className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                                                                                      aria-hidden="true"
+                                                                                  />
+                                                                                </span>
                                                                             </Disclosure.Button>
                                                                         </h3>
                                                                         <Disclosure.Panel className="pt-6">

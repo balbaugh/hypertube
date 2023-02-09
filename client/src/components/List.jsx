@@ -33,7 +33,21 @@ const List = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?limit=50&page=${currentPage}`);
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?limit=50&page=${currentPage}`); // 50 movies per page sorted by most recent
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&limit=50&page=${currentPage}`); // 50 movies per page sorted by year desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50&page=${currentPage}`); // 50 movies per page sorted by download count desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=like_count&limit=50&page=${currentPage}`); // 50 movies per page sorted by like count desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=title&limit=50&page=${currentPage}`); // 50 movies per page sorted by title asc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=title&order_by=desc&limit=50&page=${currentPage}`); // 50 movies per page sorted by title desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=desc&limit=50&page=${currentPage}`); // 50 movies per page sorted by year desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=50&page=${currentPage}`); // 50 movies per page sorted by year asc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&order_by=desc&limit=50&page=${currentPage}`); // 50 movies per page sorted by download count desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&order_by=asc&limit=50&page=${currentPage}`); // 50 movies per page sorted by download count asc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=like_count&order_by=desc&limit=50&page=${currentPage}`); // 50 movies per page sorted by like count desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=like_count&order_by=asc&limit=50&page=${currentPage}`); // 50 movies per page sorted by like count asc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&order_by=desc&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
+        // const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&order_by=asc&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating asc
         setMovies(movies.concat(response.data.data.movies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);

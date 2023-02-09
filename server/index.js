@@ -8,9 +8,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const crypto = require('crypto')
-const bcrypt = require('bcryptjs');
-
 const app = express();
 app.use(express.json());
 app.use(cors({
