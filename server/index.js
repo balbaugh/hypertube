@@ -22,14 +22,15 @@ app.use(cors({
 app.use(express.static('downloads'));
 
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-	// key: 'userID',
+	key: 'userID',
 	secret: 'BIGSECRET',
 	resave: false,
 	saveUninitialized: false,
 	cookie: {
-		sameSite: 'none',
-		secure: 'true'
+		expires: 1000 * 60 * 60 * 24,
+		sameSite: 'Lax'
 	}
 }))
 
@@ -61,6 +62,12 @@ app.use(movies);
 
 const video = require('./routes/video');
 app.use(video);
+
+const reg = require('./routes/register');
+app.use(reg);
+
+const login = require('./routes/login');
+app.use(login);
 
 app.use(middleware.unknowEndpoint);
 

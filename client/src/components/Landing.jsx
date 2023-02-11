@@ -1,23 +1,23 @@
-import {useEffect, useState} from "react";
-import axiosStuff from "../services/axiosStuff";
-import Loader from "./Loader";
+// import {useEffect, useState} from "react";
+// import axiosStuff from "../services/axiosStuff";
+// import Loader from "./Loader";
 
 const Landing = () => {
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
 
     return (
         <div>
-            {loading ? (
+            {/* {loading ? (
                 <div className="py-20">
                     <Loader/>
                 </div>
-            ) : (
+            ) : ( */}
                 <section>
                     <div className="h-screen bg-cover bg-center"
                          style={{backgroundImage: `url(${require("../images/landingPage.png")})`}}
@@ -110,7 +110,7 @@ const Landing = () => {
 
                 </section>
 
-            )}
+            {/* )} */}
         </div>
     )
 }

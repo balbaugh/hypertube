@@ -1,24 +1,77 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { Link } from "react-router-dom";
 import axiosStuff from "../services/axiosStuff";
-import Loader from "./Loader";
+import InfoText from "./infoText";
+// import axiosStuff from "../services/axiosStuff";
+// import Loader from "./Loader";
 
 const Registration = () => {
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
+		const [message, setMessage] = useState(null);
+		const [usernameReg, setUsernameReg] = useState("");
+		const [firstReg, setFirstReg] = useState("");
+		const [lastReg, setLastReg] = useState("");
+		const [emailReg, setEmailReg] = useState("");
+		const [passwordReg, setPasswordReg] = useState("");
+		const [passwordCReg, setCPasswordReg] = useState('');
+
+		const register = (event) => {
+			event.preventDefault();
+			const newUser = {
+				username: usernameReg,
+				firstname: firstReg,
+				lastname: lastReg,
+				email: emailReg,
+				password: passwordReg,
+				confPasswd: passwordCReg
+			}
+			axiosStuff
+			.register(newUser).then((response) => {
+				setMessage(response.message);
+			});
+			setTimeout(() => {
+				setMessage(null);
+			}, 8000);
+			event.target.reset();
+		}
+
+		const handleUsernameReg = (event) => {
+			setUsernameReg(event.target.value.toLowerCase());
+		};
+
+		const handleFirstReg = (event) => {
+			setFirstReg(event.target.value);
+		};
+
+		const handleLastReg = (event) => {
+			setLastReg(event.target.value);
+		};
+
+		const handleEmailReg = (event) => {
+			setEmailReg(event.target.value);
+		};
+
+		const handlePasswordReg = (event) => {
+			setPasswordReg(event.target.value);
+		};
+
+		const handleCPasswordReg = (event) => {
+			setCPasswordReg(event.target.value);
+		};
 
     return (
         <div>
-            {loading ? (
+            {/* {loading ? (
                 <div className="py-20">
                     <Loader/>
                 </div>
-            ) : (
+            ) : ( */}
                 <section className="flex-grow py-10">
                     <div className="container px-4 py-10 mx-auto">
                         <div className="max-w-lg mx-auto">
@@ -37,7 +90,7 @@ const Registration = () => {
                                 <div>
                                     <div>
                                         <p className="text-md font-semibold text-slate-300 pb-2 text-slate-300">Sign up with</p>
-
+												{/* OAUTH STUFF */}
                                         <div className="mt-1 grid grid-cols-3 gap-3">
                                             <div>
                                                 <a
@@ -95,52 +148,88 @@ const Registration = () => {
                                     </div>
                                 </div>
 
-                            <form>
+                            <form onSubmit={register}>
+												{/* USERNAME */}
+															<div className="mb-6 pt-2">
+                               <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
+                                 Username
+                               </label>
+                               <input
+                                className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                type="text"
+                                placeholder="Username"
+                                required
+																onChange={handleUsernameReg}
+                                />
+                              </div>
+												{/* FIRST NAME */}
                                 <div className="mb-6 pt-2">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
                                         First Name
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                         type="text"
                                         placeholder="First Name"
                                         required
+																				onChange={handleFirstReg}
                                     />
                                 </div>
+												{/* LAST NAME */}
                                 <div className="mb-6">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
                                         Last Name
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                         type="text"
                                         placeholder="Last Name"
                                         required
+																				onChange={handleLastReg}
                                     />
                                 </div>
+													{/* EMAIL */}
                                 <div className="mb-6">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
                                         Email
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                         type="email"
                                         placeholder="Email"
                                         required
+																				onChange={handleEmailReg}
                                     />
                                 </div>
+													{/* PASSWORD */}
                                 <div className="mb-6">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="password">
                                         Password
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                         type="password"
                                         placeholder="Password..."
                                         autoComplete='off'
                                         required
+																				onChange={handlePasswordReg}
                                     />
                                 </div>
+													{/* CONFIRM PASSWORND */}
+																<div className="mb-6">
+                                  <label className="block mb-2 font-semibold text-slate-300" htmlFor="password">
+                                    Confirm Password
+                                  </label>
+                                  <input
+                                  	className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                  	type="password"
+                                  	placeholder="Confirm Password..."
+                                  	autoComplete='off'
+                                  	required
+																		onChange={handleCPasswordReg}
+                                  />
+                                </div>
+																<InfoText message={message} />
                                 <button
                                     type="submit"
                                     className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
@@ -159,7 +248,7 @@ const Registration = () => {
                         </div>
                     </div>
                 </section>
-            )}
+            {/* )} */}
         </div>
     )
 }

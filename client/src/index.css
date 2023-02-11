@@ -17,6 +17,16 @@
     justify-content: space-between;
 }
 
+.added {
+	padding: 2vw;
+	border: 2px solid orange;
+	background-color: azure;
+	margin: 0.5vw;
+	border-radius: 10px;
+  -webkit-text-size-adjust: none !important;
+	color: red;
+}
+
 @media (min-width: 768px) {
     .search-form {
         left: 50%;

@@ -1,24 +1,61 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { Link } from "react-router-dom";
 import axiosStuff from "../services/axiosStuff";
-import Loader from "./Loader";
+import InfoText from "./infoText";
+// import Loader from "./Loader";
 
 const Login = () => {
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
+		const [message, setMessage] = useState(null);
+		const [username, setUsername] = useState("");
+		const [password, setPassword] = useState("");
+		const [loginStatus, setLoginsStatus] = useState("");
+
+		const handleUsername = (event) => {
+			setUsername(event.target.value.toLowerCase());
+		};
+
+		const handlePassword = (event) => {
+			setPassword(event.target.value);
+		};
+
+		const login = (event) => {
+			event.preventDefault();
+			const login2 = {
+				username,
+				password,
+			};
+			axiosStuff.login(login2).then((response) => {
+				if (response.message)
+					setMessage(response.message);
+				if (response.result) {
+					setLoginsStatus(response.result.rows[0].username)
+					setTimeout(() => {
+						window.location.replace('/homepage')
+					}, 1000	)
+				}
+			});
+			setTimeout(() => {
+				setMessage(null);
+			}, 8000);
+			event.target.reset();
+		};
+
+		console.log('loginssttats', loginStatus)
 
     return (
         <div>
-            {loading ? (
+            {/* {loading ? (
                 <div className="py-20">
                     <Loader/>
                 </div>
-            ) : (
+            ) : ( */}
                 <section className="flex-grow py-10">
                     <div className="container px-4 py-10 mx-auto">
                         <div className="max-w-lg mx-auto">
@@ -33,6 +70,7 @@ const Login = () => {
                                     Enter the Hypertubes
                                 </p>
                             </div>
+									{/* OAUTH STUFF */}
                             <div className="mt-8">
                                 <div>
                                     <div>
@@ -94,16 +132,18 @@ const Login = () => {
                                     </div>
                                 </div>
                             </div>
-                            <form>
+                            <form onSubmit={login}>
+															<InfoText message={message} />
                                 <div className="mb-6 pt-2">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
-                                        Email
+                                        Username
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-                                        type="email"
-                                        placeholder="Email"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        type="text"
+                                        placeholder="Username"
                                         required
+												                onChange={handleUsername}
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -111,11 +151,12 @@ const Login = () => {
                                         Password
                                     </label>
                                     <input
-                                        className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                        className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                         type="password"
                                         placeholder="Password..."
                                         autoComplete='off'
                                         required
+               													onChange={handlePassword}
                                     />
                                 </div>
                                 <div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">
@@ -145,7 +186,7 @@ const Login = () => {
                         </div>
                     </div>
                 </section>
-            )}
+            {/* )} */}
         </div>
     )
 }

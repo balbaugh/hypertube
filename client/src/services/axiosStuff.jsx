@@ -26,7 +26,7 @@ const play = (magnet) => {
 
 // Signup and Logi stuff below
 
-const register = newObject => {
+const register = (newObject) => {
 	const req = axios.post(`${baseUrl}/register`, newObject);
 	return (req.then(response => response.data));
 }
@@ -36,7 +36,7 @@ const verifyemail = () => {
 	return (req.then(response => response.data));
 }
 
-const login = newObject => {
+const login = (newObject) => {
 	const req = axios.post(`${baseUrl}/login`, newObject);
 	return (req.then(response => response.data));
 }
@@ -52,7 +52,8 @@ const logout = () => {
 }
 
 const axiosStuff = {
-	test, movieTest, toMovie, play, register, verifyemail, login, getCookie, logout
+	test, movieTest, toMovie, play, register, verifyemail, login,
+	getCookie, logout
 };
 
 export default axiosStuff;
