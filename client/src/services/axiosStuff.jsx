@@ -51,9 +51,24 @@ const logout = () => {
 	return (req.then(response => response.data));
 }
 
+const forgot = (newObject) => {
+  const req = axios.post(`${baseUrl}/forgot`, newObject);
+  return req.then((response) => response.data)
+}
+
+const getForgot = (token) => {
+  const req = axios.get(`${baseUrl}/get/${token}`)
+  return req.then((response) => response.data)
+}
+
+const newPw = (newObject) => {
+  const req = axios.put(`${baseUrl}/newPw`, newObject);
+  return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
-	getCookie, logout
+	getCookie, logout, forgot, getForgot, newPw
 };
 
 export default axiosStuff;

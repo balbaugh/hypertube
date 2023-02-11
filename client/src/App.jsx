@@ -17,6 +17,7 @@ import TestMovieThumb from './components/testmoviethumb';
 import TheTest from './components/thetest';
 import List from './components/List';
 import Logout from './components/logout';
+import Forgot2 from './components/forgot2';
 import { useEffect, useState } from 'react';
 import axiosStuff from './services/axiosStuff';
 
@@ -57,6 +58,7 @@ const App = () => {
 					<Route path='thetest/:id' element={<TheTest />} />
 					<Route path='list' element={<List />} />
 					<Route path='/logout' element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="/get/:token" element={<Forgot2 />} />
 					<Route path='*' element={<Landing />} />
 				</Routes>
 				<Footer />
