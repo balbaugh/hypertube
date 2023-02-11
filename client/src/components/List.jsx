@@ -17,6 +17,9 @@ const List = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
 
+		axios.defaults.withCredentials = false // For the sessions the work
+
+
     useEffect(() => {
         axiosStuff
             .movieTest().then((response) => {
@@ -90,7 +93,7 @@ const List = () => {
                                       `}
                                     </style>
                                     {movies.map((movie) => (
-                                        <div >
+                                        <div key={movie.id+movie.id}>
                                         <Link className="flex" key={movie.id} to={`/film/${movie.id}`}>
                                             <img className="rounded" src={movie.medium_cover_image} alt={movie.title} />
                                         </Link>
