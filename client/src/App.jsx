@@ -42,8 +42,33 @@ const App = () => {
 		});
 	}, [loggedIn]);
 
-	return (
-		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
+	const fetchGithubProfile = (code) => {
+		return axios.get(`https://api.github.com/user?access_token=${code}`)
+		.then(response => response.data)
+	}
+
+	useEffect(() => {
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const codeParam = urlParams.get('code');
+		console.log(codeParam);
+
+		if (codeParam) {
+			axiosStuff
+			.getGitProfile(codeParam)
+			.then((response) => {
+				console.log(response)
+				setLoggedIn(true);
+				setItsMe(response.user)
+			})
+		}
+	}, [])
+
+	console.log('itsmee', itsMe)
+
+  return (
+    <div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
+
 			<Router>
 				<Nav itsMe={itsMe} />
 				<Routes>

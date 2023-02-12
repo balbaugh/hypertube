@@ -1,8 +1,13 @@
-import {useState} from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axiosStuff from "../services/axiosStuff";
+import axios from 'axios';
 import InfoText from "./infoText";
 // import Loader from "./Loader";
+
+const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
+
+
 
 const Login = () => {
     // const [loading, setLoading] = useState(true);
@@ -16,6 +21,24 @@ const Login = () => {
 		const [username, setUsername] = useState("");
 		const [password, setPassword] = useState("");
 		const [loginStatus, setLoginsStatus] = useState("");
+
+
+
+		const loginWithGitHub = () => {
+			window.location.assign(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`);
+		}
+
+		// useEffect(() => {
+		// 	const queryString = window.location.search;
+		// 	const urlParams = new URLSearchParams(queryString);
+		// 	const codeParam = urlParams.get('code');
+		// 	console.log(codeParam);
+
+		// 	if (codeParam) {
+
+		// 	}
+		// }, [])
+
 
 		const handleUsername = (event) => {
 			setUsername(event.target.value.toLowerCase());
@@ -106,8 +129,10 @@ const Login = () => {
                                             </div>
 
                                             <div>
-                                                <a
-                                                    href="/auth/github"
+                                                <button
+																										type="button"
+                                                    // href="/auth/github"
+																										onClick={loginWithGitHub}
                                                     className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
                                                 >
                                                     <span className="sr-only">Sign in with GitHub</span>
@@ -118,7 +143,7 @@ const Login = () => {
                                                             clipRule="evenodd"
                                                         />
                                                     </svg>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

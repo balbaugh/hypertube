@@ -8,7 +8,12 @@ const Nav = ({ itsMe }) => {
 
 	axios.defaults.withCredentials = true; // For the sessions the work
 
+
 	console.log('ITSMEEE', itsMe.username);
+
+
+	console.log('ITSMEEE.username || ITSMEE.login', itsMe.username, itsMe.login)
+
 
 	return (
 		<Navbar
@@ -24,7 +29,7 @@ const Nav = ({ itsMe }) => {
 					alt="Hypertube Logo"
 				/>
 			</Navbar.Brand>
-			{itsMe.username ? (
+			{itsMe.username || itsMe.login ? (
 				<>
 					<Link
 						className="pr-4 text-lg font-extrabold text-indigo-800 hover:text-green-500 2xl:mr-16"
