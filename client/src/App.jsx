@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
-
 import Nav from './components/Navbar';
 import Footer from './components/Footer';
 import Landing from './components/Landing';
@@ -38,22 +37,28 @@ const App = () => {
 		})
 	}, [loggedIn])
 
-	const fetchGithubProfile = (code) => {
-		return axios.get(`https://api.github.com/user?access_token=${code}`)
-		.then(response => response.data)
-	}
-
 	useEffect(() => {
 		const queryString = window.location.search;
 		const urlParams = new URLSearchParams(queryString);
 		const codeParam = urlParams.get('code');
 		console.log(codeParam);
+		if (codeParam !== null)
+			console.log('len', codeParam.length)
 
-		if (codeParam) {
+		if (codeParam && codeParam.length < 30) {
 			axiosStuff
 			.getGitProfile(codeParam)
 			.then((response) => {
 				console.log(response)
+				setLoggedIn(true);
+				setItsMe(response.user)
+			})
+		}
+		else if (codeParam && codeParam.length >= 30) {
+			axiosStuff
+			.get42Profile(codeParam)
+			.then((response) => {
+				console.log('42', response)
 				setLoggedIn(true);
 				setItsMe(response.user)
 			})

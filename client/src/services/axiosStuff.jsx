@@ -71,9 +71,14 @@ const getGitProfile = (codeParam) => {
 	return req.then((response) => response.data)
 }
 
+const get42Profile = (codeParam) => {
+	const req = axios.get(`${baseUrl}/42?codeParam=${codeParam}`);
+	return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
-	getCookie, logout, forgot, getForgot, newPw, getGitProfile
+	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile
 };
 
 export default axiosStuff;
