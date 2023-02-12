@@ -2,68 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
+/* INFO TEXT */
+.added {
+	padding: 2vw;
+	border: 2px solid orange;
+	background-color: azure;
+	margin: 0.5vw;
+	border-radius: 10px;
+	-webkit-text-size-adjust: none !important;
+	color: red;
+}
 
 /* SEARCH FORM */
 .search-form {
-    position: absolute;
-    top: 60px;
-    left: 25%;
-    transform: translateX(-10%);
-    width: 70%;
-    max-width: 500px;
-    min-width: 300px;
-    padding: 20px;
-    align-items: center;
-    justify-content: space-between;
+	position: absolute;
+	top: 60px;
+	left: 25%;
+	transform: translateX(-10%);
+	width: 70%;
+	max-width: 500px;
+	min-width: 300px;
+	padding: 20px;
+	align-items: center;
+	justify-content: space-between;
 }
 
 @media (min-width: 768px) {
-    .search-form {
-        left: 50%;
-    }
+	.search-form {
+		left: 50%;
+	}
 }
 
 @media (min-width: 1024px) {
-    .search-form {
-        left: 55%;
-    }
+	.search-form {
+		left: 55%;
+	}
 }
 
 @media (min-width: 1280px) {
-    .search-form {
-        left: 60%;
-    }
+	.search-form {
+		left: 60%;
+	}
 }
 
 @media (min-width: 1440px) {
-    .search-form {
-        left: 65%;
-    }
+	.search-form {
+		left: 65%;
+	}
 }
 
 @media (min-width: 1600px) {
-    .search-form {
-        left: 70%;
-    }
+	.search-form {
+		left: 70%;
+	}
 }
 
 @media (min-width: 1920px) {
-    .search-form {
-        left: 75%;
-    }
+	.search-form {
+		left: 75%;
+	}
 }
 
 @media (min-width: 2560px) {
-    .search-form {
-        left: 80%;
-    }
+	.search-form {
+		left: 80%;
+	}
 }
 
 /* LANDING PAGE DIV */
 @media (max-width: 767px) {
-    .landing-div {
-        flex-direction: column;
-        align-items: center;
-        /*justify-content: space-between;*/
-    }
+	.landing-div {
+		flex-direction: column;
+		align-items: center;
+		/*justify-content: space-between;*/
+	}
 }

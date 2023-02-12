@@ -1,25 +1,25 @@
-import {useEffect, useState} from "react";
-import axiosStuff from "../services/axiosStuff";
-import Loader from "./Loader";
+// import {useEffect, useState} from "react";
+// import axiosStuff from "../services/axiosStuff";
+// import Loader from "./Loader";
 
 const Landing = () => {
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
 
     return (
         <div>
-            {loading ? (
+            {/* {loading ? (
                 <div className="py-20">
                     <Loader/>
                 </div>
-            ) : (
+            ) : ( */}
                 <section>
-                    <div className="h-screen bg-cover bg-center"
+                    <div className="h-screen bg-center bg-cover"
                          style={{backgroundImage: `url(${require("../images/landingPage.png")})`}}
                     >
                         <div
@@ -34,11 +34,11 @@ const Landing = () => {
                             <div
                                 className="w-full max-w-lg p-2"
                             >
-                                <div className="text-center mb-8">
+                                <div className="mb-8 text-center">
                                     <div className="inline-block mx-auto mb-6">
                                         <img src={require("../images/hypertubeLogoSm.png")} alt=""/>
                                     </div>
-                                    <h2 className="text-3xl text-slate-300 font-extrabold md:text-4xl">
+                                    <h2 className="text-3xl font-extrabold text-slate-300 md:text-4xl">
                                         Limitless Streaming
                                     </h2>
                                     <p className="text-2xl font-semibold text-red-500">
@@ -53,7 +53,7 @@ const Landing = () => {
                                         >
                                             <svg
                                                 aria-hidden="true"
-                                                className="mt-1 w-6 h-6 text-gray-500 dark:text-gray-400"
+                                                className="w-6 h-6 mt-1 text-gray-500 dark:text-gray-400"
                                                 fill="gray" stroke="currentColor"
                                                 viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,7 @@ const Landing = () => {
 
                                         </div>
                                         <input type="search" id="default-search"
-                                               className="block w-full p-4 pl-10 text-md text-slate-200 border border-gray-300 rounded-lg bg-gray-50 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                               className="block w-full p-4 pl-10 border border-gray-300 rounded-lg text-md text-slate-200 bg-gray-50 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                                placeholder="Email address" required/>
                                         <button type="submit"
                                                 className="font-semibold leading-6 text-slate-200 absolute right-2.5 bottom-2.5 bg-red-500 rounded-lg text-sm px-4 py-2">Get
@@ -80,12 +80,12 @@ const Landing = () => {
                         className="border-t-[3px] border-zinc-700"
                         style={{background: "linear-gradient(#000103, #262629)"}}
                     >
-                        <div className="container px-4 pt-8 pb-8 mx-auto items-center">
+                        <div className="container items-center px-4 pt-8 pb-8 mx-auto">
                             <div className="flex flex-wrap items-center">
                                 <div className="w-full mb-8 md:mb-0">
-                                    <div className="flex flex-column items-center w-full">
-                                        <div className="landing-div flex flex-row w-full text-center pt-8">
-                                            <div className="w-1/2 text-center pb-6 mt-4">
+                                    <div className="flex items-center w-full flex-column">
+                                        <div className="flex flex-row w-full pt-8 text-center landing-div">
+                                            <div className="w-1/2 pb-6 mt-4 text-center">
                                                 <h1 className="text-4xl font-extrabold text-slate-300 hover:text-red-500">
                                                     Enjoy...
                                                 </h1>
@@ -110,7 +110,7 @@ const Landing = () => {
 
                 </section>
 
-            )}
+            {/* )} */}
         </div>
     )
 }
@@ -131,7 +131,7 @@ export default Landing;
 //         >
 //
 //             <div className="mb-8 text-center">
-//                 <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
+//                 <h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
 //                     Sign In
 //                 </h2>
 //                 <p className="text-lg font-semibold leading-7 text-red-500">
@@ -144,14 +144,14 @@ export default Landing;
 //                         Username
 //                     </label>
 //                     <input
-//                         className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-black bg-slate-200 rounded"
+//                         className="inline-block w-full p-4 font-semibold leading-6 placeholder-black rounded text-md bg-slate-200"
 //                         type="text"
 //                         placeholder="Username"
 //                     />
 //                 </div>
 //                 {/*<button*/}
 //                 {/*    type="submit"*/}
-//                 {/*    className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
+//                 {/*    className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"*/}
 //                 {/*    // style={{backgroundColor: "#71d343"}}*/}
 //                 {/*>*/}
 //                 {/*    Sign in*/}
