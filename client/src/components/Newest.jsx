@@ -83,7 +83,7 @@ const Newest = () => {
                 <section>
                     <div className="">
                         <main>
-                            <div className="">
+                            <div className="mb-16">
                                 <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
                                     {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}

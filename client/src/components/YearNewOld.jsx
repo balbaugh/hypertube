@@ -50,7 +50,7 @@ const YearNewOld = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=50&page=${currentPage}`); // 50 movies per page sorted by year desc
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=desc&limit=50&page=${currentPage}`);  // 50 movies per page sorted by year desc
         setMovies(movies.concat(response.data.data.movies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
@@ -83,7 +83,7 @@ const YearNewOld = () => {
                 <section>
                     <div className="">
                         <main>
-                            <div className="">
+                            <div className="mb-16">
                                 <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
                                     {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}

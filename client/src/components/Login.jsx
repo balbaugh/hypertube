@@ -6,6 +6,8 @@ import InfoText from "./infoText";
 // import Loader from "./Loader";
 
 const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
+const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
+const SECRET_42 = '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'
 
 
 
@@ -23,22 +25,13 @@ const Login = () => {
 		const [loginStatus, setLoginsStatus] = useState("");
 
 
+		const loginWith42 = () => {
+			window.location.assign(`https://api.intra.42.fr/oauth/authorize?client_id=${UID_42}&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fhomepage&response_type=code`)
+		}
 
 		const loginWithGitHub = () => {
 			window.location.assign(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`);
 		}
-
-		// useEffect(() => {
-		// 	const queryString = window.location.search;
-		// 	const urlParams = new URLSearchParams(queryString);
-		// 	const codeParam = urlParams.get('code');
-		// 	console.log(codeParam);
-
-		// 	if (codeParam) {
-
-		// 	}
-		// }, [])
-
 
 		const handleUsername = (event) => {
 			setUsername(event.target.value.toLowerCase());
@@ -99,13 +92,14 @@ const Login = () => {
                                     <div>
                                         <p className="text-md font-semibold text-slate-300 pb-2">Sign in with</p>
 
-                                        <div className="mt-1 grid grid-cols-3 gap-3">
+                                        <div className="mt-1 grid grid-cols-2 gap-3">
                                             <div>
-                                                <a
-                                                    href="/auth/facebook"
+                                                <button
+                                                    type="button"
+																										onClick={loginWith42}
                                                     className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
                                                 >
-                                                    <span className="sr-only">Sign in with Facebook</span>
+                                                    <span className="sr-only">Sign in with 42</span>
                                                     <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                                         <path
                                                             fillRule="evenodd"
@@ -113,25 +107,12 @@ const Login = () => {
                                                             clipRule="evenodd"
                                                         />
                                                     </svg>
-                                                </a>
-                                            </div>
-
-                                            <div>
-                                                <a
-                                                    href="auth/twitter"
-                                                    className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
-                                                >
-                                                    <span className="sr-only">Sign in with Twitter</span>
-                                                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                                                    </svg>
-                                                </a>
+                                                </button>
                                             </div>
 
                                             <div>
                                                 <button
 																										type="button"
-                                                    // href="/auth/github"
 																										onClick={loginWithGitHub}
                                                     className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
                                                 >
