@@ -53,8 +53,8 @@ app.get('/testdb', (req, res) => {
 		})
 })
 
-const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
-const SECRET_42 = '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'
+// const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
+// const SECRET_42 = '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'
 
 app.get('/42', (req, res) => {
   const code = req.query.codeParam;
@@ -63,9 +63,9 @@ app.get('/42', (req, res) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${Buffer.from(`${UID_42}:${SECRET_42}`).toString('base64')}`
+      'Authorization': `Basic ${Buffer.from(`${config.UID_42}:${config.SECRET_42}`).toString('base64')}`
     },
-    body: `grant_type=authorization_code&client_id=${UID_42}&client_secret=${SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
+    body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
   })
   .then((response) => {
     return response.json()
@@ -88,12 +88,12 @@ app.get('/42', (req, res) => {
   })
 })
 
-const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
-const GITHUB_CLIENT_SECRET = '554c1d6b03944844c00313062954a8a8cac487b9';
+// const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
+// const GITHUB_CLIENT_SECRET = '554c1d6b03944844c00313062954a8a8cac487b9';
 
 app.get('/github', (req, res) => {
 	const code = req.query.codeParam;
-	fetch(`https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`, {
+	fetch(`https://github.com/login/oauth/access_token?client_id=${config.GITHUB_CLIENT_ID}&client_secret=${config.GITHUB_CLIENT_SECRET}&code=${code}`, {
 		method: 'POST',
 		headers: {
 			'Accept': 'application/json'

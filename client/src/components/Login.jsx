@@ -7,8 +7,6 @@ import InfoText from "./infoText";
 
 const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
 const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
-const SECRET_42 = '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'
-
 
 
 const Login = () => {
