@@ -66,9 +66,14 @@ const newPw = (newObject) => {
   return req.then((response) => response.data);
 }
 
+const getGitProfile = (codeParam) => {
+	const req = axios.get(`${baseUrl}/github?codeParam=${codeParam}`);
+	return req.then((response) => response.data)
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
-	getCookie, logout, forgot, getForgot, newPw
+	getCookie, logout, forgot, getForgot, newPw, getGitProfile
 };
 
 export default axiosStuff;

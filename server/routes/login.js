@@ -6,7 +6,6 @@ const nodemailer = require('nodemailer');
 
 const dbConn = require('../utils/dbConnection');
 
-
 router.get('/login', (req, res) => {
 	if (req.session.user) {
 		dbConn.pool.query('SELECT status FROM users WHERE username = $1',
