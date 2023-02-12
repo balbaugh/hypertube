@@ -11,5 +11,5 @@ module.exports = {
 	pgPort: process.env.PGPORT,
 	PORT: process.env.PORT,
 	EMAIL: process.env.EMAIL,
-	EMAIL_PASSWORD: process.env.EMAIL_PASSWORD
-}
+	EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+};
