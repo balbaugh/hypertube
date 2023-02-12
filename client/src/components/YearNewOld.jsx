@@ -11,10 +11,10 @@ const API_URL = 'https://yts.mx/api/v2/list_movies.json';
 const PAGE_SIZE = 50;
 
 const sortOptions = [
-    { name: 'Most Popular', to: '/popular', current: true },
+    { name: 'Most Popular', to: '/popular', current: false },
     { name: 'Best Rating', to: '/best-rating', current: false },
     { name: 'Newest', to: '/newest', current: false },
-    { name: 'Year: New to Old', to: '/year-new-old', current: false },
+    { name: 'Year: New to Old', to: '/year-new-old', current: true },
     { name: 'Year: Old to New', to: '/year-old-new', current: false },
 ];
 
