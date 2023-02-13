@@ -7,12 +7,12 @@ import {HeartIcon, MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
-interface Subtitles {
-    kind: string;
-    label: string;
-    src: string;
-    srcLang: string;
-}
+// interface Subtitles {
+//     kind: string;
+//     label: string;
+//     src: string;
+//     srcLang: string;
+// }
 
 const reviews = {
     average: 4,

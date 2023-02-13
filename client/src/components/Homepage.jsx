@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
@@ -23,6 +25,10 @@ const sortOptions = [
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
+}
+
+function valuetext(value: number) {
+    return `${value}°C`;
 }
 
 const Homepage = () => {
@@ -68,6 +74,12 @@ const Homepage = () => {
         if (windowBottom >= docHeight && !isLoading && hasMore) {
             loadMoreMovies();
         }
+    };
+
+    const [value, setValue] = React.useState([20, 37]);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
     useEffect(() => {
@@ -136,6 +148,35 @@ const Homepage = () => {
                                     </Transition>
                                 </Menu>
                                 </div>
+                            </div>
+
+                            {/* Slider */}
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
+                                    <h4 className="text-gray-200">Rating</h4>
+                                    <Slider
+                                        getAriaLabel={() => 'Temperature range'}
+                                        value={value}
+                                        onChange={handleChange}
+                                        valueLabelDisplay="auto"
+                                        getAriaValueText={valuetext}
+                                        color="error"
+                                    />
+                                </Box>
+                            </div>
+
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
+                                    <h4 className="text-gray-200">Production Year</h4>
+                                    <Slider
+                                        getAriaLabel={() => 'Temperature range'}
+                                        value={value}
+                                        onChange={handleChange}
+                                        valueLabelDisplay="auto"
+                                        getAriaValueText={valuetext}
+                                        color="error"
+                                    />
+                                </Box>
                             </div>
 
                             {/* Film grid */}
