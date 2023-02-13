@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 import searchTorrents from "../services/searchTorrents";
 
 const API_URL = 'https://yts.mx/api/v2/list_movies.json';
 const PAGE_SIZE = 50;
+
+const short = require('short-uuid');
 
 const sortOptions = [
     { name: 'Most Popular', to: '/popular', current: true },
@@ -143,35 +146,48 @@ const Popular = () => {
                                     Films
                                 </h2>
 
-                                <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
-                                    <style>
-                                        {`
+                                <InfiniteScroll
+                                    dataLength={movies.length} //This is important field to render the next data
+                                    next={loadMoreMovies}
+                                    hasMore={true}
+                                    loader={<h4>Loading...</h4>}
+                                    endMessage={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                >
+
+                                    <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                        <style>
+                                            {`
                                           justify-items: center;
                                       `}
-                                    </style>
-                                    {movies.map((movie) => (
-                                        <div key={`${movie.id}-${movie.key}`}>
-                                            <div className="relative mobile:flex mobile:flex-col mobile:items-center">
-                                                <Link className="flex" key={`${movie.id}-${movie.key}`} to={`/film/${movie.id}`}>
-                                                    <img className="rounded" src={movie.medium_cover_image} alt={movie.title} />
+                                        </style>
+                                        {movies.map((movie) => (
+                                            <div key={`${short.generate()}`}>
+                                                <div className="relative mobile:flex mobile:flex-col mobile:items-center">
+                                                    <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
+                                                        <img className="rounded" src={movie.medium_cover_image} alt={movie.title} />
 
-                                                    <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 bg-gray-900 z-10 flex flex-col justify-center items-center text-center" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
+                                                        <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 bg-gray-900 z-10 flex flex-col justify-center items-center text-center" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
 
-                                                        <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
-                                                        <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
-                                                        <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
+                                                            <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
+                                                            <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
+                                                            <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
 
+                                                        </div>
+                                                    </Link>
+                                                    <div className="mt-2 desktop:hidden laptop:hidden mobile:block mobile:mt-4 text-sm font-semibold text-gray-200 text-center">
+                                                        <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
+                                                        <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
                                                     </div>
-                                                </Link>
-                                                <div className="mt-2 desktop:hidden laptop:hidden mobile:block mobile:mt-4 text-sm font-semibold text-gray-200 text-center">
-                                                    <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
-                                                    <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                    {!hasMore && <p>No more movies to display</p>}
-                                </div>
+                                        ))}
+                                        {!hasMore && <p>No more movies to display</p>}
+                                    </div>
+                                </InfiniteScroll>
                             </section>
                         </main>
                     </div>
