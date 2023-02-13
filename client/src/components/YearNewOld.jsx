@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
@@ -23,6 +25,10 @@ const sortOptions = [
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
+}
+
+function valuetext(value: number) {
+    return `${value}°C`;
 }
 
 const YearNewOld = () => {
@@ -76,6 +82,12 @@ const YearNewOld = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const [value, setValue] = React.useState([20, 37]);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <div>
             {loading ? (
@@ -86,8 +98,8 @@ const YearNewOld = () => {
                 <section>
                     <div className="">
                         <main>
-                            <div className="mb-16">
-                                <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 flex justify-between">
+                            <div className="mb-10">
+                                <div className="mx-auto max-w-7xl pt-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
                                     {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}
                                     {/*    Our thoughtfully curated collection of films, hand-picked for you.*/}
@@ -96,7 +108,7 @@ const YearNewOld = () => {
                                     {/* Sort */}
                                     <Menu as="div" className="relative mt-3 inline-block text-left ml-auto">
                                         <div>
-                                            <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-red-500 hover:text-red-600">
+                                            <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-gray-200 hover:text-red-600">
                                                 Sort
                                                 <ChevronDownIcon
                                                     className="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-red-500 group-hover:text-red-600"
@@ -136,6 +148,39 @@ const YearNewOld = () => {
                                         </Transition>
                                     </Menu>
                                 </div>
+                            </div>
+
+                            {/* Sliders */}
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
+                                    <h4 className="text-gray-200">IMDb Rating</h4>
+                                    <Slider
+                                        defaultValue={[0, 10]}
+                                        min={0}
+                                        max={10}
+                                        value={value}
+                                        onChange={handleChange}
+                                        valueLabelDisplay="auto"
+                                        getAriaValueText={valuetext}
+                                        color="error"
+                                    />
+                                </Box>
+                            </div>
+
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
+                                    <h4 className="text-gray-200">Production Year</h4>
+                                    <Slider
+                                        defaultValue={[1900, 2024]}
+                                        min={1900}
+                                        max={2024}
+                                        value={value}
+                                        onChange={handleChange}
+                                        valueLabelDisplay="auto"
+                                        getAriaValueText={valuetext}
+                                        color="error"
+                                    />
+                                </Box>
                             </div>
 
                             {/* Film grid */}

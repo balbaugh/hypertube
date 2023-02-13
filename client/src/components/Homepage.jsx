@@ -28,7 +28,7 @@ function classNames(...classes) {
 }
 
 function valuetext(value: number) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
 const Homepage = () => {
@@ -39,23 +39,10 @@ const Homepage = () => {
     const [loading, setLoading] = useState(true);
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
+    const [ratingRange, setRatingRange] = useState([0, 10]);
+    const [yearRange, setYearRange] = useState([1900, 2024]);
 
     axios.defaults.withCredentials = false // For the sessions the work
-
-
-    useEffect(() => {
-        axiosStuff
-            .movieTest().then((response) => {
-            console.log('oikee', response)
-        })
-        axiosStuff
-            .test().then((response1) => {
-            console.log('testi', response1)
-        })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
@@ -76,17 +63,47 @@ const Homepage = () => {
         }
     };
 
-    const [value, setValue] = React.useState([20, 37]);
+    useEffect(() => {
+        axiosStuff
+            .movieTest().then((response) => {
+            console.log('oikee', response)
+        })
+        axiosStuff
+            .test().then((response1) => {
+            console.log('testi', response1)
+        })
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000)
+    }, [])
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    useEffect(() => {
+        setCurrentPage(1);
+        setMovies([]);
+        setHasMore(true);
+    }, [ratingRange, yearRange]);
 
     useEffect(() => {
         loadMoreMovies();
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    const handleRatingChange = (event, newValue) => {
+        setRatingRange(newValue);
+    };
+
+    const handleYearChange = (event, newValue) => {
+        setYearRange(newValue);
+    };
+
+    const filterMovies = (movie) => {
+        const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
+        const yearFilter = movie.year >= yearRange[0] && movie.year <= yearRange[1];
+        return ratingFilter && yearFilter;
+    };
+
+    const filteredMovies = movies.filter(filterMovies);
 
     return (
         <div>
@@ -98,8 +115,8 @@ const Homepage = () => {
                 <section>
                     <div className="">
                         <main>
-                            <div className="mb-16">
-                                <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 flex justify-between">
+                            <div className="mb-10">
+                                <div className="mx-auto max-w-7xl pt-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
                                     {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}
                                     {/*    Our thoughtfully curated collection of films, hand-picked for you.*/}
@@ -108,7 +125,7 @@ const Homepage = () => {
                         {/* Sort */}
                                 <Menu as="div" className="relative mt-3 inline-block text-left ml-auto">
                                     <div>
-                                        <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-red-500 hover:text-red-600">
+                                        <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-gray-200 hover:text-red-600">
                                             Sort
                                             <ChevronDownIcon
                                                 className="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-red-500 group-hover:text-red-600"
@@ -150,14 +167,16 @@ const Homepage = () => {
                                 </div>
                             </div>
 
-                            {/* Slider */}
+                            {/* Sliders */}
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Box sx={{ width: 350 }}>
-                                    <h4 className="text-gray-200">Rating</h4>
+                                    <h4 className="text-gray-200">IMDb Rating ({ratingRange[0]} - {ratingRange[1]})</h4>
                                     <Slider
-                                        getAriaLabel={() => 'Temperature range'}
-                                        value={value}
-                                        onChange={handleChange}
+                                        defaultValue={[0, 10]}
+                                        min={0}
+                                        max={10}
+                                        value={ratingRange}
+                                        onChange={handleRatingChange}
                                         valueLabelDisplay="auto"
                                         getAriaValueText={valuetext}
                                         color="error"
@@ -167,11 +186,13 @@ const Homepage = () => {
 
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Box sx={{ width: 350 }}>
-                                    <h4 className="text-gray-200">Production Year</h4>
+                                    <h4 className="text-gray-200">Production Year ({yearRange[0]} - {yearRange[1]})</h4>
                                     <Slider
-                                        getAriaLabel={() => 'Temperature range'}
-                                        value={value}
-                                        onChange={handleChange}
+                                        defaultValue={[1900, 2024]}
+                                        min={1900}
+                                        max={2024}
+                                        value={yearRange}
+                                        onChange={handleYearChange}
                                         valueLabelDisplay="auto"
                                         getAriaValueText={valuetext}
                                         color="error"
@@ -179,7 +200,7 @@ const Homepage = () => {
                                 </Box>
                             </div>
 
-                            {/* Film grid */}
+                                {/* Film grid */}
                             <section
                                 aria-labelledby="films-heading"
                             >
