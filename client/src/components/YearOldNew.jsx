@@ -168,7 +168,15 @@ const YearOldNew = () => {
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
-                                                        <img className="rounded" src={movie.medium_cover_image} alt={movie.title} />
+                                                        <img
+                                                            className="rounded"
+                                                            src={movie.medium_cover_image}
+                                                            alt={movie.title}
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = require('../images/noImage.png');
+                                                            }}
+                                                        />
 
                                                         <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 bg-gray-900 z-10 flex flex-col justify-center items-center text-center" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
 
