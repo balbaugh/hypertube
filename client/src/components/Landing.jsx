@@ -1,4 +1,5 @@
 // import {useEffect, useState} from "react";
+import { Link } from 'react-router-dom';
 // import axiosStuff from "../services/axiosStuff";
 // import Loader from "./Loader";
 
@@ -45,34 +46,16 @@ const Landing = () => {
                                         Why rent when you can torRent?
                                     </p>
                                 </div>
-                                <form>
-
-                                    <div className="relative">
-                                        <div
-                                            className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                                <div className="items-center justify-center">
+                                    <Link to="/registration">
+                                        <button
+                                            type="butoon"
+                                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                                         >
-                                            <svg
-                                                aria-hidden="true"
-                                                className="mt-1 w-6 h-6 text-gray-500 dark:text-gray-400"
-                                                fill="gray" stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                                <path
-                                                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                            </svg>
-
-                                        </div>
-                                        <input type="search" id="default-search"
-                                               className="block w-full p-4 pl-10 text-md text-slate-200 border border-gray-300 rounded-lg bg-gray-50 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
-                                               placeholder="Email address" required/>
-                                        <button type="submit"
-                                                className="font-semibold leading-6 text-slate-200 absolute right-2.5 bottom-2.5 bg-red-500 rounded-lg text-sm px-4 py-2">Get
-                                            Started
+                                            Get Started
                                         </button>
-                                    </div>
-                                </form>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,47 +99,3 @@ const Landing = () => {
 }
 
 export default Landing;
-
-// <section className="flex-grow">
-//     <div className="=text-center">
-//         <img
-//             className="w-max h-max"
-//             src={require("../images/landingPage.png")} alt=""
-//         />
-//     </div>
-//     <div className="container px-4 py-10 mx-auto">
-//
-//         <div
-//             className="max-w-lg mx-auto"
-//         >
-//
-//             <div className="mb-8 text-center">
-//                 <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
-//                     Sign In
-//                 </h2>
-//                 <p className="text-lg font-semibold leading-7 text-red-500">
-//                     Find your perfect match
-//                 </p>
-//             </div>
-//             <form>
-//                 <div className="mb-6">
-//                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
-//                         Username
-//                     </label>
-//                     <input
-//                         className="inline-block w-full p-4 text-md font-semibold leading-6 placeholder-black bg-slate-200 rounded"
-//                         type="text"
-//                         placeholder="Username"
-//                     />
-//                 </div>
-//                 {/*<button*/}
-//                 {/*    type="submit"*/}
-//                 {/*    className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
-//                 {/*    // style={{backgroundColor: "#71d343"}}*/}
-//                 {/*>*/}
-//                 {/*    Sign in*/}
-//                 {/*</button>*/}
-//             </form>
-//         </div>
-//     </div>
-// </section>
