@@ -31,12 +31,7 @@ const Nav = ({ itsMe }) => {
 			</Navbar.Brand>
 			{itsMe.username || itsMe.login ? (
 				<>
-					<Link
-						className="pr-4 text-lg font-extrabold text-indigo-800 hover:text-green-500 2xl:mr-16"
-						to="/logout"
-					>
-						LOGOUT
-					</Link>
+
 					<div className="flex-1">
 						{isFormVisible && (
 							<form className="search-form text-gray-600">
@@ -93,6 +88,7 @@ const Nav = ({ itsMe }) => {
 							</form>
 						)}
 					</div>
+
 					<div onClick={() => setFormVisible(!isFormVisible)}>
 						<svg
 							aria-hidden="true"
@@ -111,55 +107,49 @@ const Nav = ({ itsMe }) => {
 						</svg>
 					</div>
 
-					<Navbar.Toggle className="mb-1 ml-6 border border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
+					<Link className="ml-2" to="/logout">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+							 stroke="#f05252" className="w-8 h-8">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
+						</svg>
+					</Link>
 
-					<Navbar.Collapse className="bg-zinc-900">
+					<Navbar.Toggle className="mb-1 ml-5 border-2 border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
+
+					<Navbar.Collapse className="">
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-							href="/list"
-							// active={true}
-						>
-							List
-						</Navbar.Link>
-						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/homepage"
+							style={{ color: "#f05252" }}
 							// active={true}
 						>
 							Home
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/landing"
+							style={{ color: "#f05252" }}
 						>
 							Landing
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-							href="/film"
-						>
-							Film Detail
-						</Navbar.Link>
-						{/* <Navbar.Link
-					className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-					href="/player">
-					Player
-				</Navbar.Link> */}
-						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/login"
+							style={{ color: "#f05252" }}
 						>
 							Login
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/registration"
+							style={{ color: "#f05252" }}
 						>
 							Registration
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/forgot"
+							style={{ color: "#f05252" }}
 						>
 							Forgot
 						</Navbar.Link>
@@ -240,55 +230,52 @@ const Nav = ({ itsMe }) => {
 							></path>
 						</svg>
 					</div>
-					<Navbar.Toggle className="mb-1 ml-6 border border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
 
-					<Navbar.Collapse className="bg-zinc-900">
+
+					<Link className="ml-2" to="/logout">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+							 stroke="#f05252" className="w-8 h-8">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
+						</svg>
+					</Link>
+
+
+
+					<Navbar.Toggle className="mb-1 ml-5 border-2 border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
+
+					<Navbar.Collapse className="">
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-							href="/list"
-							// active={true}
-						>
-							List
-						</Navbar.Link>
-						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/homepage"
-							// active={true}
+							style={{ color: "#f05252" }}
 						>
 							Home
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/landing"
+							style={{ color: "#f05252" }}
 						>
 							Landing
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-							href="/film"
-						>
-							Film Detail
-						</Navbar.Link>
-						{/* <Navbar.Link
-					className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
-					href="/player">
-					Player
-				</Navbar.Link> */}
-						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/login"
+							style={{ color: "#f05252" }}
 						>
 							Login
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/registration"
+							style={{ color: "#f05252" }}
 						>
 							Registration
 						</Navbar.Link>
 						<Navbar.Link
-							className="bg-zinc-900 font-medium text-red-600 hover:bg-zinc-800 hover:text-red-600"
+							className="font-medium hover:bg-zinc-800 hover:text-red-600"
 							href="/forgot"
+							style={{ color: "#f05252" }}
 						>
 							Forgot
 						</Navbar.Link>

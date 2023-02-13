@@ -49,7 +49,7 @@ const Landing = () => {
                                 <div className="items-center justify-center">
                                     <Link to="/registration">
                                         <button
-                                            type="butoon"
+                                            type="button"
                                             className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                                         >
                                             Get Started

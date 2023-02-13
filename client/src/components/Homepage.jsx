@@ -1,135 +1,41 @@
-import {Fragment, useEffect, useState} from 'react'
-import {Dialog, Disclosure, Menu, Popover, Transition} from '@headlessui/react'
-import {XMarkIcon} from '@heroicons/react/24/outline'
-import {ChevronDownIcon} from '@heroicons/react/20/solid'
-import axiosStuff from "../services/axiosStuff";
+import React, { Fragment, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
+import axiosStuff from "../services/axiosStuff";
+import searchTorrents from "../services/searchTorrents";
+
+const API_URL = 'https://yts.mx/api/v2/list_movies.json';
+const PAGE_SIZE = 50;
+
+const short = require('short-uuid');
 
 const sortOptions = [
-    {name: 'Most Popular', href: '/popular', current: true},
-    {name: 'Best Rating', href: '/best', current: false},
-    {name: 'Newest', href: '/newest', current: false},
-    {name: 'Rating: High to Low', href: '/high', current: false},
-    {name: 'Rating: Low to High', href: '/low', current: false},
-
-]
-const filters = [
-    {
-        id: 'category',
-        name: 'Category',
-        options: [
-            {value: 'New-Arrivals', label: 'New Arrivals', checked: false},
-            {value: 'Action', label: 'Action', checked: true},
-            {value: 'Animation', label: 'Animation', checked: false},
-            {value: 'Comedy', label: 'Comedy', checked: false},
-            {value: 'Drama', label: 'Drama', checked: false},
-        ],
-    },
-    {
-        id: 'rating',
-        name: 'Rating',
-        options: [
-            {value: '5 Stars', label: 'Five Stars', checked: true},
-            {value: '4 Stars', label: 'Four Stars', checked: false},
-            {value: '3 Stars', label: 'Three Stars', checked: false},
-            {value: '2 Stars', label: 'Two Stars', checked: false},
-            {value: '1 Star', label: 'One Star', checked: false},
-        ],
-    },
-    {
-        id: 'release',
-        name: 'Release Date',
-        options: [
-            {value: '1990s', label: '1990s', checked: true},
-            {value: '2000s', label: '2000s', checked: false},
-            {value: '2010w', label: '2010s', checked: false},
-            {value: '2020s', label: '2020s', checked: false},
-        ],
-    },
-]
-const activeFilters = [{value: 'Action', label: 'Action', key: 'category'}, {value: '5 Stars', label: 'Five Stars', key: 'rating'}, {value: '1990s', label: '1990s', key: 'release'}]
-const films = [
-    {
-        id: 1,
-        name: 'Face/Off',
-        href: '/film/1',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 2,
-        name: 'Face/Off',
-        href: 'film/2',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 3,
-        name: 'Face/Off',
-        href: 'film/3',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 4,
-        name: 'Face/Off',
-        href: 'film/4',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 5,
-        name: 'Face/Off',
-        href: 'film/2',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 6,
-        name: 'Face/Off',
-        href: 'film/3',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 7,
-        name: 'Face/Off',
-        href: 'film/4',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 8,
-        name: 'Face/Off',
-        href: 'film/4',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-    {
-        id: 9,
-        name: 'Face/Off',
-        href: 'film/2',
-        release: '(1997)',
-        imageSrc: 'https://i.redd.it/e8h59iazf7a41.jpg',
-        imageAlt: 'Face/Off Cover Image.',
-    },
-]
+    { name: 'Most Popular', to: '/popular', current: false },
+    { name: 'Best Rating', to: '/best-rating', current: true },
+    { name: 'Newest', to: '/newest', current: false },
+    { name: 'Year: New to Old', to: '/year-new-old', current: false },
+    { name: 'Year: Old to New', to: '/year-old-new', current: false },
+];
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Homepage = () => {
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [movies, setMovies] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [searchResults, setSearchResults] = useState([]);
+    const [query, setQuery] = useState('');
+
+    axios.defaults.withCredentials = false // For the sessions the work
+
 
     useEffect(() => {
         axiosStuff
@@ -145,6 +51,31 @@ const Homepage = () => {
         }, 5000)
     }, [])
 
+    const loadMoreMovies = async () => {
+        setIsLoading(true);
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
+        setMovies(movies.concat(response.data.data.movies));
+        setCurrentPage(currentPage + 1);
+        setIsLoading(false);
+    };
+
+    const handleScroll = () => {
+        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+        const body = document.body;
+        const html = document.documentElement;
+        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
+        const windowBottom = windowHeight + window.pageYOffset;
+        if (windowBottom >= docHeight && !isLoading && hasMore) {
+            loadMoreMovies();
+        }
+    };
+
+    useEffect(() => {
+        loadMoreMovies();
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <div>
             {loading ? (
@@ -154,307 +85,119 @@ const Homepage = () => {
             ) : (
                 <section>
                     <div className="">
-                        <div className="relative">
-                            <div>
-                                {/* Mobile filter dialog */}
-                                <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-                                    <Dialog as="div" className="relative z-40 sm:hidden" onClose={setMobileFiltersOpen}>
-                                        <Transition.Child
-                                            as={Fragment}
-                                            enter="transition-opacity ease-linear duration-300"
-                                            enterFrom="opacity-0"
-                                            enterTo="opacity-100"
-                                            leave="transition-opacity ease-linear duration-300"
-                                            leaveFrom="opacity-100"
-                                            leaveTo="opacity-0"
-                                        >
-                                            <div className="fixed inset-0 bg-black bg-opacity-25"/>
-                                        </Transition.Child>
+                        <main>
+                            <div className="mb-16">
+                                <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 flex justify-between">
+                                    <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
+                                    {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}
+                                    {/*    Our thoughtfully curated collection of films, hand-picked for you.*/}
+                                    {/*</p>*/}
 
-                                        <div className="fixed inset-0 z-40 flex">
-                                            <Transition.Child
-                                                as={Fragment}
-                                                enter="transition ease-in-out duration-300 transform"
-                                                enterFrom="translate-x-full"
-                                                enterTo="translate-x-0"
-                                                leave="transition ease-in-out duration-300 transform"
-                                                leaveFrom="translate-x-0"
-                                                leaveTo="translate-x-full"
-                                            >
-                                                <Dialog.Panel
-                                                    className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
-                                                    <div className="flex items-center justify-between px-4">
-                                                        <h2 className="text-lg font-medium text-gray-900">Filters</h2>
-                                                        <button
-                                                            type="button"
-                                                            className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                                                            onClick={() => setMobileFiltersOpen(false)}
-                                                        >
-                                                            <span className="sr-only">Close menu</span>
-                                                            <XMarkIcon className="h-6 w-6" aria-hidden="true"/>
-                                                        </button>
-                                                    </div>
-
-                                                    {/* Filters */}
-                                                    <form className="mt-4">
-                                                        {filters.map((section) => (
-                                                            <Disclosure as="div" key={section.name}
-                                                                        className="border-t border-gray-200 px-4 py-6">
-                                                                {({open}) => (
-                                                                    <>
-                                                                        <h3 className="-mx-2 -my-3 flow-root">
-                                                                            <Disclosure.Button
-                                                                                className="flex w-full items-center justify-between bg-white px-2 py-3 text-sm text-gray-400">
-                                                                    <span
-                                                                        className="font-medium text-gray-900">{section.name}</span>
-                                                                                <span
-                                                                                    className="ml-6 flex items-center">
-                                  <ChevronDownIcon
-                                      className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
-                                      aria-hidden="true"
-                                  />
-                                </span>
-                                                                            </Disclosure.Button>
-                                                                        </h3>
-                                                                        <Disclosure.Panel className="pt-6">
-                                                                            <div className="space-y-6">
-                                                                                {section.options.map((option, optionIdx) => (
-                                                                                    <div key={option.value}
-                                                                                         className="flex items-center">
-                                                                                        <input
-                                                                                            id={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                                            name={`${section.id}[]`}
-                                                                                            defaultValue={option.value}
-                                                                                            type="checkbox"
-                                                                                            defaultChecked={option.checked}
-                                                                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                                        />
-                                                                                        <label
-                                                                                            htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                                            className="ml-3 text-sm text-gray-500"
-                                                                                        >
-                                                                                            {option.label}
-                                                                                        </label>
-                                                                                    </div>
-                                                                                ))}
-                                                                            </div>
-                                                                        </Disclosure.Panel>
-                                                                    </>
-                                                                )}
-                                                            </Disclosure>
-                                                        ))}
-                                                    </form>
-                                                </Dialog.Panel>
-                                            </Transition.Child>
-                                        </div>
-                                    </Dialog>
-                                </Transition.Root>
-
-                                <main>
-                                    <div className="bg-blueGray-100">
-                                        <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
-                                            <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse Films</h1>
-                                            <p className="mt-4 max-w-xl text-sm text-gray-200">
-                                                Our thoughtfully curated collection of films, hand-picked for you.
-                                            </p>
-                                        </div>
+                        {/* Sort */}
+                                <Menu as="div" className="relative mt-3 inline-block text-left ml-auto">
+                                    <div>
+                                        <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-red-500 hover:text-red-600">
+                                            Sort
+                                            <ChevronDownIcon
+                                                className="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-red-500 group-hover:text-red-600"
+                                                aria-hidden="true"
+                                            />
+                                        </Menu.Button>
                                     </div>
 
-                                    {/* Filters */}
-                                    <section aria-labelledby="filter-heading">
-                                        <h2 id="filter-heading" className="sr-only text-gray-200">
-                                            Filters
-                                        </h2>
-
-                                        <div className="border-b-[3px] border-zinc-700 bg-blueGray-100 pb-4">
-                                            <div
-                                                className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                                                <Menu as="div" className="relative inline-block text-left">
-                                                    <div>
-                                                        <Menu.Button
-                                                            className="group inline-flex justify-center text-sm font-medium text-gray-200 hover:text-gray-300">
-                                                            Sort
-                                                            <ChevronDownIcon
-                                                                className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-200 group-hover:text-gray-300"
-                                                                aria-hidden="true"
-                                                            />
-                                                        </Menu.Button>
-                                                    </div>
-
-                                                    <Transition
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-100"
-                                                        enterFrom="transform opacity-0 scale-95"
-                                                        enterTo="transform opacity-100 scale-100"
-                                                        leave="transition ease-in duration-75"
-                                                        leaveFrom="transform opacity-100 scale-100"
-                                                        leaveTo="transform opacity-0 scale-95"
-                                                    >
-                                                        <Menu.Items
-                                                            className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-blueGray-400 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                            <div className="py-1">
-                                                                {sortOptions.map((option) => (
-                                                                    <Menu.Item key={option.name}>
-                                                                        {({active}) => (
-                                                                            <a
-                                                                                href={option.href}
-                                                                                className={classNames(
-                                                                                    option.current ? 'font-medium text-gray-200' : 'text-gray-200',
-                                                                                    active ? 'bg-blueGray-400' : '',
-                                                                                    'block px-4 py-2 text-sm'
-                                                                                )}
-                                                                            >
-                                                                                {option.name}
-                                                                            </a>
-                                                                        )}
-                                                                    </Menu.Item>
-                                                                ))}
-                                                            </div>
-                                                        </Menu.Items>
-                                                    </Transition>
-                                                </Menu>
-
-                                                <button
-                                                    type="button"
-                                                    className="inline-block text-sm font-medium text-gray-200 hover:text-gray-300 sm:hidden"
-                                                    onClick={() => setMobileFiltersOpen(true)}
-                                                >
-                                                    Filter Options
-                                                </button>
-
-                                                <div className="hidden sm:block">
-                                                    <div className="flow-root">
-                                                        <Popover.Group
-                                                            className="-mx-4 flex items-center divide-x divide-zinc-700">
-                                                            {filters.map((section, sectionIdx) => (
-                                                                <Popover key={section.name}
-                                                                         className="relative inline-block px-4 text-left">
-                                                                    <Popover.Button
-                                                                        className="group inline-flex justify-center text-sm font-medium text-gray-200 hover:text-gray-300">
-                                                                        <span>{section.name}</span>
-                                                                        {sectionIdx === 0 ? (
-                                                                            <span
-                                                                                className="ml-1.5 rounded bg-blueGray-100 py-0.5 px-1.5 text-xs font-semibold tabular-nums text-gray-200">
-                                                                1
-                                                              </span>
-                                                                        ) : null}
-                                                                        <ChevronDownIcon
-                                                                            className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                                                            aria-hidden="true"
-                                                                        />
-                                                                    </Popover.Button>
-
-                                                                    <Transition
-                                                                        as={Fragment}
-                                                                        enter="transition ease-out duration-100"
-                                                                        enterFrom="transform opacity-0 scale-95"
-                                                                        enterTo="transform opacity-100 scale-100"
-                                                                        leave="transition ease-in duration-75"
-                                                                        leaveFrom="transform opacity-100 scale-100"
-                                                                        leaveTo="transform opacity-0 scale-95"
-                                                                    >
-                                                                        <Popover.Panel
-                                                                            className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                                            <form className="space-y-4">
-                                                                                {section.options.map((option, optionIdx) => (
-                                                                                    <div key={option.value}
-                                                                                         className="flex items-center">
-                                                                                        <input
-                                                                                            id={`filter-${section.id}-${optionIdx}`}
-                                                                                            name={`${section.id}[]`}
-                                                                                            defaultValue={option.value}
-                                                                                            type="checkbox"
-                                                                                            defaultChecked={option.checked}
-                                                                                            className="h-4 w-4 rounded border-gray-300 text-gray-200 focus:ring-gray-500"
-                                                                                        />
-                                                                                        <label
-                                                                                            htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                                                            className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-200"
-                                                                                        >
-                                                                                            {option.label}
-                                                                                        </label>
-                                                                                    </div>
-                                                                                ))}
-                                                                            </form>
-                                                                        </Popover.Panel>
-                                                                    </Transition>
-                                                                </Popover>
-                                                            ))}
-                                                        </Popover.Group>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Active filters */}
-                                        <div className="bg-blueGray-100 border-b-[3px] border-zinc-700">
-                                            <div
-                                                className="mx-auto max-w-7xl py-3 px-4 sm:flex sm:items-center sm:px-6 lg:px-8">
-                                                <h3 className="text-sm font-medium text-gray-200">
-                                                    Active Filters
-                                                    <span className="sr-only">, active</span>
-                                                </h3>
-
-                                                <div aria-hidden="true"
-                                                     className="hidden h-5 w-px bg-gray-400 sm:ml-4 sm:block"/>
-
-                                                <div className="mt-2 sm:mt-0 sm:ml-4">
-                                                    <div className="-m-1 flex flex-wrap items-center">
-                                                        {activeFilters.map((activeFilter) => (
-                                                            <span
-                                                                key={activeFilter.value}
-                                                                className="m-1 inline-flex items-center rounded-full bg-gray-200 py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
-                                                            >
-                                                <span>{activeFilter.label}</span>
-                                                <button
-                                                    type="button"
-                                                    className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-800 hover:bg-gray-200 hover:text-gray-900"
-                                                >
-                                                  <span
-                                                      className="sr-only">Remove filter for {activeFilter.label}</span>
-                                                  <svg className="h-2 w-2" stroke="currentColor" fill="none"
-                                                       viewBox="0 0 8 8">
-                                                    <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7"/>
-                                                  </svg>
-                                                </button>
-                                              </span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    {/* Film grid */}
-                                    <section
-                                        aria-labelledby="films-heading"
-                                        className="mx-auto max-w-2xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:max-w-7xl lg:px-8"
+                                    <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <h2 id="films-heading" className="sr-only">
-                                            Films
-                                        </h2>
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="py-1">
+                                                {sortOptions.map((option) => (
+                                                    <Link
+                                                        key={option.name}
+                                                        to={option.to}
+                                                        className={classNames(
+                                                            option.current
+                                                                ? 'font-medium text-red-500'
+                                                                : 'text-gray-500 hover:text-gray-700',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {option.name}
+                                                    </Link>
+                                                ))}
 
-                                        <div
-                                            className="grid grid-cols-3 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                                            {films.map((film) => (
-                                                <a key={film.id} href={film.href} className="group">
-                                                    <div
-                                                        className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                                                        <img
-                                                            src={film.imageSrc}
-                                                            alt={film.imageAlt}
-                                                            className="h-full w-full object-fit object-center group-hover:opacity-75"
-                                                        />
-                                                    </div>
-                                                    <h3 className="mt-4 text-sm text-gray-200">{film.name}</h3>
-                                                    <p className="mt-1 text-lg font-medium text-gray-300">{film.release}</p>
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </section>
-                                </main>
+                                            </div>
+                                        </Menu.Items>
+                                    </Transition>
+                                </Menu>
+                                </div>
                             </div>
-                        </div>
+
+                            {/* Film grid */}
+                            <section
+                                aria-labelledby="films-heading"
+                            >
+                                <h2 id="products-heading" className="sr-only">
+                                    Films
+                                </h2>
+
+                                <InfiniteScroll
+                                    dataLength={movies.length} //This is important field to render the next data
+                                    next={loadMoreMovies}
+                                    hasMore={true}
+                                    loader={<h4>Loading...</h4>}
+                                    endMessage={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                >
+
+                                <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <style>
+                                        {`
+                                          justify-items: center;
+                                      `}
+                                    </style>
+                                    {movies.map((movie) => (
+                                        <div key={`${short.generate()}`}>
+                                            <div className="relative mobile:flex mobile:flex-col mobile:items-center">
+                                                <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
+                                                    <img
+                                                        className="rounded"
+                                                        src={movie.medium_cover_image}
+                                                        alt={movie.title}
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = require('../images/noImage.png');
+                                                        }}
+                                                    />
+
+                                                <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 bg-gray-900 z-10 flex flex-col justify-center items-center text-center" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
+
+                                                    <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
+                                                    <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
+                                                    <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
+
+                                                </div>
+                                                </Link>
+                                                <div className="mt-2 desktop:hidden laptop:hidden mobile:block mobile:mt-4 text-sm font-semibold text-gray-200 text-center">
+                                                    <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
+                                                    <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            ))}
+                                    {!hasMore && <p>No more movies to display</p>}
+                                </div>
+                                </InfiniteScroll>
+                            </section>
+                        </main>
                     </div>
                 </section>
             )}
@@ -462,8 +205,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage
-
-
-
-
+export default Homepage;
