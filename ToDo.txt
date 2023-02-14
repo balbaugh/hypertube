@@ -9,6 +9,7 @@ chron job to delete videos after 30 days
 comments
 
 search functionality
+- fix loading of films besides results
 ____________________________________________________________
 
 
