@@ -30,7 +30,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-function valuetext(value: number) {
+function valuetext(value) {
     return `${value}`;
 }
 
@@ -74,15 +74,16 @@ const Homepage = () => {
             .test().then((response1) => {
             console.log('testi', response1)
         })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 5000)
     }, [])
 
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
+				setLoading(false)
     }, [ratingRange]);
 
     useEffect(() => {
