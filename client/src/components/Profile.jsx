@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
 import InfoText from "./infoText";
-import { Carousel } from 'flowbite-react'
 // import Loader from "./Loader";
 
 const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
@@ -42,6 +41,7 @@ const Profile = () => {
 
     const { userId, username, firstName, lastName, email } = useProfile();
 
+    console.log('Went to profile!!!!')
     console.log('userId in profile', userId)
     console.log('username in profile', username)
 
