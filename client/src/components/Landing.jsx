@@ -21,7 +21,7 @@ const Landing = () => {
             ) : ( */}
                 <section>
                     <div className="h-screen bg-cover bg-center"
-                         style={{backgroundImage: `url(${require("../images/landingPage.png")})`}}
+                         style={{backgroundImage: `url(${require("../images/landingPosters.png")})`}}
                     >
                         <div
                             className="h-screen"
