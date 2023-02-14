@@ -67,22 +67,22 @@ const Profile = () => {
                         <InfoText message={message} />
                         <div className="mb-6 pt-2">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Username: {username ? username : "username not found!"}
+                                Username: {username ? username : "username not found! Expected if you're using OAuth."}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                First name: {firstName ? firstName : "firstName not found!"}
+                                First name: {firstName ? firstName : "firstName not found! Expected if you're using OAuth."}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Last name: {lastName ? lastName : "lastName not found!"}
+                                Last name: {lastName ? lastName : "lastName not found! Expected if you're using OAuth."}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Email: {email ? email : "email not found!"}
+                                Email: {email ? email : "email not found! Expected if you're using OAuth."}
                             </div>
                         </div>
                         <form action="http://localhost:3000/profileEdit">

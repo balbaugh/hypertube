@@ -31,10 +31,9 @@ const App = () => {
 	const [itsMe, setItsMe] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
 
-	// axios.defaults.withCredentials = true;
+	axios.defaults.withCredentials = true;
 
 	useEffect(() => {
-		console.log('Ran getCookie axios!')
 		axiosStuff.getCookie().then((response) => {
 			console.log('response.loggedIn', response.loggedIn)
 			if (response.loggedIn === true) {
