@@ -1,9 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Combobox, Dialog, Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+// import { SearchIcon } from '@heroicons/react/solid'
+// import { DocumentAddIcon, FolderAddIcon, FolderIcon, HashtagIcon, TagIcon } from '@heroicons/react/outline'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
@@ -99,6 +102,16 @@ const Homepage = () => {
 
     const filteredMovies = movies.filter(filterMovies);
 
+    const projects = [
+        { id: 1, name: 'Workflow Inc. / Website Redesign', url: '#' },
+        // More projects...
+    ]
+    const recent = [projects[0]]
+
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
+
     return (
         <div>
             {loading ? (
@@ -117,7 +130,7 @@ const Homepage = () => {
                                     {/*</p>*/}
 
                         {/* Sort */}
-                                <Menu as="div" className="relative mt-3 inline-block text-left ml-auto">
+                                <Menu as="div" className="relative mt-2 inline-block text-left ml-auto">
                                     <div>
                                         <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-gray-200 hover:text-red-600">
                                             Sort
@@ -160,6 +173,85 @@ const Homepage = () => {
                                 </Menu>
                                 </div>
                             </div>
+
+                            {/* Search */}
+                            <Combobox
+                                as="div"
+                                className="mb-4 mx-auto max-w-lg transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl bg-zinc-800 shadow-2xl transition-all"
+                                onChange={(item) => (window.location = item.url)}
+                            >
+                                <div className="relative">
+                                    <MagnifyingGlassIcon
+                                        className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-500"
+                                        aria-hidden="true"
+                                    />
+                                    <Combobox.Input
+                                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                        placeholder="Search..."
+                                        onChange={(event) => setQuery(event.target.value)}
+                                    />
+                                </div>
+
+                                {/*{(query === '' || filteredProjects.length > 0) && (*/}
+                                {/*    <Combobox.Options*/}
+                                {/*        static*/}
+                                {/*        className="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-20 overflow-y-auto"*/}
+                                {/*    >*/}
+                                {/*        <li className="p-2">*/}
+                                {/*            {query === '' && (*/}
+                                {/*                <h2 className="mt-4 mb-2 px-3 text-xs font-semibold text-gray-200">Recent searches</h2>*/}
+                                {/*            )}*/}
+                                {/*            <ul className="text-sm text-gray-400">*/}
+                                {/*                {(query === '' ? recent : filteredProjects).map((project) => (*/}
+                                {/*                    <Combobox.Option*/}
+                                {/*                        key={project.id}*/}
+                                {/*                        value={project}*/}
+                                {/*                        className={({ active }) =>*/}
+                                {/*                            classNames(*/}
+                                {/*                                'flex cursor-default select-none items-center rounded-md px-3 py-2',*/}
+                                {/*                                active && 'bg-gray-800 text-white'*/}
+                                {/*                            )*/}
+                                {/*                        }*/}
+                                {/*                    >*/}
+                                {/*                        {({ active }) => (*/}
+                                {/*                            <div className="flex items-center space-x-3">*/}
+                                {/*                                <div className="flex-shrink-0">*/}
+                                {/*                                    <img*/}
+                                {/*                                        className="h-6 w-6 rounded-full"*/}
+                                {/*                                        src={project.image}*/}
+                                {/*                                        alt=""*/}
+                                {/*                                    />*/}
+                                {/*                                </div>*/}
+                                {/*                                <div className="truncate">*/}
+                                {/*                                    <div className="font-medium text-white">{project.name}</div>*/}
+                                {/*                                    <div className="text-gray-400 truncate">{project.description}</div>*/}
+                                {/*                                </div>*/}
+                                {/*                            </div>*/}
+                                {/*                        )}*/}
+                                {/*                    </Combobox.Option>*/}
+                                {/*                ))}*/}
+                                {/*            </ul>*/}
+                                {/*        </li>*/}
+                                {/*        {query === '' && (*/}
+                                {/*            <li className="p-2">*/}
+                                {/*                <h2 className="sr-only">Quick actions</h2>*/}
+                                {/*                <ul className="text-sm text-gray-400">*/}
+
+                                {/*                </ul>*/}
+                                {/*            </li>*/}
+                                {/*        )}*/}
+                                {/*    </Combobox.Options>*/}
+                                {/*)}*/}
+
+                                {/*{query !== '' && filteredProjects.length === 0 && (*/}
+                                {/*    <div className="py-14 px-6 text-center sm:px-14">*/}
+                                {/*        /!*<FolderIcon className="mx-auto h-6 w-6 text-gray-500" aria-hidden="true" />*!/*/}
+                                {/*        <p className="mt-4 text-sm text-gray-200">*/}
+                                {/*            We couldn't find any projects with that term. Please try again.*/}
+                                {/*        </p>*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
+                            </Combobox>
 
                             {/* IMDb Score Slider */}
                             <div style={{ display: "flex", justifyContent: "center" }}>
