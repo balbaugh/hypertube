@@ -30,7 +30,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-function valuetext(value: number) {
+function valuetext(value) {
     return `${value}`;
 }
 

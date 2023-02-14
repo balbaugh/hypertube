@@ -31,10 +31,12 @@ const App = () => {
 	const [itsMe, setItsMe] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
 
-	axios.defaults.withCredentials = true;
+	// axios.defaults.withCredentials = true;
 
 	useEffect(() => {
+		console.log('Ran getCookie axios!')
 		axiosStuff.getCookie().then((response) => {
+			console.log('response.loggedIn', response.loggedIn)
 			if (response.loggedIn === true) {
 				setLoggedIn(true);
 				setItsMe(response.user);
@@ -71,6 +73,7 @@ const App = () => {
 	}, [])
 
 	console.log('itsmee', itsMe)
+	console.log('loggedIn', loggedIn)
 
 	return (
 		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">

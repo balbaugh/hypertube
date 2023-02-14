@@ -83,7 +83,7 @@ const FilmDetail = () => {
 			const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
 			const imdbCode = movies.imdb_code;
 
-			setOpen(!open)
+			// setOpen(!open)
 			setWatch(true);
 
 			axiosStuff
@@ -95,6 +95,8 @@ const FilmDetail = () => {
 				}
 				else {
 					setPlayMovie(`http://localhost:3001/stream`)
+					// setPlayMovie(`http://localhost:3001/ready`)
+
 				}
 			 })
 		}
@@ -162,7 +164,7 @@ const FilmDetail = () => {
                                     />
                                 </div>
                                 {/* PLAYER MODAL */}
-                                <Transition.Root show={!open} as={Fragment}>
+                                {/* <Transition.Root show={!open} as={Fragment}>
                                     <Dialog as="div" className="relative z-10" onClose={setOpen}>
                                         <Transition.Child
                                             as={Fragment}
@@ -191,10 +193,10 @@ const FilmDetail = () => {
                                                         <div
                                                             className="container p-0 mx-auto"
                                                             style={{ minWidth: '720px', maxHeight: '80vh' }}
-                                                        >
+                                                        > */}
                                     {/* *** PLAYER *** */}
-																											{playMovie ? (
-																												<ReactPlayer
+
+																												{/* <ReactPlayer
 																													ref={playerRef}
 																													url={playMovie}
 																													playing={true}
@@ -202,7 +204,7 @@ const FilmDetail = () => {
 																													onError={onError}
 																													muted={true}
 																												/>
-																											) : (<Loader /> )}
+
 
                                                         </div>
                                                         <div className="mt-5 sm:mt-6">
@@ -219,35 +221,53 @@ const FilmDetail = () => {
                                             </div>
                                         </div>
                                     </Dialog>
-                                </Transition.Root>
+                                </Transition.Root> */}
 
-                                <form className="mt-6">
-                                    <div className="sm:flex-col1 mt-10 flex">
-                                        <button
-                                            type="button"
-                                            className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
-                                            onClick={startMovie}
-                                            // onClick={() => setOpen(!open)}
-                                        >
-                                            Stream
-                                        </button>
+                                {/* <form className="mt-6"> */}
+																	{!watch ? (
+																		  <div className="sm:flex-col1 mt-10 flex">
+																				<button
+																						type="button"
+																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
+																						onClick={startMovie}
+																						// onClick={() => setOpen(!open)}
+																				>
+																						Stream
+																				</button>
 
-                                        {/* <button
-                                            type="submit"
-                                            className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-red-500 py-3 px-3 text-base font-medium text-white hover:bg-red-700 sm:w-full"
-                                        >
-                                            Queue
-                                        </button> */}
+																				{/* <button
+																						type="submit"
+																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-red-500 py-3 px-3 text-base font-medium text-white hover:bg-red-700 sm:w-full"
+																				>
+																						Queue
+																				</button> */}
 
-                                        <button
-                                            type="button"
-                                            className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-200 hover:text-red-500"
-                                        >
-                                            <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true"/>
-                                            <span className="sr-only">Add to favorites</span>
-                                        </button>
-                                    </div>
-                                </form>
+																				<button
+																						type="button"
+																						className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-200 hover:text-red-500"
+																				>
+																						<HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true"/>
+																						<span className="sr-only">Add to favorites</span>
+																				</button>
+																		</div>
+																	) : (null)}
+                                {/* </form> */}
+																{watch ? (
+																<div>
+																	{playMovie ? (
+																		<ReactPlayer
+																			ref={playerRef}
+																			url={playMovie}
+																			playing={true}
+																			controls={true}
+																			onError={onError}
+																			muted={true}
+																		/>
+																	) : (<Loader />)}
+																</div>
+																 ) : (null)}
+
+
 
                                 <section aria-labelledby="details-heading" className="mt-12">
                                     <h2 id="details-heading" className="sr-only">

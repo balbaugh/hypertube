@@ -23,7 +23,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-function valuetext(value: number) {
+function valuetext(value) {
     return `${value}`;
 }
 
@@ -37,7 +37,7 @@ const Homepage = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
-    axios.defaults.withCredentials = false // For the sessions the work
+    axios.defaults.withCredentials = true // For the sessions the work
 
     useEffect(() => {
         axiosStuff
@@ -55,7 +55,7 @@ const Homepage = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
         setMovies(movies.concat(response.data.data.movies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
@@ -73,9 +73,24 @@ const Homepage = () => {
     };
 
     useEffect(() => {
+        axiosStuff
+            .movieTest().then((response) => {
+            console.log('oikee', response)
+        })
+        axiosStuff
+            .test().then((response1) => {
+            console.log('testi', response1)
+        })
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 5000)
+    }, [])
+
+    useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
+				setLoading(false)
     }, [ratingRange]);
 
     useEffect(() => {

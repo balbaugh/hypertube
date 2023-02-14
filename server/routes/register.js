@@ -80,7 +80,7 @@ router.post('/register', (req, res) => {
 		try {
 			var sql = "SELECT id FROM users WHERE username = $1;"
 			var { rows } = await dbConn.pool.query(sql, [username])
-			return (rows[0])
+			return (rows[0].id)
 		} catch (error) {
 			console.error("Something went wrong when trying to retrieve user ID:", error)
 		}
@@ -106,19 +106,19 @@ router.post('/register', (req, res) => {
 								if (err)
 									console.log('INSERT________ERRRORRR: ', err);
 								else {
-									try {
-										retrieveId(username)
-											.then((id) => {
+									retrieveId(username)
+										.then((id) => {
+											try {
 												console.log('rows[0].id', id)
 												sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
 												dbConn.pool.query(sql, [id, "localhost:3000/images/default_profilepic"])
 												res.send({ message: `Registration email sent to '${email}'`, result });
-											}).catch((error) => {
-												return (error)
-											})
-									} catch (error) {
-										console.error("Something went wrong when trying to create a default avatar for the user:", error)
-									}
+											} catch (error) {
+												console.error("Something went wrong when trying to create a default avatar for the user:", error)
+											}
+										}).catch((error) => {
+											return (error)
+										})
 								}
 							})
 					}
