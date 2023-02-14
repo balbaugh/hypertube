@@ -24,6 +24,16 @@ const play = (magnet) => {
 	return req.then((response) => response.data);
 }
 
+const ready = () => {
+	const req = axios.get(`${baseUrl}/ready`);
+	return (req.then((response) => response.data))
+}
+
+const stream = () => {
+	const req = axios.get(`${baseUrl}/stream`);
+	return (req.then((response) => response.data))
+}
+
 // Signup and Logi stuff below
 
 const register = (newObject) => {
@@ -91,7 +101,7 @@ const updateProfile = (newObject) => {
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile
+	profileEdit, updateProfile, ready, stream
 };
 
 export default axiosStuff;

@@ -7,22 +7,14 @@ const dbConn = require('../utils/dbConnection');
 
 let filePath = '';
 let fileSize = '';
+let title = '';
+let imdbCode = '';
 let sentResponse = false;
-
-const streamFile = () => {
-	router.get('/stream/:file', (req, res) => {
-		// const file = encodeURIComponent(req.params.file);
-		res.setHeader('Content-Type', 'video/mp4');
-		res.setHeader('Content-Length', contentLength);
-		fs.createReadStream(`./downloads/${link.title}/${filePath}` , {
-			start: 0,
-			end: file.length - 1
-		}).pipe(res);
-	})
-}
 
 router.get('/play', (req, res) => {
 	const link = req.query.magnet;
+
+	imdbCode = link.imdbCode
 
 	console.log('link', link)
 	console.log('magnet', link.magnetUrl)
@@ -39,7 +31,7 @@ router.get('/play', (req, res) => {
 			'udp://p4p.arenabg.com:1337',
 			'udp://tracker.leechers-paradise.org:6969',
 		],
-		path: `./downloads/${link.title}`, // path oikeeks
+		path: `./downloads/${imdbCode}/${link.title}`, // path oikeeks
 	};
 
 	const engine = torrentStream(
@@ -51,7 +43,7 @@ router.get('/play', (req, res) => {
 		sentResponse = false;
 	});
 
-	engine.on('torrent', () => {
+	 engine.on('torrent', () => {
 		engine.files.forEach((file) => {
 			console.log('filename', file.name)
 			console.log('filepath', file.path)
@@ -60,89 +52,151 @@ router.get('/play', (req, res) => {
 			if (file.name.endsWith('.mp4') ||
 				file.name.endsWith('.webm')) {
 
-				file.select();
-				dbConn.pool.query(`SELECT * FROM movies WHERE movie_path = $1`,
-					[file.path],
+					file.select();
+					dbConn.pool.query(`SELECT * FROM movies WHERE movie_path = $1`,
+					[`${imdbCode}/${file.path}`],
 					(err, result) => {
 						if (err)
 							console.log('movie Err', err);
 						else if (result.rowCount > 0) {
 							if (result.rows[0].downloaded === true) {
-								// streamFile(file, filePath);
-								// return res.send({ theLink: `http://localhost:3001/movies/${filePath}` })
-								//  return res.send({ theLink: `http://localhost:3001/movies/${link.title}/${filePath}` })
-								const encodedTitle = link.title.replace(/ /g, '%20');
-								const encodedPath = file.path.replace(/ /g, '%20');
-								const encodedName = encodeURIComponent(file.name);
-								return res.send(result.rows[0])
+								sentResponse = true
+								// return res.send(result.rows[0])
+								return res.send({ downloaded: true, result })
 							}
 						}
 						else {
 							dbConn.pool.query(`
 							INSERT INTO movies (movie_path, size, downloaded, date)
 							VALUES ($1, $2, $3, NOW())`,
-								[file.path, file.length, 0],
-								(err1, result) => {
-									if (err1)
-										console.log('insert movie ERRR', err1);
-								})
+							[`${imdbCode}/${file.path}`, file.length, 0],
+							(err1, result) => {
+								if (err1)
+									console.log('insert movie ERRR', err1);
+							})
 						}
 					})
 				filePath = file.path;
 				fileSize = file.length;
-			}
-			console.log('TAA', filePath)
-		})
-	})
+				title = link.title;
+				}
+				console.log('TAA', filePath)
+		});
+	 })
 
-	engine.on('download', () => {
+	 engine.on('download', () => {
 		// console.log('pelkka engine', engine.swarm.downloaded)
 		// console.log('filesize', fileSize)
 		// console.log('whatsthis', (engine.swarm.downloaded / fileSize * 100))
 
-		if (fs.existsSync(`./downloads/${link.title}/${filePath}`)) {
+		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
 			if (!sentResponse) {
-				console.log(`alle 5 ${link.title}`, (fs.statSync(`./downloads/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+				console.log(`alle 5 ${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
 
-				if (fs.statSync(`./downloads/${link.title}/${filePath}`).size / fileSize * 100 > 5) {
-					streamFile();
+				if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 > 5) {
+
 					dbConn.pool.query(`SELECT * FROM movies WHERE movie_path = $1`,
-						[filePath],
-						(err2, result2) => {
-							if (err2)
-								console.log('stream err', err2)
-							else {
-								res.send(result2.rows[0]);
-								// streamFile();
-							}
-						})
-					// res.setHeader('Content-Type', 'application/octet-stream');
-					// res.setHeader('Content-Disposition', `attachment; filename=${filePath}`);
-					// fs.createReadStream(`./movies/${link.title}/${filePath}`).pipe(res);
-
+					[`${imdbCode}/${filePath}`],
+					(err2, result2) => {
+						if (err2)
+							console.log('stream err', err2)
+						else {
+							res.send({ streamIt: true, result: result2.rows[0] });
+						}
+					})
 					sentResponse = true;
 				}
 			}
-			console.log(`${link.title}`, (fs.statSync(`./downloads/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+			console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
 		}
-	});
+	 });
 
 	engine.on('idle', () => {
 		console.log('after idle')
 
-		dbConn.pool.query(`UPDATE movies SET downloaded = $1 WHERE movie_path = $2`,
-			[true, filePath],
-			(err5) => {
-				if (err5)
-					console.log('Downloaded ERRR', err5)
-				else {
-					console.log('updated')
-					sentResponse = false;
-					engine.destroy(() => {});
-				}
-			})
-	})
-})
+		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
+				dbConn.pool.query(`UPDATE movies SET downloaded = $1 WHERE movie_path = $2`,
+				[true, `${imdbCode}/${filePath}`],
+				(err5) => {
+					if (err5)
+						console.log('Downloaded ERRR', err5)
+					else {
+						console.log('updated')
+						sentResponse = false;
+						engine.destroy(() => {});
+					}
+				})
+		}
+	 })
+ })
 
+// router.get(`/subtitles`, (req, res) => {
+//   const imdbid = imdbCode;
+// 	const apiOptions = {
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 			'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
+// 		}
+// 	}
+
+//   fetch(`https://api.opensubtitles.org/v1/subtitles?imdb_id=${imdbid}`, apiOptions)
+//   // fetch(`https://api.opensubtitles.org/v1/`)
+// 	.then((response) => {
+// 		res.send(response)
+// 	})
+// });
+
+router.get(`/ready`, (req, res) => {
+	const file = `./downloads/${imdbCode}/${title}/${filePath}`
+	const stream = fs.createReadStream(file);
+
+	const start = 0;
+	const end = fileSize - 1;
+	const chunkSize = end - start + 1;
+
+	const headers = {
+		'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+		'Accept-Ranges': 'bytes',
+		'Content-Length': chunkSize,
+		'Content-Type': 'video/mp4',
+	}
+	res.writeHead(200, headers)
+	stream.pipe(res)
+});
+
+ router.get(`/stream`, (req, res) => {
+  const file = `./downloads/${imdbCode}/${title}/${filePath}`;
+  const fsize = fileSize
+  const fsize1 = fs.statSync(file).size
+
+	console.log('fsize1', fsize1)
+	console.log('req range : ', req.headers.range);
+  const range = req.headers.range || `bytes=0-${fsize - 1}`;
+  const parts = range.replace(/bytes=/, "").split("-");
+	console.log('PARTS', parts);
+	const chunksize = 30e6;
+  // const start = parseInt(parts[0], 10);
+	start = 0;
+  // const end =  Math.min(start + chunksize, fsize - 1);
+	const end = fsize1
+	// const end = (parts[1] ? parseInt(parts[1], 10) : fsize -1)
+	const contentLength = end - start + 1;
+
+  if (end >= fsize) {
+    res.status(416).send('Requested range not satisfiable');
+    return;
+  }
+
+  const stream = fs.createReadStream(file, { start, end });
+  const headers = {
+    "Content-Range": `bytes ${start}-${end}/${fsize}`,
+    "Accept-Ranges": "bytes",
+    "Content-Length": contentLength,
+    "Content-Type": "video/mp4"
+  };
+
+  res.writeHead(206, headers);
+  stream.pipe(res);
+ });
 
 module.exports = router;
