@@ -1,9 +1,18 @@
 HYPERTUBE
 
+____________________________________________________________
+search functionality
+filter by score
+profile
+subtitles
+language stuff
+chron job to delete videos after 30 days
+____________________________________________________________
+
+
 ARCHIVE.ORG S3-Like API Keys
 Your S3 access key: 6SL9PdmSpyXys5p0
 Your S3 secret key: Sf1jokS646MAYctY
-
 
 
 This project proposes to create a web application that allows the user to research and

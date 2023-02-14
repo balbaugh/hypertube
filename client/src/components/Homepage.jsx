@@ -40,7 +40,6 @@ const Homepage = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
-    const [yearRange, setYearRange] = useState([1900, 2024]);
 
     axios.defaults.withCredentials = false // For the sessions the work
 
@@ -81,7 +80,7 @@ const Homepage = () => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
-    }, [ratingRange, yearRange]);
+    }, [ratingRange]);
 
     useEffect(() => {
         loadMoreMovies();
@@ -93,14 +92,9 @@ const Homepage = () => {
         setRatingRange(newValue);
     };
 
-    const handleYearChange = (event, newValue) => {
-        setYearRange(newValue);
-    };
-
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        const yearFilter = movie.year >= yearRange[0] && movie.year <= yearRange[1];
-        return ratingFilter && yearFilter;
+        return ratingFilter;
     };
 
     const filteredMovies = movies.filter(filterMovies);
@@ -167,7 +161,7 @@ const Homepage = () => {
                                 </div>
                             </div>
 
-                            {/* Sliders */}
+                            {/* IMDb Score Slider */}
                             <div style={{ display: "flex", justifyContent: "center" }}>
                                 <Box sx={{ width: 350 }}>
                                     <h4 className="text-gray-200">IMDb Rating ({ratingRange[0]} - {ratingRange[1]})</h4>
@@ -184,23 +178,7 @@ const Homepage = () => {
                                 </Box>
                             </div>
 
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <Box sx={{ width: 350 }}>
-                                    <h4 className="text-gray-200">Production Year ({yearRange[0]} - {yearRange[1]})</h4>
-                                    <Slider
-                                        defaultValue={[1900, 2024]}
-                                        min={1900}
-                                        max={2024}
-                                        value={yearRange}
-                                        onChange={handleYearChange}
-                                        valueLabelDisplay="auto"
-                                        getAriaValueText={valuetext}
-                                        color="error"
-                                    />
-                                </Box>
-                            </div>
-
-                                {/* Film grid */}
+                            {/* Film grid */}
                             <section
                                 aria-labelledby="films-heading"
                             >
