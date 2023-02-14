@@ -96,7 +96,6 @@ const FilmDetail = () => {
 				else {
 					setPlayMovie(`http://localhost:3001/stream`)
 					// setPlayMovie(`http://localhost:3001/ready`)
-
 				}
 			 })
 		}

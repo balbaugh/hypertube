@@ -49,6 +49,10 @@ router.get('/play', (req, res) => {
 			console.log('filepath', file.path)
 			console.log('filelength', file.length)
 
+			if (file.name.endsWith('.mkv')) {
+
+			}
+
 			if (file.name.endsWith('.mp4') ||
 				file.name.endsWith('.webm')) {
 
@@ -176,9 +180,9 @@ router.get(`/ready`, (req, res) => {
 	console.log('PARTS', parts);
 	const chunksize = 30e6;
   // const start = parseInt(parts[0], 10);
-	const start = 0;
+	start = 0;
   // const end =  Math.min(start + chunksize, fsize - 1);
-	const end = fsize1
+	const end = fsize1 - 1
 	// const end = (parts[1] ? parseInt(parts[1], 10) : fsize -1)
 	const contentLength = end - start + 1;
 
