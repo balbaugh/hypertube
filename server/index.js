@@ -133,6 +133,9 @@ app.use(reg);
 const login = require('./routes/login');
 app.use(login);
 
+const profileEdit = require('./routes/profileEdit');
+app.use(profileEdit);
+
 app.use(middleware.unknowEndpoint);
 
 app.listen(config.PORT, () => {

@@ -9,6 +9,8 @@ import Browse from './components/Browse';
 import FilmDetail from './components/FilmDetail';
 import Registration from './components/Registration';
 import Login from './components/Login';
+import Profile from './components/Profile';
+import ProfileEdit from './components/ProfileEdit';
 import Forgot from './components/Forgot';
 import TestMovieThumb from './components/testmoviethumb';
 import TheTest from './components/thetest';
@@ -50,28 +52,28 @@ const App = () => {
 
 		if (codeParam && codeParam.length < 30) {
 			axiosStuff
-			.getGitProfile(codeParam)
-			.then((response) => {
-				console.log(response)
-				setLoggedIn(true);
-				setItsMe(response.user)
-			})
+				.getGitProfile(codeParam)
+				.then((response) => {
+					console.log(response)
+					setLoggedIn(true);
+					setItsMe(response.user)
+				})
 		}
 		else if (codeParam && codeParam.length >= 30) {
 			axiosStuff
-			.get42Profile(codeParam)
-			.then((response) => {
-				console.log('42', response)
-				setLoggedIn(true);
-				setItsMe(response.user)
-			})
+				.get42Profile(codeParam)
+				.then((response) => {
+					console.log('42', response)
+					setLoggedIn(true);
+					setItsMe(response.user)
+				})
 		}
 	}, [])
 
 	console.log('itsmee', itsMe)
 
-  return (
-    <div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
+	return (
+		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
 
 			<Router>
 				<Nav itsMe={itsMe} />
@@ -88,11 +90,13 @@ const App = () => {
 					<Route path="thetest/:id" element={<TheTest />} />
 					<Route path="/list" element={<List />} />
 					<Route path="/popular" element={<Popular />} />
+					<Route path="/profile" element={loggedIn ? <Profile /> : <Homepage />} />
+					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Homepage />} />
 					<Route path="/best-rating" element={<BestRating />} />
 					<Route path="/newest" element={<Newest />} />
 					<Route path="/year-new-old" element={<YearNewOld />} />
 					<Route path="/year-old-new" element={<YearOldNew />} />
-					<Route path="/logout" element={ <Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} /> } />
+					<Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
 					<Route path="/get/:token" element={<Forgot2 />} />
 					<Route path="*" element={<Landing />} />
 				</Routes>
