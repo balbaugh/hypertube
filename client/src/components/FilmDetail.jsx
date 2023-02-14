@@ -261,24 +261,24 @@ const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subti
                                                         <h3>
                                                             <Disclosure.Button
                                                                 className="group relative flex w-full items-center justify-between py-6 text-left">
-                            <span
-                                className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
-                            >
-                              Details
-                            </span>
-                                                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                      <MinusIcon
-                                          className="block h-6 w-6 text-red-500 group-hover:text-red-600"
-                                          aria-hidden="true"
-                                      />
-                                  ) : (
-                                      <PlusIcon
-                                          className="block h-6 w-6 text-red-500 group-hover:text-red-600"
-                                          aria-hidden="true"
-                                      />
-                                  )}
-                                </span>
+                                                                <span
+                                                                    className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
+                                                                >
+                                                                  Details
+                                                                </span>
+                                                                    <span className="ml-6 flex items-center">
+                                                                      {open ? (
+                                                                          <MinusIcon
+                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              aria-hidden="true"
+                                                                          />
+                                                                      ) : (
+                                                                          <PlusIcon
+                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              aria-hidden="true"
+                                                                          />
+                                                                      )}
+                                                                    </span>
                                                             </Disclosure.Button>
                                                         </h3>
                                                         <Disclosure.Panel as="div" className="prose prose-sm pb-6">

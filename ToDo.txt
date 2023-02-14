@@ -1,13 +1,14 @@
 HYPERTUBE
 
 ____________________________________________________________
-search functionality
 filter by score
 profile
 subtitles
 language stuff
 chron job to delete videos after 30 days
 comments
+
+search functionality
 ____________________________________________________________
 
 

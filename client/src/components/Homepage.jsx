@@ -2,25 +2,18 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Dialog, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-// import { SearchIcon } from '@heroicons/react/solid'
-// import { DocumentAddIcon, FolderAddIcon, FolderIcon, HashtagIcon, TagIcon } from '@heroicons/react/outline'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
-import searchTorrents from "../services/searchTorrents";
-
-const API_URL = 'https://yts.mx/api/v2/list_movies.json';
-const PAGE_SIZE = 50;
 
 const short = require('short-uuid');
 
 const sortOptions = [
-    { name: 'Most Popular', to: '/popular', current: false },
     { name: 'Best Rating', to: '/best-rating', current: true },
+    { name: 'Most Popular', to: '/popular', current: false },
     { name: 'Newest', to: '/newest', current: false },
     { name: 'Year: New to Old', to: '/year-new-old', current: false },
     { name: 'Year: Old to New', to: '/year-old-new', current: false },
@@ -46,6 +39,20 @@ const Homepage = () => {
 
     axios.defaults.withCredentials = false // For the sessions the work
 
+    useEffect(() => {
+        axiosStuff
+            .movieTest().then((response) => {
+            console.log('oikee', response)
+        })
+        axiosStuff
+            .test().then((response1) => {
+            console.log('testi', response1)
+        })
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000)
+    }, [])
+
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
@@ -66,20 +73,6 @@ const Homepage = () => {
     };
 
     useEffect(() => {
-        axiosStuff
-            .movieTest().then((response) => {
-            console.log('oikee', response)
-        })
-        axiosStuff
-            .test().then((response1) => {
-            console.log('testi', response1)
-        })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
-
-    useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
@@ -97,20 +90,50 @@ const Homepage = () => {
 
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        return ratingFilter;
+        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(query.toLowerCase()) || movie.year.toString().includes(query.toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) || movie.description_full.toString().includes(query.toLowerCase()));
+        return ratingFilter && searchFilter;
     };
 
     const filteredMovies = movies.filter(filterMovies);
 
-    const projects = [
-        { id: 1, name: 'Workflow Inc. / Website Redesign', url: '#' },
-        // More projects...
-    ]
-    const recent = [projects[0]]
-
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
+
+    const handleQueryChange = async (query) => {
+        setQuery(query);
+        if (query === '') {
+            setSearchResults([]);
+            setHasMore(true);
+            setCurrentPage(1);
+            setMovies([]);
+            loadMoreMovies();
+            return;
+        }
+        setIsLoading(true);
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`);
+        setSearchResults(response.data.data.movies);
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        if (query === '') {
+            setMovies(filteredMovies);
+            setHasMore(true);
+            setCurrentPage(1);
+        } else {
+            setMovies(searchResults);
+            setHasMore(false);
+        }
+    }, [searchResults, query]);
+
+    const handleSearchKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            handleQueryChange(query).then(() => {
+                console.log('search results', searchResults);
+            });
+        }
+    };
 
     return (
         <div>
@@ -125,11 +148,7 @@ const Homepage = () => {
                             <div className="mb-10">
                                 <div className="mx-auto max-w-7xl pt-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
-                                    {/*<p className="mt-4 max-w-xl text-sm text-gray-200">*/}
-                                    {/*    Our thoughtfully curated collection of films, hand-picked for you.*/}
-                                    {/*</p>*/}
-
-                        {/* Sort */}
+                                {/* Sort */}
                                 <Menu as="div" className="relative mt-2 inline-block text-left ml-auto">
                                     <div>
                                         <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-gray-200 hover:text-red-600">
@@ -196,6 +215,7 @@ const Homepage = () => {
                                 as="div"
                                 className="mb-4 mx-auto max-w-lg transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl bg-zinc-800 shadow-2xl transition-all"
                                 onChange={(item) => (window.location = item.url)}
+                                onSubmit={(event) => event.preventDefault()}
                             >
                                 <div className="relative">
                                     <MagnifyingGlassIcon
@@ -205,72 +225,12 @@ const Homepage = () => {
                                     <Combobox.Input
                                         className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder-gray-500 focus:ring-0 sm:text-sm"
                                         placeholder="Search..."
+                                        value={query}
+                                        onKeyUp={handleSearchKeyUp}
                                         onChange={(event) => setQuery(event.target.value)}
                                     />
                                 </div>
-
-                                {/*{(query === '' || filteredProjects.length > 0) && (*/}
-                                {/*    <Combobox.Options*/}
-                                {/*        static*/}
-                                {/*        className="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-20 overflow-y-auto"*/}
-                                {/*    >*/}
-                                {/*        <li className="p-2">*/}
-                                {/*            {query === '' && (*/}
-                                {/*                <h2 className="mt-4 mb-2 px-3 text-xs font-semibold text-gray-200">Recent searches</h2>*/}
-                                {/*            )}*/}
-                                {/*            <ul className="text-sm text-gray-400">*/}
-                                {/*                {(query === '' ? recent : filteredProjects).map((project) => (*/}
-                                {/*                    <Combobox.Option*/}
-                                {/*                        key={project.id}*/}
-                                {/*                        value={project}*/}
-                                {/*                        className={({ active }) =>*/}
-                                {/*                            classNames(*/}
-                                {/*                                'flex cursor-default select-none items-center rounded-md px-3 py-2',*/}
-                                {/*                                active && 'bg-gray-800 text-white'*/}
-                                {/*                            )*/}
-                                {/*                        }*/}
-                                {/*                    >*/}
-                                {/*                        {({ active }) => (*/}
-                                {/*                            <div className="flex items-center space-x-3">*/}
-                                {/*                                <div className="flex-shrink-0">*/}
-                                {/*                                    <img*/}
-                                {/*                                        className="h-6 w-6 rounded-full"*/}
-                                {/*                                        src={project.image}*/}
-                                {/*                                        alt=""*/}
-                                {/*                                    />*/}
-                                {/*                                </div>*/}
-                                {/*                                <div className="truncate">*/}
-                                {/*                                    <div className="font-medium text-white">{project.name}</div>*/}
-                                {/*                                    <div className="text-gray-400 truncate">{project.description}</div>*/}
-                                {/*                                </div>*/}
-                                {/*                            </div>*/}
-                                {/*                        )}*/}
-                                {/*                    </Combobox.Option>*/}
-                                {/*                ))}*/}
-                                {/*            </ul>*/}
-                                {/*        </li>*/}
-                                {/*        {query === '' && (*/}
-                                {/*            <li className="p-2">*/}
-                                {/*                <h2 className="sr-only">Quick actions</h2>*/}
-                                {/*                <ul className="text-sm text-gray-400">*/}
-
-                                {/*                </ul>*/}
-                                {/*            </li>*/}
-                                {/*        )}*/}
-                                {/*    </Combobox.Options>*/}
-                                {/*)}*/}
-
-                                {/*{query !== '' && filteredProjects.length === 0 && (*/}
-                                {/*    <div className="py-14 px-6 text-center sm:px-14">*/}
-                                {/*        /!*<FolderIcon className="mx-auto h-6 w-6 text-gray-500" aria-hidden="true" />*!/*/}
-                                {/*        <p className="mt-4 text-sm text-gray-200">*/}
-                                {/*            We couldn't find any projects with that term. Please try again.*/}
-                                {/*        </p>*/}
-                                {/*    </div>*/}
-                                {/*)}*/}
                             </Combobox>
-
-
 
                             {/* Film grid */}
                             <section
@@ -291,7 +251,6 @@ const Homepage = () => {
                                         </p>
                                     }
                                 >
-
                                 <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                     <style>
                                         {`
@@ -317,6 +276,11 @@ const Homepage = () => {
                                                     <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
                                                     <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
                                                     <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
+                                                    <p className="hidden text-sm font-semibold text-gray-200">Genres: {movie.genres.map((genre) => (
+                                                        <span key={`${short.generate()}`}>{genre} </span>
+                                                    ))}</p>
+                                                    <p className="hidden text-sm font-semibold text-gray-200">Description: {movie.description_full}</p>
+
 
                                                 </div>
                                                 </Link>
