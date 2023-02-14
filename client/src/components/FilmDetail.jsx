@@ -43,20 +43,22 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subtitles[] | any }) => {
+const FilmDetail = () => {
     const {id} = useParams();
     const [movies, setMovies] = useState(id);
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
     const [playMovie, setPlayMovie] = useState('');
     const [open, setOpen] = useState(true)
-    const playerRef: any = useRef(null);
+    const playerRef = useRef(null);
+
+		console.log('playerrf', playerRef)
 
     const onError = useCallback(() => {
-        if(playerRef.current !== null) {
+        if (playerRef.current !== null) {
             playerRef.current.seekTo(0, 'seconds');
         }
-    }, [playerRef.current])
+    }, [playerRef])
 
     useEffect(() => {
         axiosStuff
@@ -74,22 +76,30 @@ const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subti
 
     console.log('leffa', movies)
 
-    const startMovie = () => {
-        const movieHash = movies.torrents[0].hash;
-        const title = movies.title
-        const encodedTitle = encodeURIComponent(title);
-        const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
+		const startMovie = () => {
+			const movieHash = movies.torrents[0].hash;
+			const title = movies.title
+			const encodedTitle = encodeURIComponent(title);
+			const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
+			const imdbCode = movies.imdb_code;
 
-        setWatch(true);
+			// setOpen(!open)
+			setWatch(true);
 
-        axiosStuff
-            .play({title, magnetUrl})
-            .then((response) => {
-                console.log('hii', response)
-                setPlayMovie(`http://localhost:3001/${encodedTitle}/${response.movie_path.replace(/ /g, '%20')}`);
-                // setPlayMovie(true)
-            })
-    }
+			axiosStuff
+			.play({title, magnetUrl, imdbCode})
+			 .then((response) => {
+				console.log('hii', response)
+				if (response.downloaded) {
+					 setPlayMovie(`http://localhost:3001/ready`)
+				}
+				else {
+					setPlayMovie(`http://localhost:3001/stream`)
+					// setPlayMovie(`http://localhost:3001/ready`)
+
+				}
+			 })
+		}
 
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
@@ -154,7 +164,7 @@ const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subti
                                     />
                                 </div>
                                 {/* PLAYER MODAL */}
-                                <Transition.Root show={!open} as={Fragment}>
+                                {/* <Transition.Root show={!open} as={Fragment}>
                                     <Dialog as="div" className="relative z-10" onClose={setOpen}>
                                         <Transition.Child
                                             as={Fragment}
@@ -183,26 +193,19 @@ const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subti
                                                         <div
                                                             className="container p-0 mx-auto"
                                                             style={{ minWidth: '720px', maxHeight: '80vh' }}
-                                                        >
+                                                        > */}
                                     {/* *** PLAYER *** */}
-                                                            <ReactPlayer
-                                                                ref={playerRef}
-                                                                // url={props.movieUrl}
-                                                                url={"https://www.youtube.com/watch?v=oUFJJNQGwhk"}
-                                                                controls={true}
-                                                                playing={true}
-                                                                width="100%"
-                                                                onError={onError}
-                                                                style={{
-                                                                    objectFit: 'cover',
-                                                                    zIndex: '10',
-                                                                }}
-                                                                config={{
-                                                                    file: {
-                                                                        tracks: subtitles,
-                                                                    },
-                                                                }}
-                                                            />
+
+																												{/* <ReactPlayer
+																													ref={playerRef}
+																													url={playMovie}
+																													playing={true}
+																													controls={true}
+																													onError={onError}
+																													muted={true}
+																												/>
+
+
                                                         </div>
                                                         <div className="mt-5 sm:mt-6">
                                                             <button
@@ -218,35 +221,53 @@ const FilmDetail = ({ movieUrl, subtitles}: { movieUrl: string, subtitles: Subti
                                             </div>
                                         </div>
                                     </Dialog>
-                                </Transition.Root>
+                                </Transition.Root> */}
 
-                                <form className="mt-6">
-                                    <div className="sm:flex-col1 mt-10 flex">
-                                        <button
-                                            type="button"
-                                            className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
-                                            // onClick={startMovie}
-                                            onClick={() => setOpen(!open)}
-                                        >
-                                            Stream
-                                        </button>
+                                {/* <form className="mt-6"> */}
+																	{!watch ? (
+																		  <div className="sm:flex-col1 mt-10 flex">
+																				<button
+																						type="button"
+																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
+																						onClick={startMovie}
+																						// onClick={() => setOpen(!open)}
+																				>
+																						Stream
+																				</button>
 
-                                        <button
-                                            type="submit"
-                                            className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-red-500 py-3 px-3 text-base font-medium text-white hover:bg-red-700 sm:w-full"
-                                        >
-                                            Queue
-                                        </button>
+																				{/* <button
+																						type="submit"
+																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-red-500 py-3 px-3 text-base font-medium text-white hover:bg-red-700 sm:w-full"
+																				>
+																						Queue
+																				</button> */}
 
-                                        <button
-                                            type="button"
-                                            className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-200 hover:text-red-500"
-                                        >
-                                            <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true"/>
-                                            <span className="sr-only">Add to favorites</span>
-                                        </button>
-                                    </div>
-                                </form>
+																				<button
+																						type="button"
+																						className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-200 hover:text-red-500"
+																				>
+																						<HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true"/>
+																						<span className="sr-only">Add to favorites</span>
+																				</button>
+																		</div>
+																	) : (null)}
+                                {/* </form> */}
+																{watch ? (
+																<div>
+																	{playMovie ? (
+																		<ReactPlayer
+																			ref={playerRef}
+																			url={playMovie}
+																			playing={true}
+																			controls={true}
+																			onError={onError}
+																			muted={true}
+																		/>
+																	) : (<Loader />)}
+																</div>
+																 ) : (null)}
+
+
 
                                 <section aria-labelledby="details-heading" className="mt-12">
                                     <h2 id="details-heading" className="sr-only">

@@ -74,15 +74,16 @@ const Homepage = () => {
             .test().then((response1) => {
             console.log('testi', response1)
         })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 5000)
     }, [])
 
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
+				setLoading(false)
     }, [ratingRange]);
 
     useEffect(() => {
@@ -174,6 +175,23 @@ const Homepage = () => {
                                 </div>
                             </div>
 
+                            {/* IMDb Score Slider */}
+                            <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
+                                    <h4 className="text-gray-200 font-semibold">IMDb Rating ( {ratingRange[0]} - {ratingRange[1]} )</h4>
+                                    <Slider
+                                        defaultValue={[0, 10]}
+                                        min={0}
+                                        max={10}
+                                        value={ratingRange}
+                                        onChange={handleRatingChange}
+                                        valueLabelDisplay="auto"
+                                        getAriaValueText={valuetext}
+                                        color="error"
+                                    />
+                                </Box>
+                            </div>
+
                             {/* Search */}
                             <Combobox
                                 as="div"
@@ -253,22 +271,7 @@ const Homepage = () => {
                                 {/*)}*/}
                             </Combobox>
 
-                            {/* IMDb Score Slider */}
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <Box sx={{ width: 350 }}>
-                                    <h4 className="text-gray-200">IMDb Rating ({ratingRange[0]} - {ratingRange[1]})</h4>
-                                    <Slider
-                                        defaultValue={[0, 10]}
-                                        min={0}
-                                        max={10}
-                                        value={ratingRange}
-                                        onChange={handleRatingChange}
-                                        valueLabelDisplay="auto"
-                                        getAriaValueText={valuetext}
-                                        color="error"
-                                    />
-                                </Box>
-                            </div>
+
 
                             {/* Film grid */}
                             <section
