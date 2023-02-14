@@ -52,18 +52,18 @@ const logout = () => {
 }
 
 const forgot = (newObject) => {
-  const req = axios.post(`${baseUrl}/forgot`, newObject);
-  return req.then((response) => response.data)
+	const req = axios.post(`${baseUrl}/forgot`, newObject);
+	return req.then((response) => response.data)
 }
 
 const getForgot = (token) => {
-  const req = axios.get(`${baseUrl}/get/${token}`)
-  return req.then((response) => response.data)
+	const req = axios.get(`${baseUrl}/get/${token}`)
+	return req.then((response) => response.data)
 }
 
 const newPw = (newObject) => {
-  const req = axios.put(`${baseUrl}/newPw`, newObject);
-  return req.then((response) => response.data);
+	const req = axios.put(`${baseUrl}/newPw`, newObject);
+	return req.then((response) => response.data);
 }
 
 const getGitProfile = (codeParam) => {
@@ -76,9 +76,22 @@ const get42Profile = (codeParam) => {
 	return req.then((response) => response.data);
 }
 
+const profileEdit = () => {
+	console.log('Made it to profileEdit')
+	const req = axios.get(`${baseUrl}/profileEdit`);
+	return req.then((response) => response.data)
+}
+
+const updateProfile = (newObject) => {
+	console.log('Made it to updateProfile')
+	const req = axios.put(`${baseUrl}/profileEdit`, newObject);
+	return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
-	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile
+	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
+	profileEdit, updateProfile
 };
 
 export default axiosStuff;
