@@ -73,20 +73,6 @@ const Homepage = () => {
     };
 
     useEffect(() => {
-        axiosStuff
-            .movieTest().then((response) => {
-            console.log('oikee', response)
-        })
-        axiosStuff
-            .test().then((response1) => {
-            console.log('testi', response1)
-        })
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 5000)
-    }, [])
-
-    useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
@@ -126,7 +112,7 @@ const Homepage = () => {
             return;
         }
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`);
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, { withCredentials: false });
         setSearchResults(response.data.data.movies);
         setIsLoading(false);
     };

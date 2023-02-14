@@ -44,7 +44,7 @@ const BestRating = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
-    axios.defaults.withCredentials = false // For the sessions the work
+    axios.defaults.withCredentials = true // For the sessions the work
 
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const BestRating = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`); // 50 movies per page sorted by rating desc
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
         setMovies(movies.concat(response.data.data.movies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
@@ -84,6 +84,7 @@ const BestRating = () => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
+        setLoading(false)
     }, [ratingRange]);
 
     useEffect(() => {
@@ -98,20 +99,50 @@ const BestRating = () => {
 
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        return ratingFilter;
+        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(query.toLowerCase()) || movie.year.toString().includes(query.toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) || movie.description_full.toString().includes(query.toLowerCase()));
+        return ratingFilter && searchFilter;
     };
 
     const filteredMovies = movies.filter(filterMovies);
 
-    const projects = [
-        { id: 1, name: 'Workflow Inc. / Website Redesign', url: '#' },
-        // More projects...
-    ]
-    const recent = [projects[0]]
-
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
+
+    const handleQueryChange = async (query) => {
+        setQuery(query);
+        if (query === '') {
+            setSearchResults([]);
+            setHasMore(true);
+            setCurrentPage(1);
+            setMovies([]);
+            loadMoreMovies();
+            return;
+        }
+        setIsLoading(true);
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, { withCredentials: false });
+        setSearchResults(response.data.data.movies);
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        if (query === '') {
+            setMovies(filteredMovies);
+            setHasMore(true);
+            setCurrentPage(1);
+        } else {
+            setMovies(searchResults);
+            setHasMore(false);
+        }
+    }, [searchResults, query]);
+
+    const handleSearchKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            handleQueryChange(query).then(() => {
+                console.log('search results', searchResults);
+            });
+        }
+    };
 
     return (
         <div>
@@ -194,6 +225,7 @@ const BestRating = () => {
                                 as="div"
                                 className="mb-4 mx-auto max-w-lg transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl bg-zinc-800 shadow-2xl transition-all"
                                 onChange={(item) => (window.location = item.url)}
+                                onSubmit={(event) => event.preventDefault()}
                             >
                                 <div className="relative">
                                     <MagnifyingGlassIcon
@@ -203,69 +235,11 @@ const BestRating = () => {
                                     <Combobox.Input
                                         className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder-gray-500 focus:ring-0 sm:text-sm"
                                         placeholder="Search..."
+                                        value={query}
+                                        onKeyUp={handleSearchKeyUp}
                                         onChange={(event) => setQuery(event.target.value)}
                                     />
                                 </div>
-
-                                {/*{(query === '' || filteredProjects.length > 0) && (*/}
-                                {/*    <Combobox.Options*/}
-                                {/*        static*/}
-                                {/*        className="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-20 overflow-y-auto"*/}
-                                {/*    >*/}
-                                {/*        <li className="p-2">*/}
-                                {/*            {query === '' && (*/}
-                                {/*                <h2 className="mt-4 mb-2 px-3 text-xs font-semibold text-gray-200">Recent searches</h2>*/}
-                                {/*            )}*/}
-                                {/*            <ul className="text-sm text-gray-400">*/}
-                                {/*                {(query === '' ? recent : filteredProjects).map((project) => (*/}
-                                {/*                    <Combobox.Option*/}
-                                {/*                        key={project.id}*/}
-                                {/*                        value={project}*/}
-                                {/*                        className={({ active }) =>*/}
-                                {/*                            classNames(*/}
-                                {/*                                'flex cursor-default select-none items-center rounded-md px-3 py-2',*/}
-                                {/*                                active && 'bg-gray-800 text-white'*/}
-                                {/*                            )*/}
-                                {/*                        }*/}
-                                {/*                    >*/}
-                                {/*                        {({ active }) => (*/}
-                                {/*                            <div className="flex items-center space-x-3">*/}
-                                {/*                                <div className="flex-shrink-0">*/}
-                                {/*                                    <img*/}
-                                {/*                                        className="h-6 w-6 rounded-full"*/}
-                                {/*                                        src={project.image}*/}
-                                {/*                                        alt=""*/}
-                                {/*                                    />*/}
-                                {/*                                </div>*/}
-                                {/*                                <div className="truncate">*/}
-                                {/*                                    <div className="font-medium text-white">{project.name}</div>*/}
-                                {/*                                    <div className="text-gray-400 truncate">{project.description}</div>*/}
-                                {/*                                </div>*/}
-                                {/*                            </div>*/}
-                                {/*                        )}*/}
-                                {/*                    </Combobox.Option>*/}
-                                {/*                ))}*/}
-                                {/*            </ul>*/}
-                                {/*        </li>*/}
-                                {/*        {query === '' && (*/}
-                                {/*            <li className="p-2">*/}
-                                {/*                <h2 className="sr-only">Quick actions</h2>*/}
-                                {/*                <ul className="text-sm text-gray-400">*/}
-
-                                {/*                </ul>*/}
-                                {/*            </li>*/}
-                                {/*        )}*/}
-                                {/*    </Combobox.Options>*/}
-                                {/*)}*/}
-
-                                {/*{query !== '' && filteredProjects.length === 0 && (*/}
-                                {/*    <div className="py-14 px-6 text-center sm:px-14">*/}
-                                {/*        /!*<FolderIcon className="mx-auto h-6 w-6 text-gray-500" aria-hidden="true" />*!/*/}
-                                {/*        <p className="mt-4 text-sm text-gray-200">*/}
-                                {/*            We couldn't find any projects with that term. Please try again.*/}
-                                {/*        </p>*/}
-                                {/*    </div>*/}
-                                {/*)}*/}
                             </Combobox>
 
 
