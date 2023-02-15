@@ -11,7 +11,7 @@ ____________________________________________________________
 :: STARTED ::
 
 search functionality
-- uggghhhh, scroll to bottom resets query results
+**** uggghhhh, scroll to bottom resets query results ****
 
 comments
 - input form added

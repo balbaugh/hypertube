@@ -1,4 +1,7 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 import axios from 'axios';
 
 import Nav from './components/Navbar';
@@ -75,8 +78,8 @@ const App = () => {
 	console.log('loggedIn', loggedIn)
 
 	return (
+	<I18nextProvider i18n={i18n}>
 		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
-
 			<Router>
 				<Nav itsMe={itsMe} />
 				<Routes>
@@ -105,6 +108,7 @@ const App = () => {
 				<Footer />
 			</Router>
 		</div>
+	</I18nextProvider>
 	);
 };
 
