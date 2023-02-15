@@ -101,10 +101,10 @@ const YearNewOld = () => {
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
         const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(query.toLowerCase()) || movie.year.toString().includes(query.toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) || movie.description_full.toString().includes(query.toLowerCase()));
-        return ratingFilter && searchFilter;
+        return searchFilter && (query.trim() === '' || ratingFilter);
     };
 
-    const filteredMovies = movies.filter(filterMovies);
+    const filteredMovies = query.trim() === '' ? movies : movies.filter(filterMovies);
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
