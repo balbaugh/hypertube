@@ -112,6 +112,7 @@ const FilmDetail = () => {
 
         axiosStuff.submitComment({
             movieId: id,
+            userId: 1,
             // author: "Your Name", // Replace with the author name or get it from the user input
             content: comment,
         })

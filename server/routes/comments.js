@@ -42,10 +42,11 @@ router.get('/comments/:movieId', (req, res) => {
 
 router.post('/comments', (req, res) => {
     const { movieId, author, content } = req.body;
+    console.log('body', req.body);
 
     // Insert the new comment into the database
     const query = `
-    INSERT INTO comments (movie_id, author, content)
+    INSERT INTO comments (movie_id, user_id, content)
     VALUES ($1, $2, $3)
   `;
     dbConn.pool.query(query, [movieId, author, content], (error, result) => {
