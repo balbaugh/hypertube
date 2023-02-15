@@ -77,7 +77,7 @@ const Homepage = () => {
         setCurrentPage(1);
         setMovies([]);
         setHasMore(true);
-				setLoading(false)
+        setLoading(false)
     }, [ratingRange]);
 
     useEffect(() => {
@@ -93,10 +93,11 @@ const Homepage = () => {
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
         const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(query.toLowerCase()) || movie.year.toString().includes(query.toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) || movie.description_full.toString().includes(query.toLowerCase()));
-        return ratingFilter && searchFilter;
+        return searchFilter && (query.trim() === '' || ratingFilter);
     };
 
-    const filteredMovies = movies.filter(filterMovies);
+    const filteredMovies = query.trim() === '' ? movies : movies.filter(filterMovies);
+
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -248,7 +249,7 @@ const Homepage = () => {
                                     dataLength={filteredMovies.length}
                                     next={loadMoreMovies}
                                     hasMore={hasMore}
-                                    loader={<h4>Loading...</h4>}
+                                    loader={<h4 style={{ textAlign: 'center' }}><b>Loading...</b></h4>}
                                     endMessage={
                                         <p style={{ textAlign: 'center' }}>
                                             <b>Yay! You have seen it all</b>
