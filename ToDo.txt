@@ -1,15 +1,19 @@
 HYPERTUBE
 
 ____________________________________________________________
-filter by score
+filter by imdb score
 profile
 subtitles
 language stuff
 chron job to delete videos after 30 days
 comments
 
+____________________________________________________________
+
+:: STARTED ::
 search functionality
 - fix loading of films besides results
+
 ____________________________________________________________
 
 

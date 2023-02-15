@@ -53,10 +53,19 @@ const Homepage = () => {
         }, 5000)
     }, [])
 
+    // const loadMoreMovies = async () => {
+    //     setIsLoading(true);
+    //     const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
+    //     setMovies(movies.concat(response.data.data.movies));
+    //     setCurrentPage(currentPage + 1);
+    //     setIsLoading(false);
+    // };
+
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-        setMovies(movies.concat(response.data.data.movies));
+        const newMovies = response.data.data.movies.filter(filterMovies);
+        setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
     };
