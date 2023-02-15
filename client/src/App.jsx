@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
+import i18n from './i18n/i18n';
 import axios from 'axios';
 
 import Nav from './components/Navbar';
@@ -18,7 +18,6 @@ import Forgot from './components/Forgot';
 import TestMovieThumb from './components/testmoviethumb';
 import TheTest from './components/thetest';
 
-import List from './components/List';
 import Popular from './components/Popular';
 import BestRating from './components/BestRating';
 import Newest from './components/Newest';
@@ -93,7 +92,6 @@ const App = () => {
 					<Route path="/forgot" element={<Forgot />} />
 					<Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} />
-					<Route path="/list" element={<List />} />
 					<Route path="/popular" element={<Popular />} />
 					<Route path="/profile" element={loggedIn ? <Profile /> : <Homepage />} />
 					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Homepage />} />

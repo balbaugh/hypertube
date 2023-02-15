@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import enTranslations from "./i18n/en.json";
-import fiTranslations from "./i18n/fi.json";
+import enTranslations from "./en.json";
+import fiTranslations from "./fi.json";
 
 i18n
     .use(initReactI18next)

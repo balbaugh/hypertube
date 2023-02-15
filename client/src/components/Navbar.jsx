@@ -112,6 +112,7 @@ const Nav = ({ itsMe }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
+																href="#"
 																onClick={() => changeLanguage('en')}
 																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
 															>
@@ -122,6 +123,7 @@ const Nav = ({ itsMe }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
+																href="#"
 																onClick={() => changeLanguage('fi')}
 																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
 															>

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Combobox, Dialog, Menu, Transition } from '@headlessui/react'
+import { Combobox, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
@@ -18,10 +18,6 @@ const sortOptions = [
     { name: 'Year: New to Old', to: '/year-new-old', current: false },
     { name: 'Year: Old to New', to: '/year-old-new', current: false },
 ];
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 function valuetext(value) {
     return `${value}`;
@@ -81,7 +77,7 @@ const Homepage = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies();
+        loadMoreMovies().then(r => console.log('movies', movies));
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -97,7 +93,6 @@ const Homepage = () => {
     };
 
     const filteredMovies = query.trim() === '' ? movies : movies.filter(filterMovies);
-
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -123,7 +118,6 @@ const Homepage = () => {
 
     useEffect(() => {
         if (query === '') {
-            setMovies(filteredMovies);
             setHasMore(true);
             setCurrentPage(1);
         } else {

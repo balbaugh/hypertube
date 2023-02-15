@@ -1,10 +1,4 @@
 {
-  "en": {
-    "hello": "Hello",
-    "greeting": "Welcome, {{name}}!"
-  },
-  "fi": {
     "hello": "Hei",
     "greeting": "Terve, {{name}} !"
-  }
 }
