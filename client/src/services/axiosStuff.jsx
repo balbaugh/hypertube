@@ -103,10 +103,15 @@ const getComments = (id) => {
 	return req.then((response) => response.data);
 }
 
+const submitComment = (newObject) => {
+	const req = axios.post(`${baseUrl}/comments`, newObject);
+	return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile, ready, stream, getComments
+	profileEdit, updateProfile, ready, stream, getComments, submitComment
 };
 
 export default axiosStuff;

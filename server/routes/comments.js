@@ -16,7 +16,7 @@ const getCommentsFromDatabase = (movieId, connection) => {
 };
 
 // Define the endpoint for getting comments
-router.get('/comments/:id', (req, res) => {
+router.get('/comments/:movieId', (req, res) => {
     const movieId = req.params.movieId;
 
     // Retrieve the comments for the specified movie ID from the database
@@ -39,5 +39,24 @@ router.get('/comments/:id', (req, res) => {
         }
     });
 });
+
+router.post('/comments', (req, res) => {
+    const { movieId, author, content } = req.body;
+
+    // Insert the new comment into the database
+    const query = `
+    INSERT INTO comments (movie_id, author, content)
+    VALUES ($1, $2, $3)
+  `;
+    dbConn.pool.query(query, [movieId, author, content], (error, result) => {
+        if (error) {
+            console.error('Error inserting comment', error);
+            res.status(500).json({ error: 'Error inserting comment' });
+        } else {
+            res.json({ message: 'Comment added successfully' });
+        }
+    });
+});
+
 
 module.exports = router;

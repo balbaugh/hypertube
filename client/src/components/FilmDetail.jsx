@@ -34,7 +34,7 @@ const reviews = {
       `,
             author: 'Emily Selman',
             avatarSrc:
-                'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80',
+                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
         // More reviews...
     ],
@@ -105,6 +105,26 @@ const FilmDetail = () => {
                 console.log(error);
             });
     }, [id]);
+
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+        const comment = event.target.comment.value;
+
+        axiosStuff.submitComment({
+            movieId: id,
+            // author: "Your Name", // Replace with the author name or get it from the user input
+            content: comment,
+        })
+            .then((response) => {
+                setComments([...comments, response.data]);
+                event.target.comment.value = '';
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+
 
 
     console.log('leffa', movies)
@@ -410,13 +430,13 @@ const FilmDetail = () => {
                                                     <div className="flex items-start space-x-4 pt-8 pb-6">
                                                         <div className="flex-shrink-0">
                                                             <img
-                                                                className="inline-block h-10 w-10 rounded-full"
-                                                                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                                className="inline-block h-12 w-12 rounded-full"
+                                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                                                 alt=""
                                                             />
                                                         </div>
                                                         <div className="min-w-0 flex-1">
-                                                            <form action="#" className="relative">
+                                                            <form onSubmit={handleCommentSubmit} className="relative">
                                                                 <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                                                                     <label htmlFor="comment" className="sr-only">
                                                                         Add your comment
