@@ -1,4 +1,7 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/i18n';
 import axios from 'axios';
 
 import Nav from './components/Navbar';
@@ -15,7 +18,6 @@ import Forgot from './components/Forgot';
 import TestMovieThumb from './components/testmoviethumb';
 import TheTest from './components/thetest';
 
-import List from './components/List';
 import Popular from './components/Popular';
 import BestRating from './components/BestRating';
 import Newest from './components/Newest';
@@ -75,8 +77,13 @@ const App = () => {
 	console.log('loggedIn', loggedIn)
 
 	return (
+<<<<<<< HEAD
 		<div className="h-full min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
 
+=======
+	<I18nextProvider i18n={i18n}>
+		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
+>>>>>>> 073fa492c0a40e21ea34d17e6531f17d42ae7c18
 			<Router>
 				<Nav itsMe={itsMe} />
 				<Routes>
@@ -88,6 +95,7 @@ const App = () => {
 					<Route path="/registration" element={<Registration />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/forgot" element={<Forgot />} />
+<<<<<<< HEAD
 					{/* <Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} /> */}
 					{/* <Route path="/list" element={<List />} /> */}
@@ -98,6 +106,17 @@ const App = () => {
 					<Route path="/newest" element={loggedIn ? <Newest /> : <Landing />} />
 					<Route path="/year-new-old" element={loggedIn ? <YearNewOld /> : <Landing />} />
 					<Route path="/year-old-new" element={loggedIn ? <YearOldNew /> : <Landing />} />
+=======
+					<Route path="testmovie" element={<TestMovieThumb />} />
+					<Route path="thetest/:id" element={<TheTest />} />
+					<Route path="/popular" element={<Popular />} />
+					<Route path="/profile" element={loggedIn ? <Profile /> : <Homepage />} />
+					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Homepage />} />
+					<Route path="/best-rating" element={<BestRating />} />
+					<Route path="/newest" element={<Newest />} />
+					<Route path="/year-new-old" element={<YearNewOld />} />
+					<Route path="/year-old-new" element={<YearOldNew />} />
+>>>>>>> 073fa492c0a40e21ea34d17e6531f17d42ae7c18
 					<Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
 					<Route path="/get/:token" element={<Forgot2 />} />
 					<Route path="*" element={<Landing />} />
@@ -105,6 +124,7 @@ const App = () => {
 				<Footer />
 			</Router>
 		</div>
+	</I18nextProvider>
 	);
 };
 

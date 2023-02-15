@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import axiosStuff from "../services/axiosStuff";
-import axios from 'axios';
+// import axios from 'axios';
 import InfoText from "./infoText";
 // import Loader from "./Loader";
 

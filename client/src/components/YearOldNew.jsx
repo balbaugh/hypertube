@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Combobox, Dialog, Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-// import { SearchIcon } from '@heroicons/react/solid'
-// import { DocumentAddIcon, FolderAddIcon, FolderIcon, HashtagIcon, TagIcon } from '@heroicons/react/outline'
+import { Combobox, Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
@@ -11,10 +10,6 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
-import searchTorrents from "../services/searchTorrents";
-
-// const API_URL = 'https://yts.mx/api/v2/list_movies.json';
-// const PAGE_SIZE = 50;
 
 const short = require('short-uuid');
 
@@ -26,11 +21,15 @@ const sortOptions = [
     { name: 'Year: Old to New', to: '/year-old-new', current: true },
 ];
 
+<<<<<<< HEAD
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 function valuetext(value) {
+=======
+function valuetext(value: number) {
+>>>>>>> 073fa492c0a40e21ea34d17e6531f17d42ae7c18
     return `${value}`;
 }
 
@@ -45,7 +44,6 @@ const YearOldNew = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
     axios.defaults.withCredentials = true // For the sessions the work
-
 
     useEffect(() => {
         axiosStuff
@@ -85,7 +83,7 @@ const YearOldNew = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies();
+        loadMoreMovies().then(r => console.log('movies', movies));
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -126,7 +124,6 @@ const YearOldNew = () => {
 
     useEffect(() => {
         if (query === '') {
-            setMovies(filteredMovies);
             setHasMore(true);
             setCurrentPage(1);
         } else {
