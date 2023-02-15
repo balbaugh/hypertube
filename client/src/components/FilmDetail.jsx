@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import ReactPlayer from 'react-player'
-import { Dialog, Disclosure, Transition} from '@headlessui/react'
-import {StarIcon} from '@heroicons/react/20/solid'
-import {HeartIcon, MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
+import { Dialog, Disclosure, Listbox, Transition} from '@headlessui/react'
+import { StarIcon } from '@heroicons/react/20/solid'
+import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
@@ -13,6 +13,7 @@ import Loader from "./Loader";
 //     src: string;
 //     srcLang: string;
 // }
+
 
 const reviews = {
     average: 4,
@@ -233,21 +234,6 @@ const FilmDetail = () => {
 																				>
 																						Stream
 																				</button>
-
-																				{/* <button
-																						type="submit"
-																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-red-500 py-3 px-3 text-base font-medium text-white hover:bg-red-700 sm:w-full"
-																				>
-																						Queue
-																				</button> */}
-
-																				<button
-																						type="button"
-																						className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-200 hover:text-red-500"
-																				>
-																						<HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true"/>
-																						<span className="sr-only">Add to favorites</span>
-																				</button>
 																		</div>
 																	) : (null)}
                                 {/* </form> */}
@@ -301,7 +287,8 @@ const FilmDetail = () => {
                                                                     </span>
                                                             </Disclosure.Button>
                                                         </h3>
-                                                        <Disclosure.Panel as="div" className="prose prose-sm pb-6">
+                                                        <div className="divide-y divide-gray-200 border-t">
+                                                        <Disclosure.Panel as="div" className="prose prose-sm pb-6 pt-8">
                                                             <ul role="list">
                                                                 <li>
                                                                     <p className="font-semibold">IMDB Rating
@@ -352,144 +339,147 @@ const FilmDetail = () => {
                                                             <div className="">
                                                                 <div
                                                                     className="mx-auto max-w-2xl py-16 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:py-32">
-                                                                    <div className="lg:col-span-4">
-                                                                        <h2 className="text-2xl font-bold tracking-tight text-gray-300">User
-                                                                            Reviews</h2>
 
-                                                                        <div className="mt-3 flex items-center">
-                                                                            <div>
-                                                                                <div className="flex items-center">
-                                                                                    {[0, 1, 2, 3, 4].map((rating) => (
-                                                                                        <StarIcon
-                                                                                            key={rating}
-                                                                                            className={classNames(
-                                                                                                reviews.average > rating ? 'text-yellow-400' : 'text-gray-300',
-                                                                                                'flex-shrink-0 h-5 w-5'
-                                                                                            )}
-                                                                                            aria-hidden="true"
-                                                                                        />
-                                                                                    ))}
-                                                                                </div>
-                                                                                <p className="sr-only">{reviews.average} out
-                                                                                    of 5 stars</p>
-                                                                            </div>
-                                                                            <p className="ml-2 text-sm text-gray-300">Based
-                                                                                on {reviews.totalCount} reviews</p>
-                                                                        </div>
-
-                                                                        <div className="mt-6">
-                                                                            <h3 className="sr-only">Review data</h3>
-
-                                                                            <dl className="space-y-3">
-                                                                                {reviews.counts.map((count) => (
-                                                                                    <div key={count.rating}
-                                                                                         className="flex items-center text-sm">
-                                                                                        <dt className="flex flex-1 items-center">
-                                                                                            <p className="w-3 font-medium text-gray-300">
-                                                                                                {count.rating}
-                                                                                                <span
-                                                                                                    className="sr-only"> star reviews</span>
-                                                                                            </p>
-                                                                                            <div aria-hidden="true"
-                                                                                                 className="ml-1 flex flex-1 items-center">
-                                                                                                <StarIcon
-                                                                                                    className={classNames(
-                                                                                                        count.count > 0 ? 'text-yellow-400' : 'text-gray-300',
-                                                                                                        'flex-shrink-0 h-5 w-5'
-                                                                                                    )}
-                                                                                                    aria-hidden="true"
-                                                                                                />
-
-                                                                                                <div
-                                                                                                    className="relative ml-3 flex-1">
-                                                                                                    <div
-                                                                                                        className="h-3 rounded-full border border-gray-200 bg-gray-100"/>
-                                                                                                    {count.count > 0 ? (
-                                                                                                        <div
-                                                                                                            className="absolute inset-y-0 rounded-full border border-yellow-400 bg-yellow-400"
-                                                                                                            style={{width: `calc(${count.count} / ${reviews.totalCount} * 100%)`}}
-                                                                                                        />
-                                                                                                    ) : null}
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </dt>
-                                                                                        <dd className="ml-3 w-10 text-right text-sm tabular-nums text-gray-300">
-                                                                                            {Math.round((count.count / reviews.totalCount) * 100)}%
-                                                                                        </dd>
-                                                                                    </div>
-                                                                                ))}
-                                                                            </dl>
-                                                                        </div>
-
-                                                                        <div className="mt-10">
-                                                                            <h3 className="text-lg font-medium text-gray-300">Share
-                                                                                your thoughts</h3>
-                                                                            <p className="mt-1 text-sm text-gray-300">
-                                                                                If you’ve watched this movie before,
-                                                                                share your thoughts with other viewers.
-                                                                            </p>
-
-                                                                            <a
-                                                                                href="/reviews"
-                                                                                className="mt-6 inline-flex w-full items-center justify-center rounded-md bg-red-500 py-2 px-8 text-md font-semibold text-white hover:bg-red-700 sm:w-auto lg:w-full"
-                                                                            >
-                                                                                Write a review
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-
+                                                                    <h2 className="font-semibold">Description :</h2>
                                                                     <div
-                                                                        className="mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0">
-                                                                        <h3 className="sr-only">Recent reviews</h3>
-
-                                                                        <div className="flow-root">
-                                                                            <div
-                                                                                className="-my-12 divide-y divide-gray-200">
-                                                                                {reviews.featured.map((review) => (
-                                                                                    <div key={review.id}
-                                                                                         className="py-12">
-                                                                                        <div
-                                                                                            className="flex items-center">
-                                                                                            <img src={review.avatarSrc}
-                                                                                                 alt={`${review.author}.`}
-                                                                                                 className="h-12 w-12 rounded-full"/>
-                                                                                            <div className="ml-4">
-                                                                                                <h4 className="text-sm font-bold text-gray-300">{review.author}</h4>
-                                                                                                <div
-                                                                                                    className="mt-1 flex items-center">
-                                                                                                    {[0, 1, 2, 3, 4].map((rating) => (
-                                                                                                        <StarIcon
-                                                                                                            key={rating}
-                                                                                                            className={classNames(
-                                                                                                                review.rating > rating ? 'text-yellow-400' : 'text-gray-300',
-                                                                                                                'h-5 w-5 flex-shrink-0'
-                                                                                                            )}
-                                                                                                            aria-hidden="true"
-                                                                                                        />
-                                                                                                    ))}
-                                                                                                </div>
-                                                                                                <p className="sr-only">{review.rating} out
-                                                                                                    of 5 stars</p>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div
-                                                                                            className="mt-4 space-y-6 text-base italic text-gray-300"
-                                                                                            dangerouslySetInnerHTML={{__html: review.content}}
-                                                                                        />
-                                                                                    </div>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                        className="space-y-6 text-base text-gray-200"
+                                                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         </Disclosure.Panel>
+                                                        </div>
                                                     </>
                                                 )}
                                             </Disclosure>
 
+
+
                                     </div>
+                                    <Disclosure as="div">
+                                        {({open}) => (
+                                            <>
+                                                <h3>
+                                                    <Disclosure.Button
+                                                        className="group relative flex w-full items-center justify-between py-6 text-left">
+                                                                <span
+                                                                    className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
+                                                                >
+                                                                  Comments
+                                                                </span>
+                                                        <span className="ml-6 flex items-center">
+                                                                      {open ? (
+                                                                          <MinusIcon
+                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              aria-hidden="true"
+                                                                          />
+                                                                      ) : (
+                                                                          <PlusIcon
+                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              aria-hidden="true"
+                                                                          />
+                                                                      )}
+                                                                    </span>
+                                                    </Disclosure.Button>
+                                                </h3>
+                                                <Disclosure.Panel as="div" className="prose prose-sm pb-6">
+
+                                                    {/* Comments Box */}
+                                                    <div className="flex items-start space-x-4 pt-8 pb-6">
+                                                        <div className="flex-shrink-0">
+                                                            <img
+                                                                className="inline-block h-10 w-10 rounded-full"
+                                                                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <form action="#" className="relative">
+                                                                <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+                                                                    <label htmlFor="comment" className="sr-only">
+                                                                        Add your comment
+                                                                    </label>
+                                                                    <textarea
+                                                                        rows={3}
+                                                                        name="comment"
+                                                                        id="comment"
+                                                                        className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
+                                                                        placeholder="Add your comment..."
+                                                                        defaultValue={''}
+                                                                    />
+
+                                                                    {/* Spacer element to match the height of the toolbar */}
+                                                                    <div className="py-2" aria-hidden="true">
+                                                                        {/* Matches height of button in toolbar (1px border + 36px content height) */}
+                                                                        <div className="py-px">
+                                                                            <div className="h-9" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
+                                                                    <div className="flex-shrink-0">
+                                                                        <button
+                                                                            type="submit"
+                                                                            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                                        >
+                                                                            Post
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div className="divide-y divide-gray-200 border-t">
+                                                    <div
+                                                        className="mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
+                                                        <h3 className="sr-only">Recent reviews</h3>
+
+                                                        <div className="flow-root">
+                                                            <div
+                                                                className="-my-12 divide-y divide-gray-200">
+                                                                {reviews.featured.map((review) => (
+                                                                    <div key={review.id}
+                                                                         className="py-12">
+                                                                        <div
+                                                                            className="flex items-center">
+                                                                            <img src={review.avatarSrc}
+                                                                                 alt={`${review.author}.`}
+                                                                                 className="h-12 w-12 rounded-full"/>
+                                                                            <div className="ml-4">
+                                                                                <h4 className="text-sm font-bold text-gray-300">{review.author}</h4>
+                                                                                {/*<div*/}
+                                                                                {/*    className="mt-1 flex items-center">*/}
+                                                                                {/*    {[0, 1, 2, 3, 4].map((rating) => (*/}
+                                                                                {/*        <StarIcon*/}
+                                                                                {/*            key={rating}*/}
+                                                                                {/*            className={classNames(*/}
+                                                                                {/*                review.rating > rating ? 'text-yellow-400' : 'text-gray-300',*/}
+                                                                                {/*                'h-5 w-5 flex-shrink-0'*/}
+                                                                                {/*            )}*/}
+                                                                                {/*            aria-hidden="true"*/}
+                                                                                {/*        />*/}
+                                                                                {/*    ))}*/}
+                                                                                {/*</div>*/}
+                                                                                {/*<p className="sr-only">{review.rating} out*/}
+                                                                                {/*    of 5 stars</p>*/}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div
+                                                                            className="mt-4 space-y-6 text-base italic text-gray-300"
+                                                                            dangerouslySetInnerHTML={{__html: review.content}}
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </Disclosure.Panel>
+                                            </>
+                                        )}
+                                    </Disclosure>
                                 </section>
 
                             </div>
