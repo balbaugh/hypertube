@@ -10,19 +10,23 @@ ____________________________________________________________
 
 :: STARTED ::
 
+filter by imdb score
+- started but doesn't work
+
 comments
 - input form added
 - comment display added
 - db table added
-
-filter by imdb score
-- started but doesn't work
-
-search functionality
-- fix loading of films besides results
+- routes started
 
 language stuff
 - installed i18n, react-i18next and i18n scanner
+____________________________________________________________
+
+:: FINISHED ::
+
+search functionality
+
 ____________________________________________________________
 
 
