@@ -98,10 +98,15 @@ const updateProfile = (newObject) => {
 	return req.then((response) => response.data);
 }
 
+const getComments = (id) => {
+	const req = axios.get(`${baseUrl}/comments/${id}`);
+	return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	test, movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile, ready, stream
+	profileEdit, updateProfile, ready, stream, getComments
 };
 
 export default axiosStuff;

@@ -1,6 +1,6 @@
 module.exports = {
     input: ['./src/**/*.jsx', './src/**/*.js'], // The files to scan for translation keys
-    output: './$LOCALE/$NAMESPACE.json', // The output location and format
+    output: './src/i18n/$LOCALE/$NAMESPACE.json', // The output location and format
     options: {
         debug: true,
         removeUnusedKeys: true,

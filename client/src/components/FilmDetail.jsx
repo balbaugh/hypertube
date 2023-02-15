@@ -52,8 +52,10 @@ const FilmDetail = () => {
     const [playMovie, setPlayMovie] = useState('');
     const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
+    const [comments, setComments] = useState([]);
 
-		console.log('playerrf', playerRef)
+
+    console.log('playerrf', playerRef)
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -61,19 +63,49 @@ const FilmDetail = () => {
         }
     }, [playerRef])
 
+    // useEffect(() => {
+    //     axiosStuff
+    //         .toMovie(id)
+    //         .then((response) => {
+    //             setMovies(response.parsed.data.movie)
+    //         }).then(() => {
+    //         if (movies.id === 0) {
+    //             window.location.replace('/');
+    //         } else {
+    //             setLoading(false);
+    //         }
+    //     })
+    //     axiosStuff
+    //         .getComments(id)
+    //         .then((response) => {
+    //             setComments(response.parsed.data.comments);
+    //         });
+    // }, [id, movies.id])
+
     useEffect(() => {
-        axiosStuff
-            .toMovie(id)
+        axiosStuff.toMovie(id)
             .then((response) => {
-                setMovies(response.parsed.data.movie)
-            }).then(() => {
-            if (movies.id === 0) {
-                window.location.replace('/');
-            } else {
-                setLoading(false);
-            }
-        })
-    }, [id, movies.id])
+                if (response.parsed.data.movie) {
+                    setMovies(response.parsed.data.movie);
+                    setLoading(false);
+                } else {
+                    window.location.replace('/');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    // COMMENTS STUFF HERE BUT NOT WORKING
+        axiosStuff.getComments(id)
+            .then((response) => {
+                setComments(response.parsed.data.response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [id]);
+
 
     console.log('leffa', movies)
 
@@ -228,7 +260,7 @@ const FilmDetail = () => {
 																		  <div className="sm:flex-col1 mt-10 flex">
 																				<button
 																						type="button"
-																						className="mx-2 flex max-w-xs flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
+																						className="mx-2 flex max-w-full flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
 																						onClick={startMovie}
 																						// onClick={() => setOpen(!open)}
 																				>
@@ -252,8 +284,7 @@ const FilmDetail = () => {
 																</div>
 																 ) : (null)}
 
-
-
+                                {/* DETAILS PANEL */}
                                 <section aria-labelledby="details-heading" className="mt-12">
                                     <h2 id="details-heading" className="sr-only">
                                         Additional details
@@ -288,73 +319,64 @@ const FilmDetail = () => {
                                                             </Disclosure.Button>
                                                         </h3>
                                                         <div className="divide-y divide-gray-200 border-t">
-                                                        <Disclosure.Panel as="div" className="prose prose-sm pb-6 pt-8">
-                                                            <ul role="list">
-                                                                <li>
-                                                                    <p className="font-semibold">IMDB Rating
-                                                                        : {movies.rating}/10</p>
-                                                                </li>
-                                                                <br/>
-                                                                <li>
-                                                                    {movies.cast ? (
-                                                                        <div>
-                                                                            <p className="font-semibold">Starring : </p>
-                                                                            {movies.cast.map((cast, index) => (
-                                                                                <div key={index}>
-                                                                                    {/*<img src={cast.url_small_image} alt={cast.name} />*/}
-                                                                                    <p className="font-semibold">{cast.name} as {cast.character_name}</p>
-                                                                                </div>
-                                                                            ))}
-                                                                        </div>
-                                                                    ) : (null)}
-                                                                </li>
-                                                                <br/>
-                                                                <li>
-                                                                    {movies.genres ? (
-                                                                        <div>
-                                                                            <p className="font-semibold">Genres : </p>
-                                                                            {movies.genres.map((genre, index) => (
-                                                                                <div key={index}>
-                                                                                    <p className="font-semibold">– {genre}</p>
-                                                                                </div>
-                                                                            ))}
-                                                                        </div>
-                                                                    ) : (null)}
-                                                                </li>
-                                                                <br/>
-                                                                <li>
-                                                                    {movies.runtime ? (
-                                                                        <div>
-                                                                            <p className="font-semibold">Runtime
-                                                                                : {movies.runtime} minutes</p>
-                                                                        </div>
-                                                                    ) : (null)}
-                                                                </li>
+                                                            <Disclosure.Panel as="div" className="prose prose-sm pb-6 pt-8">
+                                                                <ul role="list">
+                                                                    <li className="py-2">
+                                                                        <p className="font-semibold">IMDB Rating: {movies.rating}/10</p>
+                                                                    </li>
+                                                                    <li className="py-2">
+                                                                        {movies.runtime && (
+                                                                            <p className="font-semibold">Runtime: {movies.runtime} minutes</p>
+                                                                        )}
+                                                                    </li>
+                                                                    <li className="py-2">
+                                                                        {movies.cast && (
+                                                                            <div>
+                                                                                <p className="font-semibold">Starring:</p>
+                                                                                <ul role="list">
+                                                                                    {movies.cast.map((cast, index) => (
+                                                                                        <li key={index}>
+                                                                                            <p>
+                                                                                                <span className="font-semibold">{cast.name}</span> as {cast.character_name}
+                                                                                            </p>
+                                                                                        </li>
+                                                                                    ))}
+                                                                                </ul>
+                                                                            </div>
+                                                                        )}
+                                                                    </li>
+                                                                    <li className="py-2">
+                                                                        {movies.genres && (
+                                                                            <div>
+                                                                                <p className="font-semibold">Genres:</p>
+                                                                                <ul role="list">
+                                                                                    {movies.genres.map((genre, index) => (
+                                                                                        <li key={index}>
+                                                                                            <p>- {genre}</p>
+                                                                                        </li>
+                                                                                    ))}
+                                                                                </ul>
+                                                                            </div>
+                                                                        )}
+                                                                    </li>
 
-
-                                                                {/*{detail.items.map((item) => (*/}
-                                                                {/*    <li key={item}>{item}</li>*/}
-                                                                {/*))}*/}
-                                                            </ul>
-                                                            <div className="">
-                                                                <div
-                                                                    className="mx-auto max-w-2xl py-16 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:py-32">
-
-                                                                    <h2 className="font-semibold">Description :</h2>
-                                                                    <div
-                                                                        className="space-y-6 text-base text-gray-200"
-                                                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
-                                                                    />
+                                                                </ul>
+                                                                <div className="">
+                                                                    <div className="mx-auto max-w-2xl py-2 lg:grid lg:max-w-7xl lg:grid-cols-12">
+                                                                        <h2 className="font-semibold">Description:</h2>
+                                                                        <div
+                                                                            className="space-y-6 text-base text-gray-200"
+                                                                            dangerouslySetInnerHTML={{ __html: movies.description_full }}
+                                                                        />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </Disclosure.Panel>
+                                                                <div className="mt-6 divide-y divide-gray-200 border-t"/>
+                                                            </Disclosure.Panel>
+
                                                         </div>
                                                     </>
                                                 )}
                                             </Disclosure>
-
-
-
                                     </div>
                                     <Disclosure as="div">
                                         {({open}) => (
@@ -384,7 +406,7 @@ const FilmDetail = () => {
                                                 </h3>
                                                 <Disclosure.Panel as="div" className="prose prose-sm pb-6">
 
-                                                    {/* Comments Box */}
+                                        {/* COMMENTS PANEL */}
                                                     <div className="flex items-start space-x-4 pt-8 pb-6">
                                                         <div className="flex-shrink-0">
                                                             <img
@@ -430,10 +452,10 @@ const FilmDetail = () => {
                                                             </form>
                                                         </div>
                                                     </div>
-                                                    <div className="divide-y divide-gray-200 border-t">
+                                                    <div className="divide-y divide-gray-200 border-t mt-4">
                                                     <div
-                                                        className="mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
-                                                        <h3 className="sr-only">Recent reviews</h3>
+                                                        className="mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
+                                                        <h3 className="sr-only">Recent Comments</h3>
 
                                                         <div className="flow-root">
                                                             <div
@@ -448,21 +470,6 @@ const FilmDetail = () => {
                                                                                  className="h-12 w-12 rounded-full"/>
                                                                             <div className="ml-4">
                                                                                 <h4 className="text-sm font-bold text-gray-300">{review.author}</h4>
-                                                                                {/*<div*/}
-                                                                                {/*    className="mt-1 flex items-center">*/}
-                                                                                {/*    {[0, 1, 2, 3, 4].map((rating) => (*/}
-                                                                                {/*        <StarIcon*/}
-                                                                                {/*            key={rating}*/}
-                                                                                {/*            className={classNames(*/}
-                                                                                {/*                review.rating > rating ? 'text-yellow-400' : 'text-gray-300',*/}
-                                                                                {/*                'h-5 w-5 flex-shrink-0'*/}
-                                                                                {/*            )}*/}
-                                                                                {/*            aria-hidden="true"*/}
-                                                                                {/*        />*/}
-                                                                                {/*    ))}*/}
-                                                                                {/*</div>*/}
-                                                                                {/*<p className="sr-only">{review.rating} out*/}
-                                                                                {/*    of 5 stars</p>*/}
                                                                             </div>
                                                                         </div>
 
@@ -475,13 +482,80 @@ const FilmDetail = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                        <div className="divide-y divide-gray-200 border-t mt-4">
+                                                            <div
+                                                                className="mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
+                                                                <h3 className="sr-only">Recent Comments</h3>
+                                                        <div className="divide-y divide-gray-200 border-t mt-4">
+                                                            {comments.length > 0 ? (
+                                                                comments.map((comment) => (
+                                                                    <div key={comment.id}
+                                                                         className="py-6">
+                                                                        <div
+                                                                            className="flex items-center">
+                                                                            <img
+                                                                                className="inline-block h-10 w-10 rounded-full"
+                                                                                src={comment.user.profile_pic_path}
+                                                                                alt={comment.user.username}
+                                                                            />
+                                                                            <div className="ml-4">
+                                                                                <h4 className="text-sm font-bold text-gray-300">
+                                                                                    {comment.user.username}
+                                                                                </h4>
+                                                                                <p className="text-sm text-gray-400">
+                                                                                    {comment.created_at}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            className="mt-4 space-y-6 text-base italic text-gray-300"
+                                                                            dangerouslySetInnerHTML={{__html: comment.content}}
+                                                                        />
+                                                                    </div>
+                                                                ))
+                                                            ) : (
+                                                                <div className="py-6">
+                                                                    <div
+                                                                        className="flex items-center">
+                                                                        <div className="ml-4">
+                                                                            <h4 className="text-sm font-bold text-gray-300">
+                                                                                No comments yet
+                                                                            </h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {/*    <div key={comment.id} className="py-6">*/}
+                                                            {/*        <div className="flex items-center">*/}
+                                                            {/*            <img*/}
+                                                            {/*                className="inline-block h-10 w-10 rounded-full"*/}
+                                                            {/*                src={comment.user.profile_pic_path}*/}
+                                                            {/*                alt={comment.user.username}*/}
+                                                            {/*            />*/}
+                                                            {/*            <div className="ml-4">*/}
+                                                            {/*                <h4 className="text-sm font-bold text-gray-300">*/}
+                                                            {/*                    {comment.user.username}*/}
+                                                            {/*                </h4>*/}
+                                                            {/*                <p className="text-sm text-gray-400">*/}
+                                                            {/*                    {comment.created_at}*/}
+                                                            {/*                </p>*/}
+                                                            {/*            </div>*/}
+                                                            {/*        </div>*/}
+                                                            {/*        <div className="mt-4 space-y-6 text-base text-gray-300">*/}
+                                                            {/*            <p>{comment.body}</p>*/}
+                                                            {/*        </div>*/}
+                                                            {/*    </div>*/}
+                                                            {/*))}*/}
+                                                        </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </Disclosure.Panel>
                                             </>
                                         )}
                                     </Disclosure>
                                 </section>
-
                             </div>
                         </div>
                     </div>

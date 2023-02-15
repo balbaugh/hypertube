@@ -120,6 +120,18 @@ app.get('/github', (req, res) => {
 	})
 })
 
+// const getCommentsFromDatabase = (movieId, connection) => {
+// 	return new Promise((resolve, reject) => {
+// 		connection.query(`SELECT * FROM comments WHERE movie_id = $1`, [movieId], (error, results) => {
+// 			if (error) {
+// 				reject(error);
+// 			} else {
+// 				resolve(results.rows);
+// 			}
+// 		});
+// 	});
+// };
+
 
 const movies = require('./routes/movie');
 app.use(movies);
@@ -135,6 +147,9 @@ app.use(login);
 
 const profileEdit = require('./routes/profileEdit');
 app.use(profileEdit);
+
+const commentsRouter = require('./routes/comments');
+app.use(commentsRouter);
 
 app.use(middleware.unknowEndpoint);
 

@@ -13,6 +13,7 @@ ____________________________________________________________
 comments
 - input form added
 - comment display added
+- db table added
 
 filter by imdb score
 - started but doesn't work
