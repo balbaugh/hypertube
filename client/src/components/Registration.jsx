@@ -85,7 +85,7 @@ const Registration = () => {
 									alt=""
 								/>
 							</Link>
-							<h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
+							<h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
 								Sign Up
 							</h2>
 							<p className="text-lg font-semibold leading-7 text-red-500">
@@ -95,29 +95,29 @@ const Registration = () => {
 						<div className="mt-8">
 							<div>
 								<div>
-									<p className="text-md font-semibold text-slate-300 pb-2 text-slate-300">
+									<p className="pb-2 font-semibold text-md text-slate-300">
 										Sign up with
 									</p>
 									{/* OAUTH STUFF */}
-									<div className="mt-1 grid grid-cols-2 gap-3">
+									<div className="grid grid-cols-2 gap-3 mt-1">
                     <div>
                         <button
                             type="button"
                             onClick={loginWith42}
-                            className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                         >
                             <span className="sr-only">Sign in with 42</span>
-                            <img className="h-5 w-5" src={require('../images/42.png')} alt="" />
+                            <img className="w-5 h-5" src={require('../images/42.png')} alt="" />
                         </button>
                     </div>
                     <div>
                         <button
                             type="button"
                             onClick={loginWithGitHub}
-                            className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                         >
                             <span className="sr-only">Sign in with GitHub</span>
-                            <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     fillRule="evenodd"
                                     d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
@@ -137,7 +137,7 @@ const Registration = () => {
 									<div className="w-full border-t border-gray-300" />
 								</div>
 								<div className="relative flex justify-center text-sm">
-									<span className="bg-zinc-900 px-2 text-slate-300">
+									<span className="px-2 bg-zinc-900 text-slate-300">
 										Or continue with
 									</span>
 								</div>
@@ -146,7 +146,7 @@ const Registration = () => {
 
 						<form onSubmit={register}>
 							{/* USERNAME */}
-							<div className="mb-6 pt-2">
+							<div className="pt-2 mb-6">
 								<label
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="username"
@@ -154,7 +154,7 @@ const Registration = () => {
 									Username
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
 									placeholder="Username"
 									required
@@ -162,7 +162,7 @@ const Registration = () => {
 								/>
 							</div>
 							{/* FIRST NAME */}
-							<div className="mb-6 pt-2">
+							<div className="pt-2 mb-6">
 								<label
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="username"
@@ -170,7 +170,7 @@ const Registration = () => {
 									First Name
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
 									placeholder="First Name"
 									required
@@ -186,7 +186,7 @@ const Registration = () => {
 									Last Name
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
 									placeholder="Last Name"
 									required
@@ -202,7 +202,7 @@ const Registration = () => {
 									Email
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="email"
 									placeholder="Email"
 									required
@@ -218,7 +218,7 @@ const Registration = () => {
 									Password
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="password"
 									placeholder="Password..."
 									autoComplete="off"
@@ -235,7 +235,7 @@ const Registration = () => {
 									Confirm Password
 								</label>
 								<input
-									className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="password"
 									placeholder="Confirm Password..."
 									autoComplete="off"
@@ -246,7 +246,7 @@ const Registration = () => {
 							<InfoText message={message} />
 							<button
 								type="submit"
-								className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+								className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
 							>
 								Sign Up
 							</button>

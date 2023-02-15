@@ -30,7 +30,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-function valuetext(value: number) {
+function valuetext(value) {
     return `${value}`;
 }
 
@@ -50,10 +50,6 @@ const Popular = () => {
         axiosStuff
             .movieTest().then((response) => {
             console.log('oikee', response)
-        })
-        axiosStuff
-            .test().then((response1) => {
-            console.log('testi', response1)
         })
         setTimeout(() => {
             setLoading(false);
@@ -157,15 +153,15 @@ const Popular = () => {
                     <div className="">
                         <main>
                             <div className="mb-10">
-                                <div className="mx-auto max-w-7xl pt-16 px-4 sm:px-6 lg:px-8 flex justify-between">
+                                <div className="flex justify-between px-4 pt-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
                                     {/* Sort */}
-                                    <Menu as="div" className="relative mt-2 inline-block text-left ml-auto">
+                                    <Menu as="div" className="relative inline-block mt-2 ml-auto text-left">
                                         <div>
-                                            <Menu.Button className="group inline-flex justify-center text-lg font-semibold text-gray-200 hover:text-red-600">
+                                            <Menu.Button className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
                                                 Sort
                                                 <ChevronDownIcon
-                                                    className="-mr-1 ml-1 mt-1 h-5 w-5 flex-shrink-0 text-red-500 group-hover:text-red-600"
+                                                    className="flex-shrink-0 w-5 h-5 mt-1 ml-1 -mr-1 text-red-500 group-hover:text-red-600"
                                                     aria-hidden="true"
                                                 />
                                             </Menu.Button>
@@ -180,7 +176,7 @@ const Popular = () => {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Menu.Items className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
                                                     {sortOptions.map((option) => (
                                                         <Link
@@ -207,7 +203,7 @@ const Popular = () => {
                             {/* IMDb Score Slider */}
                             <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
                                 <Box sx={{ width: 350 }}>
-                                    <h4 className="text-gray-200 font-semibold">IMDb Rating ( {ratingRange[0]} - {ratingRange[1]} )</h4>
+                                    <h4 className="font-semibold text-gray-200">IMDb Rating ( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
                                         min={0}
@@ -224,7 +220,7 @@ const Popular = () => {
                             {/* Search */}
                             <Combobox
                                 as="div"
-                                className="mb-4 mx-auto max-w-lg transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl bg-zinc-800 shadow-2xl transition-all"
+                                className="max-w-lg mx-auto mb-4 overflow-hidden transition-all transform divide-y divide-gray-500 shadow-2xl divide-opacity-20 rounded-xl bg-zinc-800"
                                 onChange={(item) => (window.location = item.url)}
                                 onSubmit={(event) => event.preventDefault()}
                             >
@@ -234,7 +230,7 @@ const Popular = () => {
                                         aria-hidden="true"
                                     />
                                     <Combobox.Input
-                                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                        className="w-full h-12 pr-4 text-white placeholder-gray-500 bg-transparent border-0 pl-11 focus:ring-0 sm:text-sm"
                                         placeholder="Search..."
                                         value={query}
                                         onKeyUp={handleSearchKeyUp}
@@ -262,7 +258,7 @@ const Popular = () => {
                                         </p>
                                     }
                                 >
-                                    <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div className="container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
@@ -277,11 +273,11 @@ const Popular = () => {
                                                             }}
                                                         />
 
-                                                        <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-100 bg-gray-900 z-10 flex flex-col justify-center items-center text-center" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
+                                                        <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
 
-                                                            <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
+                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}</h4>
                                                             <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
-                                                            <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
+                                                            <p className="mb-2 text-sm font-semibold text-gray-200">Production Year: {movie.year}</p>
                                                             <p className="hidden text-sm font-semibold text-gray-200">Genres: {movie.genres.map((genre) => (
                                                                 <span key={`${short.generate()}`}>{genre} </span>
                                                             ))}</p>
@@ -290,7 +286,7 @@ const Popular = () => {
 
                                                         </div>
                                                     </Link>
-                                                    <div className="mt-2 desktop:hidden laptop:hidden mobile:block mobile:mt-4 text-sm font-semibold text-gray-200 text-center">
+                                                    <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
                                                         <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
                                                         <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
                                                     </div>

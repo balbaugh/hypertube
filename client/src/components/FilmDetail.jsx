@@ -44,7 +44,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const FilmDetail = () => {
+const FilmDetail = ({ itsMe }) => {
     const {id} = useParams();
     const [movies, setMovies] = useState(id);
     const [loading, setLoading] = useState(true);
@@ -53,9 +53,12 @@ const FilmDetail = () => {
     const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
     const [comments, setComments] = useState([]);
-
+		const [newComment, setNewComment] = useState('');
+		const [users, setUsers] = useState([])
 
     console.log('playerrf', playerRef)
+		console.log('mee', itsMe.username)
+		console.log('movie', movies)
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -63,24 +66,9 @@ const FilmDetail = () => {
         }
     }, [playerRef])
 
-    // useEffect(() => {
-    //     axiosStuff
-    //         .toMovie(id)
-    //         .then((response) => {
-    //             setMovies(response.parsed.data.movie)
-    //         }).then(() => {
-    //         if (movies.id === 0) {
-    //             window.location.replace('/');
-    //         } else {
-    //             setLoading(false);
-    //         }
-    //     })
-    //     axiosStuff
-    //         .getComments(id)
-    //         .then((response) => {
-    //             setComments(response.parsed.data.comments);
-    //         });
-    // }, [id, movies.id])
+		const handleNewComment = (event) => {
+			setNewComment(event.target.value)
+		}
 
     useEffect(() => {
         axiosStuff.toMovie(id)
@@ -96,63 +84,72 @@ const FilmDetail = () => {
                 console.log(error);
             });
 
-    // COMMENTS STUFF HERE BUT NOT WORKING
         axiosStuff.getComments(id)
             .then((response) => {
-                setComments(response.parsed.data.response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                setComments(response);
+            }).then(() => {
+							axiosStuff.getCommentUser()
+							.then((response1) => {
+								setUsers(response1)
+							})
+						})
     }, [id]);
+
+		console.log('comments', comments)
+		console.log('users', users)
 
     const handleCommentSubmit = (event) => {
         event.preventDefault();
-        const comment = event.target.comment.value;
-
-        axiosStuff.submitComment({
-            movieId: id,
-            userId: 1,
-            // author: "Your Name", // Replace with the author name or get it from the user input
-            content: comment,
-        })
-            .then((response) => {
-                setComments([...comments, response.data]);
-                event.target.comment.value = '';
+				if (itsMe.username) {
+					const comment = {
+						movie_id: movies.id,
+						user_id: itsMe.id,
+						text: newComment
+					}
+					axiosStuff
+					.submitComment(comment)
+					.then((response) => {
+            setComments([...comments, response.data]);
+              event.target.comment.value = '';
             })
             .catch((error) => {
-                console.log(error);
+               console.log(error);
             });
-    };
+				};
+	}
 
 
 
+	const startMovie = () => {
+		const movieHash = movies.torrents[0].hash;
+		const title = movies.title
+		const encodedTitle = encodeURIComponent(title);
+		const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
+		const imdbCode = movies.imdb_code;
+		// setOpen(!open)
+		setWatch(true);
+    axiosStuff
+    .subtitles({imdbCode})
+    .then((response) => {
+        console.log('subs', response)
+    })
+		 axiosStuff
+		.play({title, magnetUrl, imdbCode})
+		 .then((response) => {
+			console.log('hii', response)
+			if (response.downloaded) {
+				 setPlayMovie(`http://localhost:3001/ready`)
+			}
+			else {
+				setPlayMovie(`http://localhost:3001/stream`)
+				// setPlayMovie(`http://localhost:3001/ready`)
+			}
+		 })
+	}
 
-    console.log('leffa', movies)
-
-		const startMovie = () => {
-			const movieHash = movies.torrents[0].hash;
-			const title = movies.title
-			const encodedTitle = encodeURIComponent(title);
-			const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
-			const imdbCode = movies.imdb_code;
-
-			// setOpen(!open)
-			setWatch(true);
-
-			axiosStuff
-			.play({title, magnetUrl, imdbCode})
-			 .then((response) => {
-				console.log('hii', response)
-				if (response.downloaded) {
-					 setPlayMovie(`http://localhost:3001/ready`)
-				}
-				else {
-					setPlayMovie(`http://localhost:3001/stream`)
-					// setPlayMovie(`http://localhost:3001/ready`)
-				}
-			 })
-		}
+	// const filteredComments = comments.filter((comment => {
+	//	return comment.user.id = users.id
+	// }))
 
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
@@ -165,7 +162,7 @@ const FilmDetail = () => {
                 </div>
             ) : (
                 <div className="">
-                    <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
                             {/* Cover Image */}
                             <div className="m-auto text-center">
@@ -178,7 +175,7 @@ const FilmDetail = () => {
                             </div>
 
                             {/* Film info */}
-                            <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+                            <div className="px-4 mt-10 sm:mt-16 sm:px-0 lg:mt-0">
                                 <h1 className="text-3xl font-bold tracking-tight text-gray-200">{movies.title}</h1>
 
                                 <div className="mt-3">
@@ -228,11 +225,11 @@ const FilmDetail = () => {
                                             leaveFrom="opacity-100"
                                             leaveTo="opacity-0"
                                         >
-                                            <div className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" />
+                                            <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" />
                                         </Transition.Child>
 
                                         <div className="fixed inset-0 z-10 overflow-y-auto">
-                                            <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                                            <div className="flex items-center justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
                                                 <Transition.Child
                                                     as={Fragment}
                                                     enter="ease-out duration-300"
@@ -242,7 +239,7 @@ const FilmDetail = () => {
                                                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                                 >
-                                                    <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-zinc-800 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                                                    <Dialog.Panel className="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform rounded-lg shadow-xl bg-zinc-800 sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                                                         <div
                                                             className="container p-0 mx-auto"
                                                             style={{ minWidth: '720px', maxHeight: '80vh' }}
@@ -263,7 +260,7 @@ const FilmDetail = () => {
                                                         <div className="mt-5 sm:mt-6">
                                                             <button
                                                                 type="button"
-                                                                className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 sm:text-sm"
+                                                                className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-700 sm:text-sm"
                                                                 onClick={() => setOpen(!open)}
                                                             >
                                                                 Back to Details
@@ -277,33 +274,33 @@ const FilmDetail = () => {
                                 </Transition.Root> */}
 
                                 {/* <form className="mt-6"> */}
-																	{!watch ? (
-																		  <div className="sm:flex-col1 mt-10 flex">
-																				<button
-																						type="button"
-																						className="mx-2 flex max-w-full flex-1 items-center justify-center rounded-md bg-lime-600 py-3 px-3 text-base font-medium text-white hover:bg-lime-800 sm:w-full"
-																						onClick={startMovie}
-																						// onClick={() => setOpen(!open)}
-																				>
-																						Stream
-																				</button>
-																		</div>
-																	) : (null)}
+							{!watch ? (
+								  <div className="flex mt-10 sm:flex-col1">
+										<button
+												type="button"
+												className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
+												onClick={startMovie}
+												// onClick={() => setOpen(!open)}
+										>
+												Stream
+										</button>
+								</div>
+							) : (null)}
                                 {/* </form> */}
-																{watch ? (
-																<div>
-																	{playMovie ? (
-																		<ReactPlayer
-																			ref={playerRef}
-																			url={playMovie}
-																			playing={true}
-																			controls={true}
-																			onError={onError}
-																			muted={true}
-																		/>
-																	) : (<Loader />)}
-																</div>
-																 ) : (null)}
+							    {watch ? (
+							    <div>
+							    	{playMovie ? (
+							    		<ReactPlayer
+							    			ref={playerRef}
+							    			url={playMovie}
+							    			playing={true}
+							    			controls={true}
+							    			onError={onError}
+							    			muted={true}
+							    		/>
+							    	) : (<Loader />)}
+							    </div>
+							     ) : (null)}
 
                                 {/* DETAILS PANEL */}
                                 <section aria-labelledby="details-heading" className="mt-12">
@@ -311,36 +308,36 @@ const FilmDetail = () => {
                                         Additional details
                                     </h2>
 
-                                    <div className="divide-y divide-gray-200 border-t">
+                                    <div className="border-t divide-y divide-gray-200">
 
                                             <Disclosure as="div">
                                                 {({open}) => (
                                                     <>
                                                         <h3>
                                                             <Disclosure.Button
-                                                                className="group relative flex w-full items-center justify-between py-6 text-left">
+                                                                className="relative flex items-center justify-between w-full py-6 text-left group">
                                                                 <span
                                                                     className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
                                                                 >
                                                                   Details
                                                                 </span>
-                                                                    <span className="ml-6 flex items-center">
+                                                                    <span className="flex items-center ml-6">
                                                                       {open ? (
                                                                           <MinusIcon
-                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
                                                                               aria-hidden="true"
                                                                           />
                                                                       ) : (
                                                                           <PlusIcon
-                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
                                                                               aria-hidden="true"
                                                                           />
                                                                       )}
                                                                     </span>
                                                             </Disclosure.Button>
                                                         </h3>
-                                                        <div className="divide-y divide-gray-200 border-t">
-                                                            <Disclosure.Panel as="div" className="prose prose-sm pb-6 pt-8">
+                                                        <div className="border-t divide-y divide-gray-200">
+                                                            <Disclosure.Panel as="div" className="pt-8 pb-6 prose-sm prose">
                                                                 <ul role="list">
                                                                     <li className="py-2">
                                                                         <p className="font-semibold">IMDB Rating: {movies.rating}/10</p>
@@ -383,7 +380,7 @@ const FilmDetail = () => {
 
                                                                 </ul>
                                                                 <div className="">
-                                                                    <div className="mx-auto max-w-2xl py-2 lg:grid lg:max-w-7xl lg:grid-cols-12">
+                                                                    <div className="max-w-2xl py-2 mx-auto lg:grid lg:max-w-7xl lg:grid-cols-12">
                                                                         <h2 className="font-semibold">Description:</h2>
                                                                         <div
                                                                             className="space-y-6 text-base text-gray-200"
@@ -391,7 +388,7 @@ const FilmDetail = () => {
                                                                         />
                                                                     </div>
                                                                 </div>
-                                                                <div className="mt-6 divide-y divide-gray-200 border-t"/>
+                                                                <div className="mt-6 border-t divide-y divide-gray-200"/>
                                                             </Disclosure.Panel>
 
                                                         </div>
@@ -404,41 +401,41 @@ const FilmDetail = () => {
                                             <>
                                                 <h3>
                                                     <Disclosure.Button
-                                                        className="group relative flex w-full items-center justify-between py-6 text-left">
+                                                        className="relative flex items-center justify-between w-full py-6 text-left group">
                                                                 <span
                                                                     className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
                                                                 >
                                                                   Comments
                                                                 </span>
-                                                        <span className="ml-6 flex items-center">
+                                                        <span className="flex items-center ml-6">
                                                                       {open ? (
                                                                           <MinusIcon
-                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
                                                                               aria-hidden="true"
                                                                           />
                                                                       ) : (
                                                                           <PlusIcon
-                                                                              className="block h-6 w-6 text-red-500 group-hover:text-red-600"
+                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
                                                                               aria-hidden="true"
                                                                           />
                                                                       )}
                                                                     </span>
                                                     </Disclosure.Button>
                                                 </h3>
-                                                <Disclosure.Panel as="div" className="prose prose-sm pb-6">
+                                                <Disclosure.Panel as="div" className="pb-6 prose-sm prose">
 
                                         {/* COMMENTS PANEL */}
-                                                    <div className="flex items-start space-x-4 pt-8 pb-6">
+                                                    <div className="flex items-start pt-8 pb-6 space-x-4">
                                                         <div className="flex-shrink-0">
                                                             <img
-                                                                className="inline-block h-12 w-12 rounded-full"
+                                                                className="inline-block w-12 h-12 rounded-full"
                                                                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                                                 alt=""
                                                             />
                                                         </div>
-                                                        <div className="min-w-0 flex-1">
+                                                        <div className="flex-1 min-w-0">
                                                             <form onSubmit={handleCommentSubmit} className="relative">
-                                                                <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+                                                                <div className="overflow-hidden border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                                                                     <label htmlFor="comment" className="sr-only">
                                                                         Add your comment
                                                                     </label>
@@ -446,9 +443,10 @@ const FilmDetail = () => {
                                                                         rows={3}
                                                                         name="comment"
                                                                         id="comment"
-                                                                        className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
+                                                                        className="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder="Add your comment..."
                                                                         defaultValue={''}
+																																				onChange={handleNewComment}
                                                                     />
 
                                                                     {/* Spacer element to match the height of the toolbar */}
@@ -464,7 +462,7 @@ const FilmDetail = () => {
                                                                     <div className="flex-shrink-0">
                                                                         <button
                                                                             type="submit"
-                                                                            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                         >
                                                                             Post
                                                                         </button>
@@ -473,9 +471,9 @@ const FilmDetail = () => {
                                                             </form>
                                                         </div>
                                                     </div>
-                                                    <div className="divide-y divide-gray-200 border-t mt-4">
+                                                    <div className="mt-4 border-t divide-y divide-gray-200">
                                                     <div
-                                                        className="mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
+                                                        className="pt-8 mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0">
                                                         <h3 className="sr-only">Recent Comments</h3>
 
                                                         <div className="flow-root">
@@ -488,7 +486,7 @@ const FilmDetail = () => {
                                                                             className="flex items-center">
                                                                             <img src={review.avatarSrc}
                                                                                  alt={`${review.author}.`}
-                                                                                 className="h-12 w-12 rounded-full"/>
+                                                                                 className="w-12 h-12 rounded-full"/>
                                                                             <div className="ml-4">
                                                                                 <h4 className="text-sm font-bold text-gray-300">{review.author}</h4>
                                                                             </div>
@@ -503,25 +501,28 @@ const FilmDetail = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                        <div className="divide-y divide-gray-200 border-t mt-4">
+                                                        <div className="mt-4 border-t divide-y divide-gray-200">
                                                             <div
-                                                                className="mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0 pt-8">
+                                                                className="pt-8 mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0">
                                                                 <h3 className="sr-only">Recent Comments</h3>
-                                                        <div className="divide-y divide-gray-200 border-t mt-4">
+                                                        <div className="mt-4 border-t divide-y divide-gray-200">
                                                             {comments.length > 0 ? (
-                                                                comments.map((comment) => (
+                                                                comments.map((comment) => {
+																																	const user = users.find(user => user.id === comment.user_id)
+																																	const username = user.username
+																																	return (
                                                                     <div key={comment.id}
                                                                          className="py-6">
                                                                         <div
                                                                             className="flex items-center">
                                                                             <img
-                                                                                className="inline-block h-10 w-10 rounded-full"
-                                                                                src={comment.user.profile_pic_path}
-                                                                                alt={comment.user.username}
+                                                                                className="inline-block w-10 h-10 rounded-full"
+                                                                                // src={comment.user.profile_pic_path}
+                                                                                // alt={comment.user.username}
                                                                             />
                                                                             <div className="ml-4">
                                                                                 <h4 className="text-sm font-bold text-gray-300">
-                                                                                    {comment.user.username}
+                                                                                    {username}
                                                                                 </h4>
                                                                                 <p className="text-sm text-gray-400">
                                                                                     {comment.created_at}
@@ -530,10 +531,11 @@ const FilmDetail = () => {
                                                                         </div>
                                                                         <div
                                                                             className="mt-4 space-y-6 text-base italic text-gray-300"
-                                                                            dangerouslySetInnerHTML={{__html: comment.content}}
+                                                                            dangerouslySetInnerHTML={{__html: comment.text}}
                                                                         />
                                                                     </div>
-                                                                ))
+                                                                )
+																																})
                                                             ) : (
                                                                 <div className="py-6">
                                                                     <div
@@ -549,7 +551,7 @@ const FilmDetail = () => {
                                                             {/*    <div key={comment.id} className="py-6">*/}
                                                             {/*        <div className="flex items-center">*/}
                                                             {/*            <img*/}
-                                                            {/*                className="inline-block h-10 w-10 rounded-full"*/}
+                                                            {/*                className="inline-block w-10 h-10 rounded-full"*/}
                                                             {/*                src={comment.user.profile_pic_path}*/}
                                                             {/*                alt={comment.user.username}*/}
                                                             {/*            />*/}

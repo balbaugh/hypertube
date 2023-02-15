@@ -13,10 +13,6 @@ const List = () => {
             .movieTest().then((response) => {
             console.log('oikee', response)
         })
-        axiosStuff
-            .test().then((response1) => {
-            console.log('testi', response1)
-        })
         setTimeout(() => {
             setLoading(false);
         }, 5000)
@@ -41,15 +37,15 @@ const List = () => {
             <div className="relative">
                 <main>
                     <div className="">
-                        <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
+                        <div className="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
                             <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse Films</h1>
-                            <p className="mt-4 max-w-xl text-sm text-gray-200">
+                            <p className="max-w-xl mt-4 text-sm text-gray-200">
                                 Our thoughtfully curated collection of films, hand-picked for you.
                             </p>
                         </div>
                     </div>
                     <div className="flex-1">
-                        <form className="search-form text-gray-600" onSubmit={handleSubmit}>
+                        <form className="text-gray-600 search-form" onSubmit={handleSubmit}>
                             <label htmlFor="default-search"
                                    className="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
                             <div className="relative">
@@ -79,7 +75,7 @@ const List = () => {
                 {/* Film grid */}
                         <section
                             aria-labelledby="films-heading"
-                            className="mx-auto max-w-2xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:max-w-7xl lg:px-8"
+                            className="max-w-2xl px-4 pt-12 pb-16 mx-auto sm:px-6 sm:pt-16 sm:pb-24 lg:max-w-7xl lg:px-8"
                         >
                             <h2 id="products-heading" className="sr-only">
                                 Films
@@ -87,8 +83,8 @@ const List = () => {
 
                             <div className="grid grid-cols-3 gap-4">
                                 {searchResults.map((result, index) => (
-                                    <div key={index} className="relative bg-cover bg-center" style={{backgroundImage: `url(${result.thumbnailUrl})`}}>
-                                        <div className="p-4 absolute bottom-0 left-0 right-0 bg-gray-900 bg-opacity-75 text-white text-sm">
+                                    <div key={index} className="relative bg-center bg-cover" style={{backgroundImage: `url(${result.thumbnailUrl})`}}>
+                                        <div className="absolute bottom-0 left-0 right-0 p-4 text-sm text-white bg-gray-900 bg-opacity-75">
                                             <p className="font-medium">{result.title}</p>
                                             <p className="font-medium">{result.year}</p>
                                         </div>
@@ -105,7 +101,3 @@ const List = () => {
 }
 
 export default List
-
-
-
-

@@ -2,14 +2,92 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const torrentStream = require('torrent-stream');
-
 const dbConn = require('../utils/dbConnection');
+const config = require('../utils/config');
+const https = require('https');
 
 let filePath = '';
 let fileSize = '';
 let title = '';
 let imdbCode = '';
 let sentResponse = false;
+
+let langObj = {
+	en: 0,
+	fi: 0,
+};
+
+const langParser = (lang) => {
+	if (lang === 'en') {
+		langObj.en += 1;
+		if (langObj.en >= 2) return false;
+		return true;
+	} else if (lang === 'fi') {
+		langObj.fi += 1;
+		if (langObj.fi >= 2) return false;
+		return true;
+	}
+};
+
+const resetLangObj = () => {
+	return {
+		en: 0,
+		fi: 0,
+	};
+};
+
+const download = async (
+	url,
+	dest,
+	imdbCode,
+	subsData
+) => {
+	if (!fs.existsSync(`./subtitles/${imdbCode}`))
+		fs.mkdirSync(`./subtitles/${imdbCode}`, { recursive: true });
+
+		console.log('PATH', dest)
+		console.log('PATH', subsData.attributes.language)
+
+		dbConn.pool.query(`SELECT * FROM subtitles WHERE path = $1`,
+		[dest],
+		(err, result) => {
+			if (err)
+				console.log('Sub', err)
+			else if (result.rowCount === 0) {
+				dbConn.pool.query(`INSERT INTO subtitles (imdb_code, language, path) VALUES ($1, $2, $3)`,
+				[imdbCode, subsData.attributes.language, dest],
+				(err1, result1) => {
+					if (err1)
+						console.log('subs insert', err)
+					else {
+						console.log('subs inserted', result1)
+					}
+				})
+			}
+		})
+		// tassa kohtaa pitaisi luodaan infoa tekstityksista databasesta.
+		// imdbCode, language, path.
+/*	try {
+		await prisma.subtitles.create({
+			data: {
+				imdb_code: imdbCode,
+				language: subsData.attributes.language,
+				path: dest,
+			},
+		});
+	} catch (error) {
+		console.error(error);
+	}*/
+
+
+	const file = fs.createWriteStream(dest);
+	const request = https.get(url, (response) => {
+		response.pipe(file);
+		file.on('finish', function () {
+			file.close();
+		});
+	});
+};
 
 router.get('/play', (req, res) => {
 	const link = req.query.magnet;
@@ -134,22 +212,6 @@ router.get('/play', (req, res) => {
 	 })
  })
 
-// router.get(`/subtitles`, (req, res) => {
-//   const imdbid = imdbCode;
-// 	const apiOptions = {
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			'Api-Key': 'YF2CcQBsm159bPwSh3GUlFHDCbQhYzEs',
-// 		}
-// 	}
-
-//   fetch(`https://api.opensubtitles.org/v1/subtitles?imdb_id=${imdbid}`, apiOptions)
-//   // fetch(`https://api.opensubtitles.org/v1/`)
-// 	.then((response) => {
-// 		res.send(response)
-// 	})
-// });
-
 router.get(`/ready`, (req, res) => {
 	const file = `./downloads/${imdbCode}/${title}/${filePath}`
 	const stream = fs.createReadStream(file);
@@ -168,7 +230,7 @@ router.get(`/ready`, (req, res) => {
 	stream.pipe(res)
 });
 
- router.get(`/stream`, (req, res) => {
+router.get(`/stream`, (req, res) => {
   const file = `./downloads/${imdbCode}/${title}/${filePath}`;
   const fsize = fileSize
   const fsize1 = fs.statSync(file).size
@@ -201,6 +263,71 @@ router.get(`/ready`, (req, res) => {
 
   res.writeHead(206, headers);
   stream.pipe(res);
- });
+});
+
+// SUBTITLES
+router.get('/subtitles', (req, res) => {
+	const imdb = req.query.code
+
+	const regex = /\D/g;
+	let newImdb = Number(imdb.imdbCode.replace(regex, ''));
+
+	const subOptions = {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Api-Key': `${config.OPENSUB_API}`
+		}
+	}
+	fetch(`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${newImdb}`, subOptions)
+	.then((response) => response.json())
+	.then(subtitles => {
+		//console.log('Subtitles', subtitles.data.filter(sub => sub.attributes.language === 'en'))
+		const filterSubs = subtitles.data.filter(sub => {
+			if (
+				(sub.attributes.language === 'en' ||
+					sub.attributes.language === 'fi' ) &&
+				langParser(sub.attributes.language) === true
+			) {
+				return sub;
+			}
+		})
+		langObj = resetLangObj();
+		//res.json(filterSubs)
+		if(filterSubs !== null) {
+			filterSubs.forEach(subtitle => {
+
+				const optionsDownload = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Api-Key': `${config.OPENSUB_API}`
+					},
+					body: `{"file_id":${subtitle.attributes.files[0].file_id},
+						"sub_format": "webvtt"}`,
+					};
+
+					fetch(
+						'https://api.opensubtitles.com/api/v1/download',
+						optionsDownload
+					)
+						.then((response) => response.json())
+						.then((response) => {
+							download(
+								response.link,
+								`./subtitles/${imdb.imdbCode}/${imdb.imdbCode}-${subtitle.id}.vtt`,
+								imdb.imdbCode,
+								subtitle
+							);
+						})
+					.catch((err) => console.error(err));
+				}
+			);
+		};
+	})
+})
 
 module.exports = router;
+
+// luo tracks array react playeria varten /src/pages/api/subtitles
+// kokeile toimiiko tracks[{src: path}] ilman että luo endpointin subi streamausta varten

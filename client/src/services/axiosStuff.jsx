@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost:3001';
 
-const test = () => {
-	const req = axios.get(`${baseUrl}/testdb`);
-	return req.then((response) => response.data)
-}
+// const test = () => {
+//	const req = axios.get(`${baseUrl}/testdb`);
+//	return req.then((response) => response.data)
+// }
 
 const movieTest = () => {
 	const req = axios.get(`${baseUrl}/movies`);
@@ -14,6 +14,13 @@ const movieTest = () => {
 
 const toMovie = (id) => {
 	const req = axios.get(`${baseUrl}/movie/${id}`);
+	return req.then((response) => response.data);
+}
+
+const subtitles = (code) => {
+	const req = axios.get(`${baseUrl}/subtitles`,{
+		params: { code }
+	});
 	return req.then((response) => response.data);
 }
 
@@ -108,10 +115,19 @@ const submitComment = (newObject) => {
 	return req.then((response) => response.data);
 }
 
+const getCommentUser = () => {
+	const req = axios.get(`${baseUrl}/getCommentUser`);
+	return req.then((response) => response.data)
+}
+
+
+
 const axiosStuff = {
-	test, movieTest, toMovie, play, register, verifyemail, login,
+	// test,
+	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile, ready, stream, getComments, submitComment
+	profileEdit, updateProfile, ready, stream, getComments, submitComment,
+	subtitles, getCommentUser
 };
 
 export default axiosStuff;

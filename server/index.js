@@ -26,9 +26,12 @@ app.use(session({
 	saveUninitialized: false,
 	cookie: {
 		expires: 1000 * 60 * 60 * 24,
-		sameSite: 'Lax'
+		 sameSite: 'Lax'
+		//sameSite: 'none',
+		//secure: true
 	}
 }))
+
 
 const dbConn = require('./utils/dbConnection');
 const { connectDB } = dbConn;
@@ -41,20 +44,6 @@ app.use(middleware.morganLogger);
 app.get('/', (req, res) => {
 	res.sendStatus(200).end()
 });
-
-app.get('/testdb', (req, res) => {
-	dbConn.pool.query('SELECT * FROM users',
-		(err, result) => {
-			if (err)
-				console.log(err)
-			else {
-				res.send(result)
-			}
-		})
-})
-
-// const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
-// const SECRET_42 = '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'
 
 app.get('/42', (req, res) => {
   const code = req.query.codeParam;
@@ -81,7 +70,7 @@ app.get('/42', (req, res) => {
       return response.json()
     })
     .then((data) => {
-      console.log('ma', data)
+      // console.log('ma', data)
       req.session.user = data;
       res.send({ loggedIn: true, user: req.session.user })
     })
