@@ -63,7 +63,8 @@ const Popular = () => {
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by download count desc
-        setMovies(movies.concat(response.data.data.movies));
+        const newMovies = response.data.data.movies.filter(filterMovies);
+        setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
     };
@@ -112,7 +113,7 @@ const Popular = () => {
         setQuery(query);
         if (query === '') {
             setSearchResults([]);
-            setHasMore(true);
+            setHasMore(true); // set hasMore to true when clearing search results
             setCurrentPage(1);
             setMovies([]);
             loadMoreMovies();
@@ -122,7 +123,9 @@ const Popular = () => {
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, { withCredentials: false });
         setSearchResults(response.data.data.movies);
         setIsLoading(false);
+        setHasMore(true); // set hasMore to true when updating movies with search results
     };
+
 
     useEffect(() => {
         if (query === '') {
@@ -156,7 +159,6 @@ const Popular = () => {
                             <div className="mb-10">
                                 <div className="mx-auto max-w-7xl pt-16 px-4 sm:px-6 lg:px-8 flex justify-between">
                                     <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
-
                                     {/* Sort */}
                                     <Menu as="div" className="relative mt-2 inline-block text-left ml-auto">
                                         <div>
@@ -241,8 +243,6 @@ const Popular = () => {
                                 </div>
                             </Combobox>
 
-
-
                             {/* Film grid */}
                             <section
                                 aria-labelledby="films-heading"
@@ -252,9 +252,9 @@ const Popular = () => {
                                 </h2>
 
                                 <InfiniteScroll
-                                    dataLength={movies.length} //This is important field to render the next data
+                                    dataLength={filteredMovies.length}
                                     next={loadMoreMovies}
-                                    hasMore={true}
+                                    hasMore={hasMore}
                                     loader={<h4>Loading...</h4>}
                                     endMessage={
                                         <p style={{ textAlign: 'center' }}>
@@ -262,14 +262,8 @@ const Popular = () => {
                                         </p>
                                     }
                                 >
-
                                     <div className="container grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
-                                        <style>
-                                            {`
-                                          justify-items: center;
-                                      `}
-                                        </style>
-                                        {movies.map((movie) => (
+                                        {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
@@ -288,6 +282,11 @@ const Popular = () => {
                                                             <h4 className="text-lg font-semibold text-red-500 mb-2">{movie.title}</h4>
                                                             <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
                                                             <p className="text-sm font-semibold text-gray-200 mb-2">Production Year: {movie.year}</p>
+                                                            <p className="hidden text-sm font-semibold text-gray-200">Genres: {movie.genres.map((genre) => (
+                                                                <span key={`${short.generate()}`}>{genre} </span>
+                                                            ))}</p>
+                                                            <p className="hidden text-sm font-semibold text-gray-200">Description: {movie.description_full}</p>
+
 
                                                         </div>
                                                     </Link>
@@ -298,9 +297,9 @@ const Popular = () => {
                                                 </div>
                                             </div>
                                         ))}
-                                        {!hasMore && <p>No more movies to display</p>}
                                     </div>
                                 </InfiniteScroll>
+
                             </section>
                         </main>
                     </div>

@@ -26,6 +26,7 @@ ____________________________________________________________
 :: FINISHED ::
 
 search functionality
+- uggghhhh, scroll to bottom resets query results
 
 ____________________________________________________________
 
