@@ -144,13 +144,8 @@ const axiosStuff = {
 	// test,
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-<<<<<<< HEAD
-	profileEdit, updateProfile, ready, stream, getComments, submitComment,
-	subtitles, getSubs, getCommentUser
-=======
 	profileInfo, updateProfile, setProfilePic, changePw, ready, stream, getComments, submitComment,
 	subtitles, getCommentUser
->>>>>>> 23446f12e9f55b3439b5edc39e7fedc207f62a2e
 };
 
 export default axiosStuff;

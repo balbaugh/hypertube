@@ -16,11 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.static('downloads'));
-<<<<<<< HEAD
-app.use(express.static('subtitles'));
-=======
 app.use('/images', express.static('./images'))
->>>>>>> 23446f12e9f55b3439b5edc39e7fedc207f62a2e
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
