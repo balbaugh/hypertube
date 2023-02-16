@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import InfoText from './infoText';
 
@@ -64,13 +65,16 @@ import InfoText from './infoText';
 function Forgot2({ token }) {
 	const { email, username, message, handlePasswordReg,
 		handleCPasswordReg, changePasswd } = useForgot2(token);
+
+	const { t } = useTranslation();
+
 	return (
 		<section className="flex-grow py-10">
 		<div className="container px-4 py-10 mx-auto">
 			<div className="max-w-lg mx-auto">
 				<div className="mb-8 text-center">
 					<Link className="inline-block mx-auto mb-6" to="/">
-						<img src="nigodo-assets/logo-icon-nigodo.svg" alt="" />
+						<img src={require("../images/hypertubeLogoSm.png")} alt="" />
 					</Link>
 					<h2 className="mb-2 text-3xl font-extrabold md:text-4xl">
 						New Password

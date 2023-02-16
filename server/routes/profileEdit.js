@@ -4,16 +4,37 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+
 const dbConn = require('../utils/dbConnection');
 
-router.get('/profileEdit', (req, res) => {
+const storage = multer.diskStorage({
+    destination: (request, file, callbackFunction) => {
+        callbackFunction(null, 'images/')
+    },
+    filename: (request, file, callbackFunction) => {
+        console.log('file: ', file)
+        callbackFunction(null, Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({ storage: storage })
+
+router.get('/profileInfo', (req, res) => {
+    console.log('req.session.user', req.session.user)
     if (req.session.user) {
-        dbConn.pool.query('SELECT * FROM users WHERE id = $1',
+        dbConn.pool.query(`SELECT * FROM users
+							INNER JOIN profile_pics
+							ON users.id = profile_pics.user_id
+							WHERE users.id = $1;`,
             [req.session.user.id],
             (err, result) => {
                 if (err)
                     console.log('edit', err);
                 else {
+                    console.log('Data brought from profileEdit:', result.rows[0])
                     res.send(result.rows[0]);
                 }
             })
@@ -92,6 +113,43 @@ router.put('/profileEdit', (req, res) => {
     }
     else
         res.redirect('/');
+})
+
+router.post('/setprofilepic', upload.single('file'), async (request, response) => {
+    const session = request.session.user
+    const picture = 'http://localhost:3001/images/' + request.file.filename
+    if (session.id) {
+        if (request.file.size > 5242880) {
+            return response.send('The maximum size for uploaded images is 5 megabytes.')
+        }
+        try {
+            var sql = `SELECT * FROM profile_pics WHERE user_id = $1;`
+            const profilePic = await dbConn.pool.query(sql, [session.id])
+            let oldImageData = profilePic.rows[0]['path']
+            // path.resolve gets the absolute path of '../images'
+            const oldImage = path.resolve(__dirname, '../images') + oldImageData.replace('http://localhost:3001/images', '')
+            // fs.existsSync checks if the image already exists, so if there is already an image with same name
+            // in the images folder
+            // console.log('Set a new profile picture to replace the old one.')
+            if (fs.existsSync(oldImage) && (profilePic.rows[0]['path'] !== "http://localhost:3001/images/default_profilepic.jpg")) {
+                // If it is, we remove it with fs.unlink
+                fs.unlink(oldImage, (error) => {
+                    if (error) {
+                        console.error('fs.unlink failed:', error)
+                        return
+                    }
+                })
+            }
+            // We set the profile picture
+            sql = `UPDATE profile_pics SET path = $1 WHERE user_id = $2;`
+            await dbConn.pool.query(sql, [picture, session.id])
+            console.log('Sending true from /setprofilepic!')
+            response.send({ success: true, path: picture })
+        } catch (error) {
+            console.error(error)
+            response.send({ message: `Something went wrong when trying to upload the image.` })
+        }
+    }
 })
 
 module.exports = router

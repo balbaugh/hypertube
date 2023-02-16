@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
 import InfoText from "./infoText";
@@ -14,36 +15,91 @@ function useProfile() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [profilePic, setProfilePic] = useState('');
 
     axios.defaults.withCredentials = true; // sessionit toimii nyt
 
     // Get profile infos
     useEffect(() => {
         axiosStuff
-            .profileEdit()
+            .profileInfo()
             .then((response) => {
                 setUserId(response.id)
                 setUsername(response.username)
-                setFirstName(response.firstname);
-                setLastName(response.lastname);
-                setEmail(response.email);
+                setFirstName(response.firstname)
+                setLastName(response.lastname)
+                setEmail(response.email)
+                setProfilePic(response.path)
             })
     }, [])
 
     return {
-        userId, username, firstName, lastName, email
+        userId, username, firstName, lastName, email, profilePic
     }
 }
 
-
-const Profile = () => {
+const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
     const [message, setMessage] = useState(null);
 
-    const { userId, username, firstName, lastName, email } = useProfile();
+    const { userId, username, firstName, lastName, email, profilePic } = useProfile();
 
-    console.log('Went to profile!!!!')
-    console.log('userId in profile', userId)
-    console.log('username in profile', username)
+    // if (isLoading) {
+    //     return (
+    //         <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
+    //             Loading profile information...
+    //         </h2>
+    //     )
+    // }
+
+    const setProfilePicture = async (event) => {
+        const image = event.target.files[0]
+        if (image.size > 5242880) {
+            setMessage("The maximum size for uploaded images is 5 megabytes.")
+        } else {
+            let formData = new FormData()
+            formData.append('file', image)
+            axiosStuff.setProfilePic(formData)
+                .then((response) => {
+                    if (response.success === true) {
+                        setMessage('Profile picture successfully changed!')
+                        console.log('response.path:', response.path)
+                        setSelectedAvatar(response.path)
+                        setItsMe({ path: response.path, ...itsMe })
+                    } else {
+                        setMessage(response.message);
+                    }
+                })
+            setTimeout(() => {
+                setMessage(null);
+            }, 8000);
+        }
+        event.target.value = ''
+    }
+
+    // const login = (event) => {
+    //     event.preventDefault();
+    //     const login2 = {
+    //         username,
+    //         password,
+    //     };
+    //     axiosStuff.login(login2)
+    //         .then((response) => {
+    //             if (response.message)
+    //                 setMessage(response.message);
+    //             if (response.result) {
+    //                 setLoginsStatus(response.result.rows[0].username)
+    //                 setTimeout(() => {
+    //                     window.location.replace('/homepage')
+    //                 }, 1000)
+    //             }
+    //         });
+    //     setTimeout(() => {
+    //         setMessage(null);
+    //     }, 8000);
+    //     event.target.reset();
+    // };
+
+    const { t } = useTranslation();
 
     return (
         <div>
@@ -85,14 +141,28 @@ const Profile = () => {
                                 Email: {email ? email : "email not found! Expected if you're using OAuth."}
                             </div>
                         </div>
-                        <form action="http://localhost:3000/profileEdit">
+                        <Link to="/changePassword">
                             <button
-                                // type="submit"
+                                type="button"
+                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            >
+                                Change your password
+                            </button>
+                        </Link>
+                        <Link to="/profileEdit">
+                            <button
+                                type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
                                 Edit your profile (Doesn't work yet!)
                             </button>
-                        </form>
+                        </Link>
+                        <button
+                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                        >
+                            <label>Change profile picture</label>
+                            <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                        </button>
                     </div>
                 </div>
             </section>

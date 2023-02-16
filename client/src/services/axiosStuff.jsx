@@ -52,7 +52,7 @@ const stream = () => {
 	return (req.then((response) => response.data))
 }
 
-// Signup and Logi stuff below
+// Signup and Login stuff below
 
 const register = (newObject) => {
 	const req = axios.post(`${baseUrl}/register`, newObject);
@@ -94,6 +94,11 @@ const newPw = (newObject) => {
 	return req.then((response) => response.data);
 }
 
+const changePw = (newObject) => {
+	const req = axios.put(`${baseUrl}/changePw`, newObject);
+	return req.then((response) => response.data);
+}
+
 const getGitProfile = (codeParam) => {
 	const req = axios.get(`${baseUrl}/github?codeParam=${codeParam}`);
 	return req.then((response) => response.data)
@@ -104,9 +109,8 @@ const get42Profile = (codeParam) => {
 	return req.then((response) => response.data);
 }
 
-const profileEdit = () => {
-	console.log('Made it to profileEdit')
-	const req = axios.get(`${baseUrl}/profileEdit`);
+const profileInfo = () => {
+	const req = axios.get(`${baseUrl}/profileInfo`);
 	return req.then((response) => response.data)
 }
 
@@ -131,14 +135,22 @@ const getCommentUser = () => {
 	return req.then((response) => response.data)
 }
 
-
+const setProfilePic = (Picture) => {
+	const request = axios.post(`${baseUrl}/setprofilepic`, Picture)
+	return request.then(response => response.data)
+}
 
 const axiosStuff = {
 	// test,
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
+<<<<<<< HEAD
 	profileEdit, updateProfile, ready, stream, getComments, submitComment,
 	subtitles, getSubs, getCommentUser
+=======
+	profileInfo, updateProfile, setProfilePic, changePw, ready, stream, getComments, submitComment,
+	subtitles, getCommentUser
+>>>>>>> 23446f12e9f55b3439b5edc39e7fedc207f62a2e
 };
 
 export default axiosStuff;

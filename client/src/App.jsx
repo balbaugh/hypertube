@@ -11,8 +11,9 @@ import Homepage from './components/Homepage';
 import FilmDetail from './components/FilmDetail';
 import Registration from './components/Registration';
 import Login from './components/Login';
-import Profile from './components/Profile';
+import Profile from './components/Profile';	
 import ProfileEdit from './components/ProfileEdit';
+import ChangePassword from './components/ChangePassword';
 import Forgot from './components/Forgot';
 // import TestMovieThumb from './components/testmoviethumb';
 // import TheTest from './components/thetest';
@@ -31,6 +32,7 @@ import axiosStuff from './services/axiosStuff';
 const App = () => {
 	const [itsMe, setItsMe] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [selectedAvatar, setSelectedAvatar] = useState('')
 
 	axios.defaults.withCredentials = true;
 
@@ -39,10 +41,12 @@ const App = () => {
 			console.log('response.loggedIn', response.loggedIn)
 			if (response.loggedIn === true) {
 				setLoggedIn(true);
+				console.log('response.user in App.js, data from get login:', response.user)
 				setItsMe(response.user);
+				setSelectedAvatar(response.avatar)
 			}
 		});
-	}, [loggedIn]);
+	}, [loggedIn]);	
 
 	useEffect(() => {
 		const queryString = window.location.search;
@@ -73,17 +77,19 @@ const App = () => {
 	}, [])
 
 	console.log('itsmee', itsMe)
-	console.log('loggedIn', loggedIn)
+	console.log('selectedAvatar', selectedAvatar)
+
 
 	return (
 	<I18nextProvider i18n={i18n}>
 		<div className="h-full min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
 
 			<Router>
-				<Nav itsMe={itsMe} />
+				<Nav itsMe={itsMe} setItsMe={setItsMe} selectedAvatar={selectedAvatar}/>
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/homepage" element={loggedIn ? <Homepage /> : <Landing />} />
+					<Route path="/changePassword" element={loggedIn ? <ChangePassword /> : <Landing />} />
 					<Route path="/film/:id" element={loggedIn ? <FilmDetail itsMe={itsMe} /> : <Landing />} />
 					<Route path="/registration" element={<Registration />} />
 					<Route path="/login" element={<Login />} />
@@ -91,7 +97,7 @@ const App = () => {
 					{/* <Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} /> */}
 					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
-					<Route path="/profile" element={loggedIn ? <Profile /> : <Landing />} />
+					<Route path="/profile" element={loggedIn ? <Profile setItsMe={setItsMe} itsMe={itsMe} setSelectedAvatar={setSelectedAvatar}/> : <Homepage />} />
 					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Landing />} />
 					<Route path="/best-rating" element={loggedIn ? <BestRating /> : <Landing />} />
 					<Route path="/newest" element={loggedIn ? <Newest /> : <Landing />} />

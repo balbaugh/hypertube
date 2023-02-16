@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player'
 import { Dialog, Disclosure, Listbox, Transition} from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
@@ -151,6 +152,7 @@ const FilmDetail = ({ itsMe }) => {
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
 
+<<<<<<< HEAD
 		 const subsConfig = {
 			file: {
 				attributes: {
@@ -183,6 +185,9 @@ const FilmDetail = ({ itsMe }) => {
 		if (subsConfig.file.tracks.length) {
 			console.log('subsconf', subsConfig)
 		}
+=======
+    const { t } = useTranslation();
+>>>>>>> 23446f12e9f55b3439b5edc39e7fedc207f62a2e
 
     return (
         <div>
