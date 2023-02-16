@@ -19,7 +19,11 @@ const sortOptions = [
     { name: 'Year: Old to New', to: '/year-old-new', current: false },
 ];
 
-function valuetext(value) {
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
+function valuetext(value: number) {
     return `${value}`;
 }
 

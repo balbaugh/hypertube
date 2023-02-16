@@ -14,7 +14,6 @@ import Loader from "./Loader";
 //     srcLang: string;
 // }
 
-
 const reviews = {
     average: 4,
     totalCount: 1624,
@@ -176,11 +175,12 @@ const FilmDetail = ({ itsMe }) => {
 
                             {/* Film info */}
                             <div className="px-4 mt-10 sm:mt-16 sm:px-0 lg:mt-0">
-                                <h1 className="text-3xl font-bold tracking-tight text-gray-200">{movies.title}</h1>
+
 
                                 <div className="mt-3">
                                     <h2 className="sr-only">Film information</h2>
-                                    <p className="text-2xl tracking-tight text-gray-200">({movies.year})</p>
+                                    <p className="text-3xl font-bold text-gray-200">{movies.title}&nbsp;&nbsp;({movies.year})</p>
+                                    {/*<p className="text-2xl text-gray-200">({movies.year})</p>*/}
                                 </div>
 
                                 {/* Reviews */}
@@ -189,30 +189,38 @@ const FilmDetail = ({ itsMe }) => {
                                     <div className="flex items-center">
                                         <div className="flex items-center">
                                             {/*{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((rating) => (*/}
-                                            {[5, 6, 7, 8, 9].map((rating) => (
-                                                <StarIcon
-                                                    key={rating}
-                                                    className={classNames(
-                                                        movies.rating > rating ? 'text-red-500' : 'text-gray-200',
-                                                        'h-5 w-5 flex-shrink-0'
-                                                    )}
-                                                    aria-hidden="true"
-                                                />
-                                            ))}
+                                            {/*{[5, 6, 7, 8, 9].map((rating) => (*/}
+                                            {/*    <StarIcon*/}
+                                            {/*        key={rating}*/}
+                                            {/*        className={classNames(*/}
+                                            {/*            movies.rating > rating ? 'text-red-500' : 'text-gray-200',*/}
+                                            {/*            'h-5 w-5 flex-shrink-0'*/}
+                                            {/*        )}*/}
+                                            {/*        aria-hidden="true"*/}
+                                            {/*    />*/}
+                                            {/*))}*/}
+                                            <p className="font-semibold text-xl text-gray-200">IMDB:&nbsp;</p>
                                         </div>
-                                        <p className="sr-only">IMDB Rating is {movies.rating} out of 10</p>
+                                        <p className="text-xl">&nbsp;{movies.rating}&nbsp;</p>
+                                        <StarIcon
+                                            aria-hidden="true"
+                                            className="h-5 w-5 flex-shrink-0 text-red-500"
+                                        />
+                                        <p className="text-xl">&nbsp;out of 10</p>
 
                                     </div>
                                 </div>
 
-                                <div className="mt-6">
-                                    <h3 className="sr-only">Description</h3>
+                                {/* DESCRIPTION */}
+                                {/*<div className="mt-6">*/}
+                                {/*    <h3 className="sr-only">Description</h3>*/}
 
-                                    <div
-                                        className="space-y-6 text-base text-gray-200"
-                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
-                                    />
-                                </div>
+                                {/*    <div*/}
+                                {/*        className="space-y-6 text-base text-gray-200"*/}
+                                {/*        dangerouslySetInnerHTML={{__html: movies.description_full}}*/}
+                                {/*    />*/}
+                                {/*</div>*/}
+
                                 {/* PLAYER MODAL */}
                                 {/* <Transition.Root show={!open} as={Fragment}>
                                     <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -337,14 +345,20 @@ const FilmDetail = ({ itsMe }) => {
                                                             </Disclosure.Button>
                                                         </h3>
                                                         <div className="border-t divide-y divide-gray-200">
-                                                            <Disclosure.Panel as="div" className="pt-8 pb-6 prose-sm prose">
+                                                            <Disclosure.Panel as="div" className="pt-8 pb-6 prose-md prose">
+                                                                <div className="">
+                                                                    <div className="max-w-2xl py-2 mx-auto lg:grid lg:max-w-7xl lg:grid-cols-12">
+                                                                        <h2 className="font-semibold">Summary:</h2>
+                                                                        <div
+                                                                            className="space-y-6 text-base"
+                                                                            dangerouslySetInnerHTML={{ __html: movies.description_full }}
+                                                                        />
+                                                                    </div>
+                                                                </div>
                                                                 <ul role="list">
                                                                     <li className="py-2">
-                                                                        <p className="font-semibold">IMDB Rating: {movies.rating}/10</p>
-                                                                    </li>
-                                                                    <li className="py-2">
                                                                         {movies.runtime && (
-                                                                            <p className="font-semibold">Runtime: {movies.runtime} minutes</p>
+                                                                            <p className=""><b>Runtime:</b> {movies.runtime} minutes</p>
                                                                         )}
                                                                     </li>
                                                                     <li className="py-2">
@@ -379,15 +393,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                     </li>
 
                                                                 </ul>
-                                                                <div className="">
-                                                                    <div className="max-w-2xl py-2 mx-auto lg:grid lg:max-w-7xl lg:grid-cols-12">
-                                                                        <h2 className="font-semibold">Description:</h2>
-                                                                        <div
-                                                                            className="space-y-6 text-base text-gray-200"
-                                                                            dangerouslySetInnerHTML={{ __html: movies.description_full }}
-                                                                        />
-                                                                    </div>
-                                                                </div>
+
                                                                 <div className="mt-6 border-t divide-y divide-gray-200"/>
                                                             </Disclosure.Panel>
 
