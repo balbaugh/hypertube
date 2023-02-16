@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player'
 import { Dialog, Disclosure, Listbox, Transition} from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
@@ -117,8 +118,6 @@ const FilmDetail = ({ itsMe }) => {
 				};
 	}
 
-
-
 	const startMovie = () => {
 		const movieHash = movies.torrents[0].hash;
 		const title = movies.title
@@ -152,6 +151,8 @@ const FilmDetail = ({ itsMe }) => {
 
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
+
+    const { t } = useTranslation();
 
     return (
         <div>
