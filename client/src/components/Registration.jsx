@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axiosStuff from '../services/axiosStuff';
 import InfoText from './infoText';
 // import axiosStuff from "../services/axiosStuff";
@@ -67,6 +68,8 @@ const Registration = () => {
 	const handleCPasswordReg = (event) => {
 		setCPasswordReg(event.target.value);
 	};
+
+	const { t } = useTranslation();
 
 	return (
 		<div>

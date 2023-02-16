@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
 import InfoText from "./infoText";
@@ -217,6 +218,7 @@ function ProfileEdit() {
         )
     }
 
+    // const { t } = useTranslation();
 
     return (
         <section className="relative flex-grow py-10 overflow-hidden bg-orange-200 lg:min-h-screen lg:py-10 relative-will-change">

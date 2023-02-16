@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
@@ -10,14 +11,6 @@ import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
 const short = require('short-uuid');
-
-const sortOptions = [
-    { name: 'Best Rating', to: '/best-rating', current: false },
-    { name: 'Most Downloads', to: '/popular', current: true },
-    { name: 'Newest', to: '/newest', current: false },
-    { name: 'Year: New to Old', to: '/year-new-old', current: false },
-    { name: 'Year: Old to New', to: '/year-old-new', current: false },
-];
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -134,6 +127,8 @@ const Popular = () => {
         }
     };
 
+    const { t } = useTranslation();
+
     return (
         <div>
             {loading ? (
@@ -146,12 +141,12 @@ const Popular = () => {
                         <main>
                             <div className="mb-10">
                                 <div className="flex justify-between px-4 pt-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                                    <h1 className="text-3xl font-bold tracking-tight text-gray-200">Browse</h1>
+                                    <h1 className="text-3xl font-bold tracking-tight text-gray-200">{t('BestRating.Browse')}</h1>
                                     {/* Sort */}
                                     <Menu as="div" className="relative inline-block mt-2 ml-auto text-left">
                                         <div>
                                             <Menu.Button className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
-                                                Sort
+                                                {t('BestRating.Sort')}
                                                 <ChevronDownIcon
                                                     className="flex-shrink-0 w-5 h-5 mt-1 ml-1 -mr-1 text-red-500 group-hover:text-red-600"
                                                     aria-hidden="true"
@@ -170,21 +165,51 @@ const Popular = () => {
                                         >
                                             <Menu.Items className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
-                                                    {sortOptions.map((option) => (
-                                                        <Link
-                                                            key={option.name}
-                                                            to={option.to}
-                                                            className={classNames(
-                                                                option.current
-                                                                    ? 'font-medium text-red-500'
-                                                                    : 'text-gray-500 hover:text-gray-700',
-                                                                'block px-4 py-2 text-sm',
-                                                            )}
-                                                        >
-                                                            {option.name}
-                                                        </Link>
-                                                    ))}
-
+                                                    <Link
+                                                        to="/best-rating"
+                                                        className={classNames(
+                                                            'text-gray-500 hover:text-gray-700',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {t('BestRating.BestRating')}
+                                                    </Link>
+                                                    <Link
+                                                        to="/popular"
+                                                        className={classNames(
+                                                            'font-medium text-red-500',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {t('BestRating.Popular')}
+                                                    </Link>
+                                                    <Link
+                                                        to="/newest"
+                                                        className={classNames(
+                                                            'text-gray-500 hover:text-gray-700',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {t('BestRating.Newest')}
+                                                    </Link>
+                                                    <Link
+                                                        to="/year-new-old"
+                                                        className={classNames(
+                                                            'text-gray-500 hover:text-gray-700',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {t('BestRating.YearNewOld')}
+                                                    </Link>
+                                                    <Link
+                                                        to="/year-old-new"
+                                                        className={classNames(
+                                                            'text-gray-500 hover:text-gray-700',
+                                                            'block px-4 py-2 text-sm',
+                                                        )}
+                                                    >
+                                                        {t('BestRating.YearOldNew')}
+                                                    </Link>
                                                 </div>
                                             </Menu.Items>
                                         </Transition>
@@ -195,7 +220,7 @@ const Popular = () => {
                             {/* IMDb Score Slider */}
                             <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
                                 <Box sx={{ width: 350 }}>
-                                    <h4 className="font-semibold text-gray-200">IMDb Rating ( {ratingRange[0]} - {ratingRange[1]} )</h4>
+                                    <h4 className="font-semibold text-gray-200">{t('BestRating.IMDbRating')}( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
                                         min={0}
@@ -223,7 +248,7 @@ const Popular = () => {
                                     />
                                     <Combobox.Input
                                         className="w-full h-12 pr-4 text-white placeholder-gray-500 bg-transparent border-0 pl-11 focus:ring-0 sm:text-sm"
-                                        placeholder="Search..."
+                                        placeholder={t('BestRating.Search')}
                                         value={query}
                                         onKeyUp={handleSearchKeyUp}
                                         onChange={(event) => setQuery(event.target.value)}
@@ -236,17 +261,17 @@ const Popular = () => {
                                 aria-labelledby="films-heading"
                             >
                                 <h2 id="products-heading" className="sr-only">
-                                    Films
+                                    {t('BestRating.Films')}
                                 </h2>
 
                                 <InfiniteScroll
                                     dataLength={filteredMovies.length}
                                     next={loadMoreMovies}
                                     hasMore={hasMore}
-                                    loader={<h4>Loading...</h4>}
+                                    loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
                                         <p style={{ textAlign: 'center' }}>
-                                            <b>Yay! You have seen it all</b>
+                                            <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
                                 >
@@ -266,21 +291,13 @@ const Popular = () => {
                                                         />
 
                                                         <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
-
-                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}</h4>
-                                                            <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
-                                                            <p className="mb-2 text-sm font-semibold text-gray-200">Production Year: {movie.year}</p>
-                                                            <p className="hidden text-sm font-semibold text-gray-200">Genres: {movie.genres.map((genre) => (
-                                                                <span key={`${short.generate()}`}>{genre} </span>
-                                                            ))}</p>
-                                                            <p className="hidden text-sm font-semibold text-gray-200">Description: {movie.description_full}</p>
-
-
+                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</h4>
+                                                            <p className="text-sm font-semibold text-gray-200">IMDb: {movie.rating} / 10</p>
                                                         </div>
                                                     </Link>
                                                     <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
-                                                        <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
-                                                        <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
+                                                        <p className="mb-2 text-md font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</p>
+                                                        <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} / 10</p>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
+
 // const Notification = ({ message }) => {
 function InfoText({ message }) {
   if (message === null) {
     return null;
   }
+  // const { t } = useTranslation();
   return <div className="rounded-md border border-4 border-red-500 bg-yellow-100 p-4 my-4">
     <div className="flex">
       <div className="ml-3">

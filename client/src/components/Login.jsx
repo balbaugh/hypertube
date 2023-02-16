@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axiosStuff from '../services/axiosStuff';
 // import axios from 'axios';
 import InfoText from './infoText';
@@ -64,6 +65,8 @@ const Login = () => {
 	};
 
 	console.log('loginssttats', loginStatus);
+
+	const { t } = useTranslation();
 
 	return (
 		<div>

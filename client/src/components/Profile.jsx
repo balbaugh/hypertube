@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
 import InfoText from "./infoText";
@@ -98,6 +99,8 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
     //     }, 8000);
     //     event.target.reset();
     // };
+
+    const { t } = useTranslation();
 
     return (
         <div>

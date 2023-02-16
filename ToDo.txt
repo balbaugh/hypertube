@@ -6,6 +6,8 @@ profile
 subtitles
 chron job to delete videos after 30 days
 
+PROTECT PASSWORDS
+
 ____________________________________________________________
 
 :: STARTED ::
@@ -20,7 +22,7 @@ comments
 - routes started
 
 language stuff
-- installed i18n, react-i18next and i18n scanner
+FINISHED - footer, sort pages,
 ____________________________________________________________
 
 :: FINISHED ::
