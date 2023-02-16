@@ -53,10 +53,10 @@ const Forgot = () => {
                                     <img src={require("../images/hypertubeLogoSm.png")} alt=""/>
                                 </Link>
                                 <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
-                                    {t(Forgot.title)}
+                                    {t('Forgot.title')}
                                 </h2>
                                 <p className="text-lg font-semibold leading-7 text-red-500">
-                                    Renter the Hypertubes
+                                    {t('Forgot.subtitle')}
                                 </p>
                             </div>
 															<InfoText message={message} />

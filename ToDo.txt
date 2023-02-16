@@ -12,6 +12,12 @@ ____________________________________________________________
 
 :: STARTED ::
 
+language stuff
+-- STARTED - FORGOT PASSWORD,
+-- FINISHED - footer, sort pages,
+-- ADD TRANSLATIONS BUTTON TO LOGGED OUT NAVBAR
+
+
 search functionality
 **** uggghhhh, scroll to bottom resets query results ****
 
@@ -21,8 +27,7 @@ comments
 - db table added
 - routes started
 
-language stuff
-FINISHED - footer, sort pages,
+
 ____________________________________________________________
 
 :: FINISHED ::
