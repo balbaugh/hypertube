@@ -1,0 +1,163 @@
+{
+  "BestRating": {
+    "Browse": "Browse",
+    "Sort": "Sort",
+    "IMDb Rating": "IMDb Rating",
+    "Search": "Search",
+    "Films": "Films",
+    "Loading": "Loading...",
+    "Seen it all": "Yay! You have seen it all",
+    "IMDb Score:": "IMDb Score:",
+    "Production Year:": "Production Year:",
+    "Genres:": "Genres:",
+    "Description:": "Description:"
+  },
+  "FilmDetail": {
+    "filmInformation": "Film information",
+    "reviews": "Reviews",
+    "details": "Details",
+    "comments": "Comments",
+    "stream": "Stream",
+    "post": "Post",
+    "noComments": "No comments yet",
+    "summary": "Summary",
+    "runtime": "Runtime:",
+    "starring": "Starring:",
+    "genres": "Genres:",
+    "imdb": "IMDB:",
+    "outOfTen": "out of 10"
+  },
+  "Footer": {
+    "copyright": "© 2023 Hypertube. All rights reserved."
+  },
+  "Forgot": {
+    "forgotPassword.title": "Forgot Password",
+    "forgotPassword.subtitle": "Renter the Hypertubes",
+    "forgotPassword.emailLabel": "Email",
+    "forgotPassword.resetPasswordButton": "Reset Password",
+    "forgotPassword.haveAccount": "Have an account?",
+    "forgotPassword.signInLink": "Sign In"
+  },
+  "forgot2": {
+    "New Password": "New Password",
+    "Username:": "Username:",
+    "Email:": "Email:",
+    "Password": "Password",
+    "Confirm Password": "Confirm Password",
+    "Change Password": "Change Password"
+  },
+  "Homepage": {
+    "Browse": "Browse",
+    "Sort": "Sort",
+    "IMDb Rating": "IMDb Rating",
+    "Search": "Search",
+    "Films": "Films",
+    "Loading": "Loading...",
+    "Seen it all": "Yay! You have seen it all",
+    "IMDb Score:": "IMDb Score:",
+    "Production Year:": "Production Year:",
+    "Genres:": "Genres:",
+    "Description:": "Description:"
+  },
+  "infoText": {
+    "attention": "ATTENTION"
+  },
+  "Landing": {
+    "landing_section_title": "Limitless Streaming",
+    "landing_section_subtitle": "Why rent when you can torRent?",
+    "landing_section_button": "Get Started",
+    "landing_section_header": "Enjoy...",
+    "landing_section_description": "Only the best on Hypertube."
+  },
+  "Login": {
+    "signIn": "Sign In",
+    "enterHypertubes": "Enter the Hypertubes",
+    "signInWith": "Sign in with",
+    "signInWith42": "Sign in with 42",
+    "signInWithGitHub": "Sign in with GitHub",
+    "orContinueWith": "Or continue with",
+    "username": "Username",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "clickHere": "Click Here",
+    "signInButton": "Sign in",
+    "dontHaveAccount": "Don’t have an account?",
+    "signUp": "Sign Up"
+  },
+  "logout": {
+    "Logged_Out": "You have been logged out..."
+  },
+  "Navbar": {
+    "SignIn": "Sign In",
+    "LogOut": "Log Out"
+  },
+  "Popular": {
+    "Browse": "Browse",
+    "Sort": "Sort",
+    "IMDb Rating": "IMDb Rating",
+    "Search": "Search",
+    "Films": "Films",
+    "Loading": "Loading...",
+    "Seen it all": "Yay! You have seen it all",
+    "IMDb Score:": "IMDb Score:",
+    "Production Year:": "Production Year:",
+    "Genres:": "Genres:",
+    "Description:": "Description:"
+  },
+  "Profile": {
+    "your_profile": "Your Profile",
+    "username": "Username",
+    "username_not_found": "username not found! Expected if you're using OAuth.",
+    "first_name": "First name",
+    "first_name_not_found": "firstName not found! Expected if you're using OAuth.",
+    "last_name": "Last name",
+    "last_name_not_found": "lastName not found! Expected if you're using OAuth.",
+    "email": "Email",
+    "email_not_found": "email not found! Expected if you're using OAuth.",
+    "edit_profile": "Edit Your Profile"
+  },
+  "ProfileEdit": {
+    "edit_profile": "Edit Your Profile"
+  },
+  "Registration": {
+    "title":"Sign Up",
+    "enterHypertubes":"Enter the Hypertubes",
+    "signUpWith":"Sign up with",
+    "continueWith":"Or continue with",
+    "username":"Username",
+    "firstName":"First Name",
+    "lastName":"Last Name",
+    "email":"Email",
+    "password":"Password",
+    "confirmPassword":"Confirm Password",
+    "haveAccount":"Have an account?",
+    "signIn":"Sign In",
+    "signUpButton":"Sign Up"
+  },
+  "YearNewOld": {
+    "Browse": "Browse",
+    "Sort": "Sort",
+    "IMDb Rating": "IMDb Rating",
+    "Search": "Search",
+    "Films": "Films",
+    "Loading": "Loading...",
+    "Yay! You have seen it all": "Yay! You have seen it all",
+    "IMDb Score:": "IMDb Score:",
+    "Production Year:": "Production Year:",
+    "Genres:": "Genres:",
+    "Description:": "Description:"
+  },
+  "YearOldNew": {
+    "Browse": "Browse",
+    "Sort": "Sort",
+    "IMDb Rating": "IMDb Rating",
+    "Search": "Search",
+    "Films": "Films",
+    "Loading": "Loading...",
+    "Yay! You have seen it all": "Yay! You have seen it all",
+    "IMDb Score:": "IMDb Score:",
+    "Production Year:": "Production Year:",
+    "Genres:": "Genres:",
+    "Description:": "Description:"
+  }
+}

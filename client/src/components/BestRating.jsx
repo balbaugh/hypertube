@@ -28,6 +28,7 @@ function valuetext(value: number) {
     return `${value}`;
 }
 
+
 const BestRating = () => {
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);

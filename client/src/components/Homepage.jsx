@@ -271,20 +271,15 @@ const Homepage = () => {
 
                                                         <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
 
-                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}</h4>
-                                                            <p className="text-sm font-semibold text-gray-200">IMDb Score: {movie.rating} / 10</p>
-                                                            <p className="mb-2 text-sm font-semibold text-gray-200">Production Year: {movie.year}</p>
-                                                            <p className="hidden text-sm font-semibold text-gray-200">Genres: {movie.genres.map((genre) => (
-                                                                <span key={`${short.generate()}`}>{genre} </span>
-                                                            ))}</p>
-                                                            <p className="hidden text-sm font-semibold text-gray-200">Description: {movie.description_full}</p>
-
-
+                                                            <h4 className="mb-2 text-md font-semibold text-red-500">{movie.title}</h4>
+                                                            <p className="text-sm font-semibold text-red-400">IMDb Score: {movie.rating} / 10</p>
+                                                            <p className="mb-2 text-sm font-semibold text-red-400">Production Year: ({movie.year})</p>
                                                         </div>
                                                     </Link>
-                                                    <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
-                                                        <p className="text-sm font-semibold text-red-500">IMDb Score: {movie.rating} / 10</p>
-                                                        <p className="text-sm font-semibold text-red-500">Production Year: {movie.year}</p>
+                                                    <div className="mt-2 font-semibold text-center desktop:hidden laptop:hidden mobile:block mobile:mt-4">
+                                                        <p className="text-md font-semibold text-red-400 pb-1">{movie.title}</p>
+                                                        <p className="text-sm font-semibold text-red-300">IMDb Score: {movie.rating} / 10</p>
+                                                        <p className="text-sm font-semibold text-red-300">Production Year: ({movie.year})</p>
                                                     </div>
                                                 </div>
                                             </div>

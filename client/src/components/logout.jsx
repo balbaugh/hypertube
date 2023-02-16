@@ -1,6 +1,7 @@
 import axios from "axios";
 import PropTypes from 'prop-types';
 import { useEffect } from "react";
+
 // import axiosStuff from "services/axiosstuff";
 
 function useLogout(loggedIn, setLoggedIn) {
@@ -24,7 +25,7 @@ function Logout({ loggedIn, setLoggedIn }) {
 	useLogout(loggedIn, setLoggedIn);
 	// return null;
 	return (
-		<div>out.....</div>
+		<div className="font-semibold text-xl text-red-500">You have been logged out...</div>
 	)
 };
 

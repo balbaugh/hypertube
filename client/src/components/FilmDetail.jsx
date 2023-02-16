@@ -117,8 +117,6 @@ const FilmDetail = ({ itsMe }) => {
 				};
 	}
 
-
-
 	const startMovie = () => {
 		const movieHash = movies.torrents[0].hash;
 		const title = movies.title

@@ -4,7 +4,6 @@ import { Combobox, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";

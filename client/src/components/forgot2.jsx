@@ -70,7 +70,7 @@ function Forgot2({ token }) {
 			<div className="max-w-lg mx-auto">
 				<div className="mb-8 text-center">
 					<Link className="inline-block mx-auto mb-6" to="/">
-						<img src="nigodo-assets/logo-icon-nigodo.svg" alt="" />
+						<img src={require("../images/hypertubeLogoSm.png")} alt="" />
 					</Link>
 					<h2 className="mb-2 text-3xl font-extrabold md:text-4xl">
 						New Password

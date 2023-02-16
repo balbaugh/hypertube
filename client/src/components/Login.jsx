@@ -131,7 +131,7 @@ const Login = () => {
                                 </div>
                             </div>
                             <form onSubmit={login}>
-															<InfoText message={message} />
+                            <InfoText message={message} />
                                 <div className="mb-6 pt-2">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
                                         Username
@@ -141,7 +141,7 @@ const Login = () => {
                                         type="text"
                                         placeholder="Username"
                                         required
-												                onChange={handleUsername}
+                                        onChange={handleUsername}
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -154,7 +154,7 @@ const Login = () => {
                                         placeholder="Password..."
                                         autoComplete='off'
                                         required
-               													onChange={handlePassword}
+                                        onChange={handlePassword}
                                     />
                                 </div>
                                 <div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">

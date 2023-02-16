@@ -1,6 +1,6 @@
 module.exports = {
-    input: ['./src/**/*.jsx', './src/**/*.js'], // The files to scan for translation keys
-    output: './src/i18n/$LOCALE/$NAMESPACE.json', // The output location and format
+    input: ['./src/**/*.jsx'], // The files to scan for translation keys
+    output: './src/', // The output location and format
     options: {
         debug: true,
         removeUnusedKeys: true,
@@ -15,7 +15,7 @@ module.exports = {
             extensions: ['.js', '.jsx'],
             fallbackKey: (ns, value) => value,
         },
-        lngs: ['en', 'fi', 'es'], // The languages to output translations for
+        lngs: ['en', 'fi'], // The languages to output translations for
         ns: ['common'], // The namespaces to output translations for
         defaultLng: 'en', // The default language
         defaultNs: 'common', // The default namespace
