@@ -141,6 +141,14 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 Email: {email ? email : "email not found! Expected if you're using OAuth."}
                             </div>
                         </div>
+                        <Link to="/profileEdit">
+                            <button
+                                type="button"
+                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            >
+                                Edit your profile
+                            </button>
+                        </Link>
                         <Link to="/changePassword">
                             <button
                                 type="button"
@@ -149,12 +157,12 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 Change your password
                             </button>
                         </Link>
-                        <Link to="/profileEdit">
+                        <Link to="/changeEmail">
                             <button
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Edit your profile (Doesn't work yet!)
+                                Change your email (Doesn't work yet!)
                             </button>
                         </Link>
                         <button

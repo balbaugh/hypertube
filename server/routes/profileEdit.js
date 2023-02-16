@@ -49,7 +49,7 @@ router.put('/profileEdit', (req, res) => {
         const username = req.body.username;
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
-        const email = req.body.email;
+        const id = req.session.user.id
 
         if (username.length < 4 || username.length > 20)
             return res.send({ message: `Username must be between 4 - 20 characters.` })
@@ -66,52 +66,30 @@ router.put('/profileEdit', (req, res) => {
             return res.send({ message: `Lastname must be between 4 - 20 characters.` })
 
         // AND OTHER CHECKS!!!
-        dbConn.pool.query('SELECT * FROM users WHERE username = $1 OR email = $2',
-            [username, email],
+        dbConn.pool.query('SELECT * FROM users WHERE username = $1 AND id != $2',
+            [username, id],
             (err, result) => {
                 if (err)
                     console.log('update', err);
-                if (result.rowCount > 0 && result.rows[0].username !== req.session.user.username && result.rows[0].email !== req.session.user.email) {
+                if (result.rowCount > 0 && result.rows[0].username !== req.session.user.username) {
                     // console.log('update duplicate', result);
-                    return res.send({ message: `Username / email already exists`, result })
+                    return res.send({ message: `Username already exists`, result })
                 }
                 else {
-                    dbConn.pool.query(`SELECT * FROM images WHERE user_id = $1`,
-                        [req.session.user.id],
-                        (err, result) => {
-                            if (err)
-                                console.log('userid from images err', err)
+                    dbConn.pool.query(`UPDATE users
+                                        SET username = $1, firstname = $2, lastname = $3
+                                        WHERE id = $4`,
+                        [username, firstname, lastname, req.session.user.id],
+                        (err1, result1) => {
+                            if (err1)
+                                console.log('UPDATE PROFILE error:', err)
                             else {
-                                if (result.rowCount > 0) {
-                                    dbConn.pool.query(`UPDATE users SET username = $1, firstname = $2,
-                                                lastname = $3, email = $4 WHERE user_id = $5`,
-                                        [username, firstname, lastname, email, req.session.user.id],
-                                        (err1, result1) => {
-                                            if (err1)
-                                                console.log('UPDATE PROFILE', err)
-                                            else {
-                                                res.send({ message: 'profile updated.', result, result1 })
-                                            }
-                                        })
-                                }
-                                else {
-                                    dbConn.pool.query(`UPDATE profile SET username = $1, firstname = $2,
-                                                lastname = $3, email = $4 WHERE user_id = $5`,
-                                        [username, firstname, lastname, email, req.session.user.id],
-                                        (err1, result1) => {
-                                            if (err1)
-                                                console.log('UPDATE PROFILE', err)
-                                            else {
-                                                res.send({ message: 'profile updated.', result, result1 })
-                                            }
-                                        })
-                                }
+                                res.send({ message: 'Profile successfully updated!', result, result1 })
                             }
                         })
                 }
             })
-    }
-    else
+    } else
         res.redirect('/');
 })
 
