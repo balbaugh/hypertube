@@ -152,6 +152,28 @@ const FilmDetail = ({ itsMe }) => {
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
 
+		const subsConfig = {
+			file: {
+				attributes: {
+					crossOrigin: 'true'
+				},
+				tracks: subs.filter((sub) => sub.imdb_code === movies.imdb_code)
+				.map((sub) => ({
+					kind: 'subtitles',
+					src: `http://localhost:3001/${sub.path}`,
+					//src: `${sub.path}`,
+					// src: `http://localhost:3001/subtitles/${movies.imdbCode}`,
+					//src: `http://localhost:3001/getSubs`,
+					//src: '/goinfre/taitomer/finaltube/server/subtitles/tt2779318/tt2779318-2332018.vtt',
+					srcLang: sub.language
+				}))
+			}
+		}
+
+		if (subsConfig.file.tracks.length)
+			console.log('subsconf', subsConfig)
+
+
     const { t } = useTranslation();
 
     return (
