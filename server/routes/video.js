@@ -5,6 +5,7 @@ const torrentStream = require('torrent-stream');
 const dbConn = require('../utils/dbConnection');
 const config = require('../utils/config');
 const https = require('https');
+const path = require('path');
 
 let filePath = '';
 let fileSize = '';
@@ -45,22 +46,26 @@ const download = async (
 	if (!fs.existsSync(`./subtitles/${imdbCode}`))
 		fs.mkdirSync(`./subtitles/${imdbCode}`, { recursive: true });
 
+		const fileName = path.basename(dest);
+		const finalDest = path.join(`./subtitles/${imdbCode}`, fileName)
+
 		console.log('PATH', dest)
+		console.log('PATH', finalDest)
 		console.log('PATH', subsData.attributes.language)
 
 		dbConn.pool.query(`SELECT * FROM subtitles WHERE path = $1`,
-		[dest],
+		[finalDest],
 		(err, result) => {
 			if (err)
 				console.log('Sub', err)
 			else if (result.rowCount === 0) {
 				dbConn.pool.query(`INSERT INTO subtitles (imdb_code, language, path) VALUES ($1, $2, $3)`,
-				[imdbCode, subsData.attributes.language, dest],
+				[imdbCode, subsData.attributes.language, finalDest],
 				(err1, result1) => {
 					if (err1)
 						console.log('subs insert', err)
 					else {
-						console.log('subs inserted', result1)
+						// console.log('subs inserted', result1)
 					}
 				})
 			}
@@ -79,8 +84,7 @@ const download = async (
 		console.error(error);
 	}*/
 
-
-	const file = fs.createWriteStream(dest);
+	const file = fs.createWriteStream(finalDest);
 	const request = https.get(url, (response) => {
 		response.pipe(file);
 		file.on('finish', function () {
@@ -173,8 +177,7 @@ router.get('/play', (req, res) => {
 
 		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
 			if (!sentResponse) {
-				console.log(`alle 5 ${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
-
+				// console.log(`alle 5 ${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
 				if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 > 5) {
 
 					dbConn.pool.query(`SELECT * FROM movies WHERE movie_path = $1`,
@@ -326,6 +329,31 @@ router.get('/subtitles', (req, res) => {
 		};
 	})
 })
+
+ router.get('/getSubs', (req, res) => {
+	const code = req.query.code;
+	console.log('HALOOO', code.imdbCode)
+	dbConn.pool.query('SELECT * FROM subtitles WHERE imdb_code = $1',
+	[code.imdbCode],
+	(err, result) => {
+		if (err)
+			console.log('getSubs err', err)
+		else {
+			console.log('hohoo', result.rows)
+			res.send(result.rows);
+		}
+	})
+ })
+
+ router.get('/subtitles/:code/:filename', (req, res) => {
+	const { code, filename } = req.params;
+	console.log('HIHIHIHIHIHI', req.params)
+ // Construct the absolute path to the subtitle file
+ const filePath = `subtitles/${code}/${filename}}`;
+
+ // Use the absolute path to send the subtitle file to the client
+ res.sendFile(filePath);
+ })
 
 module.exports = router;
 

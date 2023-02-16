@@ -7,12 +7,6 @@ import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
-// interface Subtitles {
-//     kind: string;
-//     label: string;
-//     src: string;
-//     srcLang: string;
-// }
 
 const reviews = {
     average: 4,
@@ -49,11 +43,12 @@ const FilmDetail = ({ itsMe }) => {
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
     const [playMovie, setPlayMovie] = useState('');
-    const [open, setOpen] = useState(true)
+    // const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
     const [comments, setComments] = useState([]);
 		const [newComment, setNewComment] = useState('');
 		const [users, setUsers] = useState([])
+    const [subs, setSubs] = useState([]);
 
     console.log('playerrf', playerRef)
 		console.log('mee', itsMe.username)
@@ -87,11 +82,11 @@ const FilmDetail = ({ itsMe }) => {
             .then((response) => {
                 setComments(response);
             }).then(() => {
-							axiosStuff.getCommentUser()
-							.then((response1) => {
-								setUsers(response1)
-							})
-						})
+			axiosStuff.getCommentUser()
+			.then((response1) => {
+				setUsers(response1)
+			})
+		})
     }, [id]);
 
 		console.log('comments', comments)
@@ -99,15 +94,15 @@ const FilmDetail = ({ itsMe }) => {
 
     const handleCommentSubmit = (event) => {
         event.preventDefault();
-				if (itsMe.username) {
-					const comment = {
-						movie_id: movies.id,
-						user_id: itsMe.id,
-						text: newComment
-					}
-					axiosStuff
-					.submitComment(comment)
-					.then((response) => {
+		if (itsMe.username) {
+			const comment = {
+				movie_id: movies.id,
+				user_id: itsMe.id,
+				text: newComment
+			}
+			axiosStuff
+			.submitComment(comment)
+			.then((response) => {
             setComments([...comments, response.data]);
               event.target.comment.value = '';
             })
@@ -117,8 +112,6 @@ const FilmDetail = ({ itsMe }) => {
 				};
 	}
 
-
-
 	const startMovie = () => {
 		const movieHash = movies.torrents[0].hash;
 		const title = movies.title
@@ -127,31 +120,69 @@ const FilmDetail = ({ itsMe }) => {
 		const imdbCode = movies.imdb_code;
 		// setOpen(!open)
 		setWatch(true);
-    axiosStuff
-    .subtitles({imdbCode})
-    .then((response) => {
-        console.log('subs', response)
-    })
-		 axiosStuff
-		.play({title, magnetUrl, imdbCode})
-		 .then((response) => {
-			console.log('hii', response)
-			if (response.downloaded) {
-				 setPlayMovie(`http://localhost:3001/ready`)
-			}
-			else {
-				setPlayMovie(`http://localhost:3001/stream`)
-				// setPlayMovie(`http://localhost:3001/ready`)
-			}
-		 })
-	}
+        axiosStuff
+        .subtitles({imdbCode})
+         .then((response) => {
+            console.log('subs', response)
+         })
+         setTimeout(() => {
+            console.log('TAMA', imdbCode)
+            axiosStuff.getSubs({ imdbCode })
+            .then((response2) => {
+                console.log('subs', response2)
+                setSubs(response2)
+            })
+         }, 1000)
 
-	// const filteredComments = comments.filter((comment => {
-	//	return comment.user.id = users.id
-	// }))
+        axiosStuff
+        .play({title, magnetUrl, imdbCode})
+         .then((response) => {
+            console.log('hii', response)
+            if (response.downloaded) {
+                 setPlayMovie(`http://localhost:3001/ready`)
+            }
+            else {
+                setPlayMovie(`http://localhost:3001/stream`)
+                // setPlayMovie(`http://localhost:3001/ready`)
+            }
+         })
+	}
 
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
+
+		 const subsConfig = {
+			file: {
+				attributes: {
+					crossOrigin: 'true'
+				},
+				tracks: subs.filter((sub) => sub.imdb_code === movies.imdb_code)
+				.map((sub) => ({
+					kind: 'subtitles',
+					src: `http://localhost:3001/${sub.path}`,
+					//src: `${sub.path}`,
+					// src: `http://localhost:3001/subtitles/${movies.imdbCode}`,
+					//src: `http://localhost:3001/getSubs`,
+					//src: '/goinfre/taitomer/finaltube/server/subtitles/tt2779318/tt2779318-2332018.vtt',
+					srcLang: sub.language
+				}))
+			}
+		 }
+
+		// const subsConfig = {
+		//	file: {
+		//		tracks: [
+		//			{
+		//				kind: 'subtitles',
+		//				srcLang: 'en',
+		//			}
+		//		]
+		//	}
+		// }
+
+		if (subsConfig.file.tracks.length) {
+			console.log('subsconf', subsConfig)
+		}
 
     return (
         <div>
@@ -199,12 +230,12 @@ const FilmDetail = ({ itsMe }) => {
                                             {/*        aria-hidden="true"*/}
                                             {/*    />*/}
                                             {/*))}*/}
-                                            <p className="font-semibold text-xl text-gray-200">IMDB:&nbsp;</p>
+                                            <p className="text-xl font-semibold text-gray-200">IMDB:&nbsp;</p>
                                         </div>
                                         <p className="text-xl">&nbsp;{movies.rating}&nbsp;</p>
                                         <StarIcon
                                             aria-hidden="true"
-                                            className="h-5 w-5 flex-shrink-0 text-red-500"
+                                            className="flex-shrink-0 w-5 h-5 text-red-500"
                                         />
                                         <p className="text-xl">&nbsp;out of 10</p>
 
@@ -305,6 +336,7 @@ const FilmDetail = ({ itsMe }) => {
 							    			controls={true}
 							    			onError={onError}
 							    			muted={true}
+												config={subsConfig}
 							    		/>
 							    	) : (<Loader />)}
 							    </div>
@@ -345,7 +377,7 @@ const FilmDetail = ({ itsMe }) => {
                                                             </Disclosure.Button>
                                                         </h3>
                                                         <div className="border-t divide-y divide-gray-200">
-                                                            <Disclosure.Panel as="div" className="pt-8 pb-6 prose-md prose">
+                                                            <Disclosure.Panel as="div" className="pt-8 pb-6 prose prose-md">
                                                                 <div className="">
                                                                     <div className="max-w-2xl py-2 mx-auto lg:grid lg:max-w-7xl lg:grid-cols-12">
                                                                         <h2 className="font-semibold">Summary:</h2>
@@ -514,9 +546,9 @@ const FilmDetail = ({ itsMe }) => {
                                                         <div className="mt-4 border-t divide-y divide-gray-200">
                                                             {comments.length > 0 ? (
                                                                 comments.map((comment) => {
-																																	const user = users.find(user => user.id === comment.user_id)
-																																	const username = user.username
-																																	return (
+																const user = users.find(user => user.id === comment.user_id)
+																const username = user.username
+																return (
                                                                     <div key={comment.id}
                                                                          className="py-6">
                                                                         <div
@@ -524,7 +556,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                             <img
                                                                                 className="inline-block w-10 h-10 rounded-full"
                                                                                 // src={comment.user.profile_pic_path}
-                                                                                // alt={comment.user.username}
+                                                                                 alt={username}
                                                                             />
                                                                             <div className="ml-4">
                                                                                 <h4 className="text-sm font-bold text-gray-300">

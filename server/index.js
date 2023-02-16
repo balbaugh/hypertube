@@ -16,6 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.static('downloads'));
+app.use(express.static('subtitles'));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,7 +32,6 @@ app.use(session({
 		//secure: true
 	}
 }))
-
 
 const dbConn = require('./utils/dbConnection');
 const { connectDB } = dbConn;
@@ -76,9 +76,6 @@ app.get('/42', (req, res) => {
     })
   })
 })
-
-// const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
-// const GITHUB_CLIENT_SECRET = '554c1d6b03944844c00313062954a8a8cac487b9';
 
 app.get('/github', (req, res) => {
 	const code = req.query.codeParam;

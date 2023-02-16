@@ -24,6 +24,17 @@ const subtitles = (code) => {
 	return req.then((response) => response.data);
 }
 
+ const getSubs = (code) => {
+	const req = axios.get(`${baseUrl}/getSubs`, {
+		params: { code }
+	});
+	return req.then((response) => response.data);
+ }
+//const getSubs = (code) => {
+//	const req = axios.get(`${baseUrl}/subtitles/${code}`)
+//	return req.then((response) => response.data)
+//}
+
 const play = (magnet) => {
 	const req = axios.get(`${baseUrl}/play`, {
 		params: { magnet }
@@ -127,7 +138,7 @@ const axiosStuff = {
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
 	profileEdit, updateProfile, ready, stream, getComments, submitComment,
-	subtitles, getCommentUser
+	subtitles, getSubs, getCommentUser
 };
 
 export default axiosStuff;

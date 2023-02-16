@@ -99,7 +99,7 @@ const App = () => {
 					<Route path="/year-old-new" element={loggedIn ? <YearOldNew /> : <Landing />} />
 					<Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
 					<Route path="/get/:token" element={<Forgot2 />} />
-					<Route path="*" element={<Landing />} />
+					{/*<Route path="*" element={<Landing />} />*/}
 				</Routes>
 				<Footer />
 			</Router>
