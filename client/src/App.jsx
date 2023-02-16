@@ -77,13 +77,8 @@ const App = () => {
 	console.log('loggedIn', loggedIn)
 
 	return (
-<<<<<<< HEAD
-		<div className="h-full min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
-
-=======
 	<I18nextProvider i18n={i18n}>
-		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
->>>>>>> 073fa492c0a40e21ea34d17e6531f17d42ae7c18
+		<div className="h-full min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
 			<Router>
 				<Nav itsMe={itsMe} />
 				<Routes>
@@ -95,18 +90,6 @@ const App = () => {
 					<Route path="/registration" element={<Registration />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/forgot" element={<Forgot />} />
-<<<<<<< HEAD
-					{/* <Route path="testmovie" element={<TestMovieThumb />} />
-					<Route path="thetest/:id" element={<TheTest />} /> */}
-					{/* <Route path="/list" element={<List />} /> */}
-					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
-					<Route path="/profile" element={loggedIn ? <Profile /> : <Landing />} />
-					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Landing />} />
-					<Route path="/best-rating" element={loggedIn ? <BestRating /> : <Landing />} />
-					<Route path="/newest" element={loggedIn ? <Newest /> : <Landing />} />
-					<Route path="/year-new-old" element={loggedIn ? <YearNewOld /> : <Landing />} />
-					<Route path="/year-old-new" element={loggedIn ? <YearOldNew /> : <Landing />} />
-=======
 					<Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} />
 					<Route path="/popular" element={<Popular />} />
@@ -116,7 +99,6 @@ const App = () => {
 					<Route path="/newest" element={<Newest />} />
 					<Route path="/year-new-old" element={<YearNewOld />} />
 					<Route path="/year-old-new" element={<YearOldNew />} />
->>>>>>> 073fa492c0a40e21ea34d17e6531f17d42ae7c18
 					<Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
 					<Route path="/get/:token" element={<Forgot2 />} />
 					<Route path="*" element={<Landing />} />
