@@ -41,7 +41,7 @@ const stream = () => {
 	return (req.then((response) => response.data))
 }
 
-// Signup and Logi stuff below
+// Signup and Login stuff below
 
 const register = (newObject) => {
 	const req = axios.post(`${baseUrl}/register`, newObject);
@@ -120,13 +120,16 @@ const getCommentUser = () => {
 	return req.then((response) => response.data)
 }
 
-
+const setProfilePic = (Picture) => {
+	const request = axios.post(`${baseUrl}/setprofilepic`, Picture)
+	return request.then(response => response.data)
+}
 
 const axiosStuff = {
 	// test,
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile, ready, stream, getComments, submitComment,
+	profileEdit, updateProfile, setProfilePic, ready, stream, getComments, submitComment,
 	subtitles, getCommentUser
 };
 
