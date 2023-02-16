@@ -111,7 +111,8 @@ router.post('/register', (req, res) => {
 											try {
 												console.log('rows[0].id', id)
 												sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
-												dbConn.pool.query(sql, [id, "localhost:3000/images/default_profilepic"])
+												dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
+												// /default_profilepic.jpg
 												res.send({ message: `Registration email sent to '${email}'`, result });
 											} catch (error) {
 												console.error("Something went wrong when trying to create a default avatar for the user:", error)

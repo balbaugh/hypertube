@@ -8,13 +8,16 @@ const dbConn = require('../utils/dbConnection');
 
 router.get('/login', (req, res) => {
 	if (req.session.user) {
-		dbConn.pool.query('SELECT status, username, firstname, lastname FROM users WHERE username = $1',
+		dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, password, path FROM users
+							INNER JOIN profile_pics
+							ON users.id = profile_pics.user_id
+							WHERE username = $1;`,
 			[req.session.user.username],
 			(err, result) => {
 				if (err)
 					console.log('req.user.session', err);
 				else {
-					res.send({ loggedIn: true, user: req.session.user, result });
+					res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
 					// console.log('LOGINNNRESULT', result)
 				}
 			})
@@ -38,7 +41,10 @@ router.post('/login', (req, res) => {
 	if (!password.match(/^[a-zA-Z0-9_.!@-]+$/))
 		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 
-	dbConn.pool.query('SELECT * FROM users WHERE username = $1',
+	dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, password, path FROM users
+						INNER JOIN profile_pics
+						ON users.id = profile_pics.user_id
+						WHERE username = $1;`,
 		[username],
 		(err, result) => {
 			if (err)

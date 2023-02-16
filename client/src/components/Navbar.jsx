@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
@@ -16,16 +16,23 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(' ')
 }
 
-const Nav = ({ itsMe }) => {
+const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	const { i18n } = useTranslation();
 
 	const changeLanguage = (lng) => {
 		i18n.changeLanguage(lng);
 	};
 
+	useEffect(() => {
+		
+	}, [selectedAvatar]);
+
 	axios.defaults.withCredentials = true; // For the sessions the work
 
+	// setItsMe({ ...itsMe, path: selectedAvatar })
+
 	console.log('ITSMEEE', itsMe.username);
+	console.log('ITSMEEE.path', itsMe.path);
 
 	console.log('ITSMEEE.username || ITSMEE.login', itsMe.username, itsMe.login)
 
@@ -144,8 +151,8 @@ const Nav = ({ itsMe }) => {
 													<span className="sr-only">Open user menu</span>
 													<img
 														className="h-8 w-8 rounded-full"
-														src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-														alt=""
+														src={selectedAvatar}
+														alt="PP"
 													/>
 												</Menu.Button>
 											</div>

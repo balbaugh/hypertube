@@ -16,6 +16,7 @@ app.use(cors({
 }));
 
 app.use(express.static('downloads'));
+app.use('/images', express.static('./images'))
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,7 +47,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/42', (req, res) => {
-  const code = req.query.codeParam;
+	const code = req.query.codeParam;
 
   fetch(`https://api.intra.42.fr/oauth/token`, {
     method: 'POST',
@@ -88,25 +89,25 @@ app.get('/github', (req, res) => {
 			'Accept': 'application/json'
 		}
 	})
-	.then((response) => {
-		return response.json()
-	})
-	.then((data) => {
-		const accessToken = data.access_token;
-		fetch(`https://api.github.com/user`, {
-			headers: {
-				'Authorization': `Token ${accessToken}`
-			}
-		})
 		.then((response) => {
 			return response.json()
 		})
 		.then((data) => {
-			console.log('ma', data)
-			req.session.user = data;
-			res.send({ loggedIn: true, user: req.session.user })
+			const accessToken = data.access_token;
+			fetch(`https://api.github.com/user`, {
+				headers: {
+					'Authorization': `Token ${accessToken}`
+				}
+			})
+				.then((response) => {
+					return response.json()
+				})
+				.then((data) => {
+					console.log('ma', data)
+					req.session.user = data;
+					res.send({ loggedIn: true, user: req.session.user })
+				})
 		})
-	})
 })
 
 // const getCommentsFromDatabase = (movieId, connection) => {
