@@ -21,7 +21,7 @@ function useProfile() {
     // Get profile infos
     useEffect(() => {
         axiosStuff
-            .profileEdit()
+            .profileInfo()
             .then((response) => {
                 setUserId(response.id)
                 setUsername(response.username)
@@ -36,7 +36,6 @@ function useProfile() {
         userId, username, firstName, lastName, email, profilePic
     }
 }
-
 
 const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
     const [message, setMessage] = useState(null);
@@ -64,7 +63,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                         setMessage('Profile picture successfully changed!')
                         console.log('response.path:', response.path)
                         setSelectedAvatar(response.path)
-                        setItsMe({ path: response.path, ...itsMe})
+                        setItsMe({ path: response.path, ...itsMe })
                     } else {
                         setMessage(response.message);
                     }
@@ -139,20 +138,28 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 Email: {email ? email : "email not found! Expected if you're using OAuth."}
                             </div>
                         </div>
-                        <form action="http://localhost:3000/profileEdit">
+                        <Link to="/changePassword">
                             <button
-                                // type="submit"
+                                type="button"
+                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            >
+                                Change your password
+                            </button>
+                        </Link>
+                        <Link to="/profileEdit">
+                            <button
+                                type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
                                 Edit your profile (Doesn't work yet!)
                             </button>
-                            <button
-                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
-                            >
-                                <label>Change profile picture</label>
-                                <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
-                            </button>
-                        </form>
+                        </Link>
+                        <button
+                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                        >
+                            <label>Change profile picture</label>
+                            <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                        </button>
                     </div>
                 </div>
             </section>

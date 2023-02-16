@@ -119,7 +119,7 @@ router.post('/forgot', (req, res) => {
 					}
 
 					sendVerif();
-					res.send({ result, message: `Link sended to '${email}'.` })
+					res.send({ result, message: `Link sent to '${email}'.` })
 				}
 				else {
 					res.send({ result, message: `no such email.` })
@@ -155,7 +155,7 @@ router.put('/newPw', (req, res) => {
 	if (!cPw.match(/^[a-zA-Z0-9_.!@-]+$/))
 		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 	if (pw !== cPw)
-		return (res.send({ message: 'Passwords doesn\'t match.' }))
+		return (res.send({ message: 'Passwords don\'t match.' }))
 
 	bcrypt.hash(pw, 10, (err, hash) => {
 		if (err)
@@ -174,6 +174,37 @@ router.put('/newPw', (req, res) => {
 	})
 })
 
+router.put('/changePw', (req, res) => {
+	const pw = req.body.password;
+	const cPw = req.body.confPasswd;
+	const username = req.body.user;
 
+	if (pw.length < 8 || pw.length > 20)
+		return res.send({ message: `Password must be between 8 - 20 characters.` })
+	if (!pw.match(/^[a-zA-Z0-9_.!@-]+$/))
+		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
+	if (cPw.length < 8 || cPw.length > 20)
+		return res.send({ message: `Password must be between 8 - 20 characters.` })
+	if (!cPw.match(/^[a-zA-Z0-9_.!@-]+$/))
+		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
+	if (pw !== cPw)
+		return (res.send({ message: 'Passwords don\'t match.' }))
+
+	bcrypt.hash(pw, 10, (err, hash) => {
+		if (err)
+			console.log('update pw hash error', err);
+		else {
+			dbConn.pool.query(`UPDATE users SET password = $1 WHERE username = $2`,
+				[hash, username],
+				(err1, result1) => {
+					if (err1)
+						console.log('update pw err', err1);
+					else {
+						res.send({ result1, message: `Password was successfully changed!` })
+					}
+				})
+		}
+	})
+})
 
 module.exports = router

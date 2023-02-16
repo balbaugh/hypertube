@@ -11,8 +11,9 @@ import Homepage from './components/Homepage';
 import FilmDetail from './components/FilmDetail';
 import Registration from './components/Registration';
 import Login from './components/Login';
-import Profile from './components/Profile';
+import Profile from './components/Profile';	
 import ProfileEdit from './components/ProfileEdit';
+import ChangePassword from './components/ChangePassword';
 import Forgot from './components/Forgot';
 // import TestMovieThumb from './components/testmoviethumb';
 // import TheTest from './components/thetest';
@@ -88,6 +89,7 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Landing />} />
 					<Route path="/homepage" element={loggedIn ? <Homepage /> : <Landing />} />
+					<Route path="/changePassword" element={loggedIn ? <ChangePassword /> : <Landing />} />
 					<Route path="/film/:id" element={loggedIn ? <FilmDetail itsMe={itsMe} /> : <Landing />} />
 					<Route path="/registration" element={<Registration />} />
 					<Route path="/login" element={<Login />} />

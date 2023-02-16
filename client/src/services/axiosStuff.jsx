@@ -83,6 +83,11 @@ const newPw = (newObject) => {
 	return req.then((response) => response.data);
 }
 
+const changePw = (newObject) => {
+	const req = axios.put(`${baseUrl}/changePw`, newObject);
+	return req.then((response) => response.data);
+}
+
 const getGitProfile = (codeParam) => {
 	const req = axios.get(`${baseUrl}/github?codeParam=${codeParam}`);
 	return req.then((response) => response.data)
@@ -93,9 +98,8 @@ const get42Profile = (codeParam) => {
 	return req.then((response) => response.data);
 }
 
-const profileEdit = () => {
-	console.log('Made it to profileEdit')
-	const req = axios.get(`${baseUrl}/profileEdit`);
+const profileInfo = () => {
+	const req = axios.get(`${baseUrl}/profileInfo`);
 	return req.then((response) => response.data)
 }
 
@@ -129,7 +133,7 @@ const axiosStuff = {
 	// test,
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileEdit, updateProfile, setProfilePic, ready, stream, getComments, submitComment,
+	profileInfo, updateProfile, setProfilePic, changePw, ready, stream, getComments, submitComment,
 	subtitles, getCommentUser
 };
 

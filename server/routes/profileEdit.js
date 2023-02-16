@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router.get('/profileEdit', (req, res) => {
+router.get('/profileInfo', (req, res) => {
     console.log('req.session.user', req.session.user)
     if (req.session.user) {
         dbConn.pool.query(`SELECT * FROM users
@@ -117,7 +117,6 @@ router.put('/profileEdit', (req, res) => {
 
 router.post('/setprofilepic', upload.single('file'), async (request, response) => {
     const session = request.session.user
-    console.log('session in /setprofilepic:', session)
     const picture = 'http://localhost:3001/images/' + request.file.filename
     if (session.id) {
         if (request.file.size > 5242880) {
@@ -126,7 +125,6 @@ router.post('/setprofilepic', upload.single('file'), async (request, response) =
         try {
             var sql = `SELECT * FROM profile_pics WHERE user_id = $1;`
             const profilePic = await dbConn.pool.query(sql, [session.id])
-            // We check for an existing profile picture.
             let oldImageData = profilePic.rows[0]['path']
             // path.resolve gets the absolute path of '../images'
             const oldImage = path.resolve(__dirname, '../images') + oldImageData.replace('http://localhost:3001/images', '')
