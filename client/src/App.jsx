@@ -77,12 +77,8 @@ const App = () => {
 
 	return (
 	<I18nextProvider i18n={i18n}>
-<<<<<<< HEAD
 		<div className="h-full min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
-=======
-		<div className="text-slate-300 h-full min-h-screen wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
 
->>>>>>> a59cba17b24ceab12cb57731b14ba723afda2a31
 			<Router>
 				<Nav itsMe={itsMe} />
 				<Routes>
@@ -92,17 +88,6 @@ const App = () => {
 					<Route path="/registration" element={<Registration />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/forgot" element={<Forgot />} />
-<<<<<<< HEAD
-					<Route path="testmovie" element={<TestMovieThumb />} />
-					<Route path="thetest/:id" element={<TheTest />} />
-					<Route path="/popular" element={<Popular />} />
-					<Route path="/profile" element={loggedIn ? <Profile /> : <Homepage />} />
-					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Homepage />} />
-					<Route path="/best-rating" element={<BestRating />} />
-					<Route path="/newest" element={<Newest />} />
-					<Route path="/year-new-old" element={<YearNewOld />} />
-					<Route path="/year-old-new" element={<YearOldNew />} />
-=======
 					{/* <Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} /> */}
 					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
@@ -112,7 +97,6 @@ const App = () => {
 					<Route path="/newest" element={loggedIn ? <Newest /> : <Landing />} />
 					<Route path="/year-new-old" element={loggedIn ? <YearNewOld /> : <Landing />} />
 					<Route path="/year-old-new" element={loggedIn ? <YearOldNew /> : <Landing />} />
->>>>>>> a59cba17b24ceab12cb57731b14ba723afda2a31
 					<Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
 					<Route path="/get/:token" element={<Forgot2 />} />
 					<Route path="*" element={<Landing />} />
