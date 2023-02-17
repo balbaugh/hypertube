@@ -138,7 +138,10 @@
         "last_name_not_found": "etunimeä ei löydy! Odotettavissa, jos käytät OAuth.",
         "email": "Sähköposti",
         "email_not_found": "sähköpostia ei löydy! Odotettavissa, jos käytät OAuth.",
-        "edit_profile": "Muokkaa Profiiliasi"
+        "edit_profile": "Muokkaa Profiiliasi",
+        "change_password": "Vaihda Salasana",
+        "change_email": "Vaihda Sähköposti",
+        "profile_picture": "Profiilikuva"
     },
     "ProfileEdit": {
         "edit_profile": "Muokkaa Profiiliasi"

@@ -38,10 +38,14 @@ function useProfile() {
     }
 }
 
-const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
+const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
     const [message, setMessage] = useState(null);
 
     const { userId, username, firstName, lastName, email, profilePic } = useProfile();
+
+    useEffect(() => {
+
+    }, [selectedAvatar]);
 
     // if (isLoading) {
     //     return (
@@ -99,6 +103,10 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
     //     event.target.reset();
     // };
 
+    useEffect(() => {
+
+    }, [selectedAvatar]);
+
     const { t } = useTranslation();
 
     return (
@@ -123,22 +131,30 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                         <InfoText message={message} />
                         <div className="mb-6 pt-2">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.username')}: {username ? username : "{t('Profile.username_not_found')}"}
+                                <p>{t('Profile.username')}:</p>
+                                <p>{username ? username : "{t('Profile.username_not_found')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.first_name')}: {firstName ? firstName : "{t('Profile.first_name_not_found')}')}"}
+                                <p>{t('Profile.first_name')}:</p>
+                                <p>{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.last_name')}: {lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}
+                                <p>{t('Profile.last_name')}:</p>
+                                <p>{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.email')}: {email ? email : "email not found! Expected if you're using OAuth."}
+                                <p>{t('Profile.email')}:</p>
+                                <p>{email ? email : "{t('Profile.email_not_found')}')}"}</p>
+                                
                             </div>
                         </div>
                         <Link to="/profileEdit">
@@ -154,7 +170,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change Password
+                                {t('Profile.change_password')}
                             </button>
                         </Link>
                         <Link to="/changeEmail">
@@ -162,16 +178,27 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change Email (Doesn't work yet!)
+                                {t('Profile.change_email')} (Doesn't work yet!)
                             </button>
                         </Link>
-                        <button
-                            className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
-                        >
-                            <label>Profile Picture</label>
-                            <br />
-                            <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
-                        </button>
+                        {/*<button*/}
+                        {/*    className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
+                        {/*>*/}
+                        {/*    <label>{t('Profile.profile_picture')}</label>*/}
+                        {/*    <br />*/}
+                        {/*    <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>*/}
+                        {/*</button>*/}
+                        <div className="rounded-md p-4 border-2 border-red-500">
+                            <label className="block pb-1 text-md font-medium text-gray-200">{t('Profile.profile_picture')}</label>
+                            <div className="mt-1 flex items-center">
+                                <button
+                                    type="button"
+                                    className="inline-block w-3/4 ml-5 rounded-md border border-gray-300 bg-gray-300 py-2 px-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    <input className="rounded bg-gray-400" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
