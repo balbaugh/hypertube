@@ -138,10 +138,17 @@
         "last_name_not_found": "LastName not found! Expected if you're using OAuth.",
         "email": "Email",
         "email_not_found": "Email not found! Expected if you're using OAuth.",
-        "edit_profile": "Edit Your Profile"
+        "edit_profile": "Edit Your Profile",
+        "change_password": "Change Password",
+        "change_email": "Change Email",
+        "profile_picture": "Profile Picture"
     },
     "ProfileEdit": {
-        "edit_profile": "Edit Your Profile"
+        "update_profile": "Update Profile",
+        "username": "Username",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "save_changes": "Save Changes"
     },
     "Registration": {
         "title":"Sign Up",

@@ -38,10 +38,14 @@ function useProfile() {
     }
 }
 
-const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
+const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
     const [message, setMessage] = useState(null);
 
     const { userId, username, firstName, lastName, email, profilePic } = useProfile();
+
+    useEffect(() => {
+
+    }, [selectedAvatar]);
 
     // if (isLoading) {
     //     return (
@@ -99,6 +103,10 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
     //     event.target.reset();
     // };
 
+    useEffect(() => {
+
+    }, [selectedAvatar]);
+
     const { t } = useTranslation();
 
     return (
@@ -113,7 +121,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                     <div className="max-w-lg mx-auto">
                         <div className="mb-8 text-center">
                             <Link className="inline-block mx-auto mb-6" to="/">
-                                <img src={require("../images/hypertubeLogoSm.png")} alt="" />
+                                <img src={require("../images/hypertubeText.png")} alt="" />
                             </Link>
                             <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
                                 {t('Profile.your_profile')}
@@ -122,23 +130,42 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
                         <div className="mb-6 pt-2">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.username')}: {username ? username : "{t('Profile.username_not_found')}"}
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.username')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{username ? username : "{t('Profile.username_not_found')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.first_name')}: {firstName ? firstName : "{t('Profile.first_name_not_found')}')}"}
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.first_name')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.last_name')}: {lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.last_name')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
+
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                {t('Profile.email')}: {email ? email : "email not found! Expected if you're using OAuth."}
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.email')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{email ? email : "{t('Profile.email_not_found')}')}"}</p>
+
+                            </div>
+                        </div>
+                        <div className="rounded-md">
+                            <label className="block pb-1 text-lg font-semibold text-red-500">{t('Profile.profile_picture')}:</label>
+                            <div className="mt-1 pb-6">
+                                <button
+                                    type="button"
+                                    className="inline-block w-full py-2 text-sm font-medium text-gray-700 shadow-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    <input className="rounded" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                                </button>
                             </div>
                         </div>
                         <Link to="/profileEdit">
@@ -154,7 +181,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change Password
+                                {t('Profile.change_password')}
                             </button>
                         </Link>
                         <Link to="/changeEmail">
@@ -162,16 +189,17 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change Email (Doesn't work yet!)
+                                {t('Profile.change_email')} (Doesn't work yet!)
                             </button>
                         </Link>
-                        <button
-                            className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
-                        >
-                            <label>Profile Picture</label>
-                            <br />
-                            <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
-                        </button>
+                        {/*<button*/}
+                        {/*    className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
+                        {/*>*/}
+                        {/*    <label>{t('Profile.profile_picture')}</label>*/}
+                        {/*    <br />*/}
+                        {/*    <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>*/}
+                        {/*</button>*/}
+
                     </div>
                 </div>
             </section>

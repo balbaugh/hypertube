@@ -14,10 +14,18 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 
 	const changeLanguage = (lng) => {
 		i18n.changeLanguage(lng);
+		localStorage.setItem('language', lng); // store selected language in local storage
 	};
 
 	useEffect(() => {
+<<<<<<< HEAD
 
+=======
+		const savedLanguage = localStorage.getItem('language');
+		if (savedLanguage) {
+			i18n.changeLanguage(savedLanguage);
+		}
+>>>>>>> c1426135851833f99d96176424f63181942f873c
 	}, [selectedAvatar]);
 
 	axios.defaults.withCredentials = true; // For the sessions the work
@@ -91,7 +99,11 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									<>
 										<a
 											href="/logout"
+<<<<<<< HEAD
 											className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+=======
+											className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+>>>>>>> c1426135851833f99d96176424f63181942f873c
 										>
 											<span className="sr-only">{t('Navbar.SignOut')}</span>
 											<PowerIcon className="w-6 h-6" aria-hidden="true" />
@@ -101,7 +113,11 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										{/* Language Dropdown */}
 										<Menu as="div" className="relative ml-4">
 											<div>
+<<<<<<< HEAD
 												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+=======
+												<Menu.Button className="flex rounded-full text-gray-400 hover:text-lime-500 bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+>>>>>>> c1426135851833f99d96176424f63181942f873c
 													<span className="sr-only">Open language menu</span>
 													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
 														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
@@ -179,7 +195,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
-																href="/settings"
+																href="/profileEdit"
 																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
 															>
 																{t('Navbar.Settings')}
@@ -282,6 +298,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	);
 };
 export default Nav;
+<<<<<<< HEAD
 
 
 // <Navbar
@@ -408,3 +425,5 @@ export default Nav;
 // 		</>
 // 	)}
 // </Navbar>
+=======
+>>>>>>> c1426135851833f99d96176424f63181942f873c

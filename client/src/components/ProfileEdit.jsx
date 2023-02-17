@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import axiosStuff from "../services/axiosStuff";
 import InfoText from './infoText';
 
@@ -56,20 +57,25 @@ function useGetProfileInfo() {
 	};
 }
 
+
 function ProfileEdit () {
+
+	const { t } = useTranslation();
+
 	const { username, firstname, lastname, message,
         handleUsernameChange, handleFirstnameChange, handleLastnameChange,
 		submitEditProfile } = useGetProfileInfo();
+
 	return (
 		<section className="flex-grow py-10">
 			<div className="container px-4 py-10 mx-auto">
 				<div className="max-w-lg mx-auto">
 					<div className="mb-8 text-center">
 						<Link className="inline-block mx-auto mb-6" to="/">
-							<img src="nigodo-assets/logo-icon-nigodo.svg" alt="" />
+							<img src={require("../images/hypertubeText.png")} alt="" />
 						</Link>
 						<h2 className="mb-2 text-3xl font-extrabold md:text-4xl">
-							Change your profile information
+							{t('ProfileEdit.update_profile')}
 						</h2>
 					</div>
 					<InfoText message={message} />
@@ -79,7 +85,7 @@ function ProfileEdit () {
 								className="block mb-2 font-extrabold"
 								htmlFor="username"
 							>
-								Username
+								{t('ProfileEdit.username')}
 							</label>
 							<input
 								className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
@@ -96,7 +102,7 @@ function ProfileEdit () {
 								className="block mb-2 font-extrabold"
 								htmlFor="firstname"
 							>
-								First name
+								{t('ProfileEdit.first_name')}
 							</label>
 							<input
 								className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
@@ -113,7 +119,7 @@ function ProfileEdit () {
 								className="block mb-2 font-extrabold"
 								htmlFor="lastname"
 							>
-								Last name
+								{t('ProfileEdit.last_name')}
 							</label>
 							<input
 								className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
@@ -129,7 +135,7 @@ function ProfileEdit () {
 							type="submit"
 							className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
 						>
-							Change Profile information
+							{t('ProfileEdit.save_changes')}
 						</button>
 					</form>
 				</div>
