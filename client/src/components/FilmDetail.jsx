@@ -203,7 +203,7 @@ const FilmDetail = ({itsMe}) => {
                                 </div>
 
                                 {/* Reviews */}
-                                <div className="mt-3 pb-9">
+                                <div className="mt-3">
                                     <h3 className="sr-only">{t('FilmDetail.reviews')}</h3>
                                     <div className="flex items-center">
                                         <div className="flex items-center">
@@ -219,7 +219,7 @@ const FilmDetail = ({itsMe}) => {
                                 </div>
 
                                 {!watch ? (
-                                    <div className="flex mt-10 sm:flex-col1">
+                                    <div className="mt-3 flex sm:flex-col1">
                                         <button
                                             type="button"
                                             className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
@@ -232,7 +232,7 @@ const FilmDetail = ({itsMe}) => {
                                 ) : (null)}
                                 {/* </form> */}
                                 {watch ? (
-                                    <div>
+                                    <div className="mt-9">
                                         {playMovie ? (
                                             <ReactPlayer
                                                 ref={playerRef}
@@ -248,7 +248,7 @@ const FilmDetail = ({itsMe}) => {
                                 ) : (null)}
 
                                 {/* DETAILS PANEL */}
-                                <section aria-labelledby="details-heading" className="mt-12">
+                                <section aria-labelledby="details-heading" className="mt-9">
                                     <h2 id="details-heading" className="sr-only">
                                         {t('FilmDetail.details')}
                                     </h2>
