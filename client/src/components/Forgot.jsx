@@ -59,31 +59,31 @@ const Forgot = () => {
                                     {t('Forgot.subtitle')}
                                 </p>
                             </div>
-															<InfoText message={message} />
+                            <InfoText message={message} />
                                 <div className="mb-6">
                                     <label className="block mb-2 font-semibold text-slate-300" htmlFor="username">
-                                        Email
+                                        {t('Forgot.emailLabel')}
                                     </label>
                                     <input
                                       className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                       type="email"
-                                      placeholder="Email"
+                                      placeholder={t('Forgot.emailLabel')}
                                       required
-																			onChange={handleEmail}
+                                      onChange={handleEmail}
                                     />
                                 </div>
                                 <button
                                     type="submit"
                                     className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
-																	onClick={forgotEmail}
-																>
-                                    Reset Password
+                                    onClick={forgotEmail}
+                                >
+                                    {t('Forgot.resetPasswordButton')}
                                 </button>
                                 <div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">
                                     <p className="font-semibold text-center text-slate-300">
-                                        Have an account?{"  "}
+                                        {t('Forgot.haveAccount')}{"  "}
                                         <Link className="text-red-500 hover:underline" to="/login">
-                                            Sign In
+                                            {t('Forgot.signInLink')}
                                         </Link>
                                     </p>
                                 </div>

@@ -48,8 +48,8 @@
         "Username:": "Käyttäjätunnus:",
         "Email:": "Sähköposti:",
         "Password": "Salasana",
-        "Confirm Password": "Vahvista Salasana",
-        "Change Password": "Vaihda Salasana"
+        "ConfirmPassword": "Vahvista Salasana",
+        "ChangePassword": "Vaihda Salasana"
     },
     "Homepage": {
         "Browse": "Selaa",
@@ -99,12 +99,15 @@
     },
     "Navbar": {
         "SignIn": "Kirjaudu sisään",
-        "Sign Out": "Kirjaudu ulos",
-        "Your Profile": "Profiilisi",
+        "SignOut": "Kirjaudu ulos",
+        "Profile": "Profiilisi",
         "Settings": "Asetukset",
         "Home": "Koti",
         "Register": "Rekisteröidy",
-        "Forgot": "Unohdin"
+        "Forgot": "Unohdin",
+        "About": "Noin",
+        "Finnish": "Finnish",
+        "English": "Englanti"
     },
     "Popular": {
         "Browse": "Selaa",

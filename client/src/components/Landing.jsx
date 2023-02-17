@@ -43,10 +43,10 @@ const Landing = () => {
                                         <img src={require("../images/hypertubeLogoSm.png")} alt=""/>
                                     </div>
                                     <h2 className="text-3xl text-slate-300 font-extrabold md:text-4xl">
-                                        Limitless Streaming
+                                        {t('Landing.landing_section_title')}
                                     </h2>
-                                    <p className="text-2xl font-semibold text-red-500">
-                                        Why rent when you can torRent?
+                                    <p className="pt-1 text-2xl font-semibold text-red-500">
+                                        {t('Landing.landing_section_subtitle')}
                                     </p>
                                 </div>
                                 <div className="items-center justify-center">
@@ -55,7 +55,7 @@ const Landing = () => {
                                             type="button"
                                             className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                                         >
-                                            Get Started
+                                            {t('Landing.landing_section_button')}
                                         </button>
                                     </Link>
                                 </div>
@@ -73,11 +73,11 @@ const Landing = () => {
                                         <div className="landing-div flex flex-row w-full text-center pt-8">
                                             <div className="w-1/2 text-center pb-6 mt-4">
                                                 <h1 className="text-4xl font-extrabold text-slate-300 hover:text-red-500">
-                                                    Enjoy...
+                                                    {t('Landing.landing_section_header')}
                                                 </h1>
                                                 <br/>
                                                 <p className="text-xl font-semibold text-red-500">
-                                                    Only the best on Hypertube.
+                                                    {t('Landing.landing_section_description')}
                                                 </p>
                                             </div>
                                             <div className="w-1/2">

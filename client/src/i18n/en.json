@@ -99,12 +99,15 @@
     },
     "Navbar": {
         "SignIn": "Sign In",
-        "Sign Out": "Sign Out",
-        "Your Profile": "Your Profile",
+        "SignOut": "Sign Out",
+        "Profile": "Your Profile",
         "Settings": "Settings",
         "Home": "Home",
         "Register": "Register",
-        "Forgot": "Forgot"
+        "Forgot": "Forgot",
+        "About": "About",
+        "Finnish": "Suomi",
+        "English": "English"
     },
     "Popular": {
         "Browse": "Browse",
