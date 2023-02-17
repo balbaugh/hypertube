@@ -353,6 +353,7 @@ router.get('/subtitles', (req, res) => {
 
 // const filePath = `subtitles/${code}/${filename}`;
  const filePath = path.join(process.cwd(), 'subtitles', code, filename)
+ console.log('FILEPAAAHT', filePath)
 
 res.sendFile(filePath);
 })

@@ -55,6 +55,10 @@ const FilmDetail = ({ itsMe }) => {
 		console.log('mee', itsMe.username)
 		console.log('movie', movies)
 
+    const savedLanguage = localStorage.getItem('language')
+    console.log('aaaa', savedLanguage)
+
+
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
             playerRef.current.seekTo(0, 'seconds');
@@ -162,7 +166,7 @@ const FilmDetail = ({ itsMe }) => {
 					kind: 'subtitles',
 					src: `http://localhost:3001/${sub.path}`,
 					srcLang: sub.language,
-                    default: sub.language === 'en' ? 'en' : ''
+                    default: sub.language === `${savedLanguage}` ? `${savedLanguage}` : ''
 				}))
 			}
 		}
