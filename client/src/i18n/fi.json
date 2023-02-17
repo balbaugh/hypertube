@@ -144,7 +144,11 @@
         "profile_picture": "Profiilikuva"
     },
     "ProfileEdit": {
-        "edit_profile": "Muokkaa Profiiliasi"
+        "update_profile": "Päivitä Profiili",
+        "username": "Käyttäjätunnus",
+        "first_name": "Etunimi",
+        "last_name": "Sukunimi",
+        "save_changes": "Tallenna Muutokset"
     },
     "Registration": {
         "title":"Kirjaudu",

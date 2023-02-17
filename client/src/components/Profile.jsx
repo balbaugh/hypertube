@@ -121,7 +121,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                     <div className="max-w-lg mx-auto">
                         <div className="mb-8 text-center">
                             <Link className="inline-block mx-auto mb-6" to="/">
-                                <img src={require("../images/hypertubeLogoSm.png")} alt="" />
+                                <img src={require("../images/hypertubeText.png")} alt="" />
                             </Link>
                             <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
                                 {t('Profile.your_profile')}

@@ -144,7 +144,11 @@
         "profile_picture": "Profile Picture"
     },
     "ProfileEdit": {
-        "edit_profile": "Edit Your Profile"
+        "update_profile": "Update Profile",
+        "username": "Username",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "save_changes": "Save Changes"
     },
     "Registration": {
         "title":"Sign Up",
