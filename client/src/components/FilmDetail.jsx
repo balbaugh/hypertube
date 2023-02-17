@@ -201,14 +201,14 @@ const FilmDetail = ({ itsMe }) => {
 
 
                                 <div className="mt-3">
-                                    <h2 className="sr-only">Film information</h2>
+                                    <h2 className="sr-only">{t('FilmDetail.filmInformation')}</h2>
                                     <p className="text-3xl font-bold text-gray-200">{movies.title}&nbsp;&nbsp;({movies.year})</p>
                                     {/*<p className="text-2xl text-gray-200">({movies.year})</p>*/}
                                 </div>
 
                                 {/* Reviews */}
                                 <div className="mt-3">
-                                    <h3 className="sr-only">Reviews</h3>
+                                    <h3 className="sr-only">{t('FilmDetail.reviews')}</h3>
                                     <div className="flex items-center">
                                         <div className="flex items-center">
                                             {/*{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((rating) => (*/}
@@ -222,14 +222,14 @@ const FilmDetail = ({ itsMe }) => {
                                             {/*        aria-hidden="true"*/}
                                             {/*    />*/}
                                             {/*))}*/}
-                                            <p className="text-xl font-semibold text-gray-200">IMDB:&nbsp;</p>
+                                            <p className="text-xl font-semibold text-gray-200">IMDb:&nbsp;</p>
                                         </div>
                                         <p className="text-xl">&nbsp;{movies.rating}&nbsp;</p>
                                         <StarIcon
                                             aria-hidden="true"
                                             className="flex-shrink-0 w-5 h-5 text-red-500"
                                         />
-                                        <p className="text-xl">&nbsp;out of 10</p>
+                                        <p className="text-xl">&nbsp;{t('FilmDetail.outOfTen')}</p>
 
                                     </div>
                                 </div>
@@ -313,7 +313,7 @@ const FilmDetail = ({ itsMe }) => {
 												onClick={startMovie}
 												// onClick={() => setOpen(!open)}
 										>
-												Stream
+                                            {t('FilmDetail.stream')}
 										</button>
 								</div>
 							) : (null)}
@@ -337,7 +337,7 @@ const FilmDetail = ({ itsMe }) => {
                                 {/* DETAILS PANEL */}
                                 <section aria-labelledby="details-heading" className="mt-12">
                                     <h2 id="details-heading" className="sr-only">
-                                        Additional details
+                                        {t('FilmDetail.details')}
                                     </h2>
 
                                     <div className="border-t divide-y divide-gray-200">
@@ -351,7 +351,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                 <span
                                                                     className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
                                                                 >
-                                                                  Details
+                                                                  {t('FilmDetail.details')}
                                                                 </span>
                                                                     <span className="flex items-center ml-6">
                                                                       {open ? (
@@ -372,7 +372,7 @@ const FilmDetail = ({ itsMe }) => {
                                                             <Disclosure.Panel as="div" className="pt-8 pb-6 prose prose-md">
                                                                 <div className="">
                                                                     <div className="max-w-2xl py-2 mx-auto lg:grid lg:max-w-7xl lg:grid-cols-12">
-                                                                        <h2 className="font-semibold">Summary:</h2>
+                                                                        <h2 className="text-xl text-red-500">{t('FilmDetail.summary')}:</h2>
                                                                         <div
                                                                             className="space-y-6 text-base"
                                                                             dangerouslySetInnerHTML={{ __html: movies.description_full }}
@@ -381,19 +381,20 @@ const FilmDetail = ({ itsMe }) => {
                                                                 </div>
                                                                 <ul role="list">
                                                                     <li className="py-2">
+                                                                        <p className="text-xl text-red-500">{t('FilmDetail.runtime')}:</p>
                                                                         {movies.runtime && (
-                                                                            <p className=""><b>Runtime:</b> {movies.runtime} minutes</p>
+                                                                            <p className="">– {movies.runtime} minutes</p>
                                                                         )}
                                                                     </li>
                                                                     <li className="py-2">
                                                                         {movies.cast && (
                                                                             <div>
-                                                                                <p className="font-semibold">Starring:</p>
+                                                                                <p className="text-xl text-red-500">{t('FilmDetail.starring')}:</p>
                                                                                 <ul role="list">
                                                                                     {movies.cast.map((cast, index) => (
                                                                                         <li key={index}>
                                                                                             <p>
-                                                                                                <span className="font-semibold">{cast.name}</span> as {cast.character_name}
+                                                                                                <span className="font-semibold">– {cast.name}</span> as {cast.character_name}
                                                                                             </p>
                                                                                         </li>
                                                                                     ))}
@@ -404,7 +405,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                     <li className="py-2">
                                                                         {movies.genres && (
                                                                             <div>
-                                                                                <p className="font-semibold">Genres:</p>
+                                                                                <p className="text-xl text-red-500">{t('FilmDetail.genres')}:</p>
                                                                                 <ul role="list">
                                                                                     {movies.genres.map((genre, index) => (
                                                                                         <li key={index}>
@@ -435,7 +436,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                 <span
                                                                     className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
                                                                 >
-                                                                  Comments
+                                                                  {t('FilmDetail.comments')}
                                                                 </span>
                                                         <span className="flex items-center ml-6">
                                                                       {open ? (
@@ -467,14 +468,14 @@ const FilmDetail = ({ itsMe }) => {
                                                             <form onSubmit={handleCommentSubmit} className="relative">
                                                                 <div className="overflow-hidden border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                                                                     <label htmlFor="comment" className="sr-only">
-                                                                        Add your comment
+                                                                        {t('FilmDetail.addComment')}
                                                                     </label>
                                                                     <textarea
                                                                         rows={3}
                                                                         name="comment"
                                                                         id="comment"
                                                                         className="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm"
-                                                                        placeholder="Add your comment..."
+                                                                        placeholder={t('FilmDetail.addComment')}
                                                                         defaultValue={''}
 																																				onChange={handleNewComment}
                                                                     />
@@ -494,7 +495,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                             type="submit"
                                                                             className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                         >
-                                                                            Post
+                                                                            {t('FilmDetail.post')}
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -504,7 +505,7 @@ const FilmDetail = ({ itsMe }) => {
                                                     <div className="mt-4 border-t divide-y divide-gray-200">
                                                     <div
                                                         className="pt-8 mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0">
-                                                        <h3 className="sr-only">Recent Comments</h3>
+                                                        <h3 className="sr-only">{t('FilmDetail.comments')}</h3>
 
                                                         <div className="flow-root">
                                                             <div
@@ -534,7 +535,7 @@ const FilmDetail = ({ itsMe }) => {
                                                         <div className="mt-4 border-t divide-y divide-gray-200">
                                                             <div
                                                                 className="pt-8 mt-6 lg:col-span-7 lg:col-start-6 lg:mt-0">
-                                                                <h3 className="sr-only">Recent Comments</h3>
+                                                                <h3 className="sr-only">{t('FilmDetail.comments')}</h3>
                                                         <div className="mt-4 border-t divide-y divide-gray-200">
                                                             {comments.length > 0 ? (
                                                                 comments.map((comment) => {
@@ -565,14 +566,14 @@ const FilmDetail = ({ itsMe }) => {
                                                                         />
                                                                     </div>
                                                                 )
-																																})
+																})
                                                             ) : (
                                                                 <div className="py-6">
                                                                     <div
                                                                         className="flex items-center">
                                                                         <div className="ml-4">
                                                                             <h4 className="text-sm font-bold text-gray-300">
-                                                                                No comments yet
+                                                                                {t('FilmDetail.noComments')}
                                                                             </h4>
                                                                         </div>
                                                                     </div>

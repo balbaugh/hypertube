@@ -89,17 +89,17 @@ const Registration = () => {
 								/>
 							</Link>
 							<h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
-								Sign Up
+								{t('Registration.title')}
 							</h2>
 							<p className="text-lg font-semibold leading-7 text-red-500">
-								Enter the Hypertubes
+								{t('Registration.enterHypertubes')}
 							</p>
 						</div>
 						<div className="mt-8">
 							<div>
 								<div>
 									<p className="pb-2 font-semibold text-md text-slate-300">
-										Sign up with
+										{t('Registration.signUpWith')}
 									</p>
 									{/* OAUTH STUFF */}
 									<div className="grid grid-cols-2 gap-3 mt-1">
@@ -109,7 +109,7 @@ const Registration = () => {
                             onClick={loginWith42}
                             className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                         >
-                            <span className="sr-only">Sign in with 42</span>
+                            <span className="sr-only">{t('Registration.signInWith42')}</span>
                             <img className="w-5 h-5" src={require('../images/42.png')} alt="" />
                         </button>
                     </div>
@@ -119,7 +119,7 @@ const Registration = () => {
                             onClick={loginWithGitHub}
                             className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
                         >
-                            <span className="sr-only">Sign in with GitHub</span>
+                            <span className="sr-only">{t('Registration.signInWithGithub')}</span>
                             <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     fillRule="evenodd"
@@ -141,7 +141,7 @@ const Registration = () => {
 								</div>
 								<div className="relative flex justify-center text-sm">
 									<span className="px-2 bg-zinc-900 text-slate-300">
-										Or continue with
+										{t('Registration.continueWith')}
 									</span>
 								</div>
 							</div>
@@ -154,12 +154,12 @@ const Registration = () => {
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="username"
 								>
-									Username
+									{t('Registration.username')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
-									placeholder="Username"
+									placeholder={t('Registration.username')}
 									required
 									onChange={handleUsernameReg}
 								/>
@@ -168,14 +168,14 @@ const Registration = () => {
 							<div className="pt-2 mb-6">
 								<label
 									className="block mb-2 font-semibold text-slate-300"
-									htmlFor="username"
+									htmlFor="first_name"
 								>
-									First Name
+									{t('Registration.firstName')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
-									placeholder="First Name"
+									placeholder={t('Registration.firstName')}
 									required
 									onChange={handleFirstReg}
 								/>
@@ -184,14 +184,14 @@ const Registration = () => {
 							<div className="mb-6">
 								<label
 									className="block mb-2 font-semibold text-slate-300"
-									htmlFor="username"
+									htmlFor="last_name"
 								>
-									Last Name
+									{t('Registration.lastName')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
-									placeholder="Last Name"
+									placeholder={t('Registration.lastName')}
 									required
 									onChange={handleLastReg}
 								/>
@@ -200,14 +200,14 @@ const Registration = () => {
 							<div className="mb-6">
 								<label
 									className="block mb-2 font-semibold text-slate-300"
-									htmlFor="username"
+									htmlFor="email"
 								>
-									Email
+									{t('Registration.email')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="email"
-									placeholder="Email"
+									placeholder={t('Registration.email')}
 									required
 									onChange={handleEmailReg}
 								/>
@@ -218,12 +218,12 @@ const Registration = () => {
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="password"
 								>
-									Password
+									{t('Registration.password')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="password"
-									placeholder="Password..."
+									placeholder={t('Registration.password')}
 									autoComplete="off"
 									required
 									onChange={handlePasswordReg}
@@ -235,12 +235,12 @@ const Registration = () => {
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="password"
 								>
-									Confirm Password
+									{t('Registration.confirmPassword')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="password"
-									placeholder="Confirm Password..."
+									placeholder={t('Registration.confirmPassword')}
 									autoComplete="off"
 									required
 									onChange={handleCPasswordReg}
@@ -251,16 +251,16 @@ const Registration = () => {
 								type="submit"
 								className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
 							>
-								Sign Up
+								{t('Registration.signUpButton')}
 							</button>
 							<div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">
 								<p className="font-semibold text-center text-slate-300">
-									Have an account?{'  '}
+									{t('Registration.haveAccount')}{'  '}
 									<Link
 										className="text-red-500 hover:underline"
 										to="/login"
 									>
-										Sign In
+										{t('Registration.signIn')}
 									</Link>
 								</p>
 							</div>

@@ -29,7 +29,7 @@ function Logout({ loggedIn, setLoggedIn }) {
 	const { t } = useTranslation();
 
 	return (
-		<div className="font-semibold text-xl text-red-500">You have been logged out...</div>
+		<div className="font-semibold text-xl text-red-500">{t('logout.Logged_Out')}</div>
 	)
 };
 

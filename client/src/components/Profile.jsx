@@ -116,29 +116,29 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 <img src={require("../images/hypertubeLogoSm.png")} alt="" />
                             </Link>
                             <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
-                                Your profile
+                                {t('Profile.your_profile')}
                             </h2>
                         </div>
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
                         <div className="mb-6 pt-2">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Username: {username ? username : "username not found! Expected if you're using OAuth."}
+                                {t('Profile.username')}: {username ? username : "{t('Profile.username_not_found')}"}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                First name: {firstName ? firstName : "firstName not found! Expected if you're using OAuth."}
+                                {t('Profile.first_name')}: {firstName ? firstName : "{t('Profile.first_name_not_found')}')}"}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Last name: {lastName ? lastName : "lastName not found! Expected if you're using OAuth."}
+                                {t('Profile.last_name')}: {lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2 font-semibold text-slate-300">
-                                Email: {email ? email : "email not found! Expected if you're using OAuth."}
+                                {t('Profile.email')}: {email ? email : "email not found! Expected if you're using OAuth."}
                             </div>
                         </div>
                         <Link to="/profileEdit">
@@ -146,7 +146,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Edit your profile
+                                {t('Profile.edit_profile')}
                             </button>
                         </Link>
                         <Link to="/changePassword">
@@ -154,7 +154,7 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change your password
+                                Change Password
                             </button>
                         </Link>
                         <Link to="/changeEmail">
@@ -162,13 +162,14 @@ const Profile = ({ itsMe, setItsMe, setSelectedAvatar }) => {
                                 type="button"
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
-                                Change your email (Doesn't work yet!)
+                                Change Email (Doesn't work yet!)
                             </button>
                         </Link>
                         <button
-                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                         >
-                            <label>Change profile picture</label>
+                            <label>Profile Picture</label>
+                            <br />
                             <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
                         </button>
                     </div>

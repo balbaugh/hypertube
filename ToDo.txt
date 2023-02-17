@@ -17,7 +17,8 @@ ____________________________________________________________
 :: STARTED ::
 
 language stuff
--- FINISHED - footer, sort pages, forgot, navbar, landing, infotext,
+-- FINISHED - footer, sort pages, forgot, navbar, landing, infotext, login, logout, registration, filmDetail,
+-- STARTED - profile,
 
 search functionality
 **** uggghhhh, scroll to bottom resets query results ****
