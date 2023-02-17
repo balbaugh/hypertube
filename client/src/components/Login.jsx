@@ -86,10 +86,10 @@ const Login = () => {
 								/>
 							</Link>
 							<h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
-								Sign In
+								{t('Login.signIn')}
 							</h2>
 							<p className="text-lg font-semibold leading-7 text-red-500">
-								Enter the Hypertubes
+								{t('Login.enterHypertubes')}
 							</p>
 						</div>
 						{/* OAUTH STUFF */}
@@ -97,7 +97,7 @@ const Login = () => {
 							<div>
 								<div>
 									<p className="pb-2 font-semibold text-md text-slate-300">
-										Sign in with
+										{t('Login.signInWith')}
 									</p>
 
 									<div className="grid grid-cols-2 gap-3 mt-1">
@@ -108,7 +108,7 @@ const Login = () => {
 												className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
 											>
 												<span className="sr-only">
-													Sign in with 42
+													{t('Login.signInWith42')}
 												</span>
 												<img
 													className="w-5 h-5"
@@ -125,7 +125,7 @@ const Login = () => {
 												className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
 											>
 												<span className="sr-only">
-													Sign in with GitHub
+													{t('Login.signInWithGitHub')}
 												</span>
 												<svg
 													className="w-5 h-5"
@@ -153,7 +153,7 @@ const Login = () => {
 								</div>
 								<div className="relative flex justify-center text-sm">
 									<span className="px-2 bg-zinc-900 text-slate-300">
-										Or continue with
+										{t('Login.orContinueWith')}
 									</span>
 								</div>
 							</div>
@@ -165,12 +165,12 @@ const Login = () => {
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="username"
 								>
-									Username
+									{t('Login.username')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="text"
-									placeholder="Username"
+									placeholder={t('Login.username')}
 									required
 									onChange={handleUsername}
 								/>
@@ -180,12 +180,12 @@ const Login = () => {
 									className="block mb-2 font-semibold text-slate-300"
 									htmlFor="password"
 								>
-									Password
+									{t('Login.password')}
 								</label>
 								<input
 									className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
 									type="password"
-									placeholder="Password..."
+									placeholder={t('Login.password')}
 									autoComplete="off"
 									required
 									onChange={handlePassword}
@@ -193,12 +193,12 @@ const Login = () => {
 							</div>
 							<div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">
 								<p className="font-semibold text-center text-slate-300">
-									Forgot your password?{'  '}
+									{t('Login.forgotPassword')}{'  '}
 									<Link
 										className="text-red-500 hover:underline"
 										to="/forgot"
 									>
-										Click Here
+										{t('Login.clickHere')}
 									</Link>
 								</p>
 							</div>
@@ -206,17 +206,17 @@ const Login = () => {
 								type="submit"
 								className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
 							>
-								Sign in
+								{t('Login.signIn')}
 							</button>
 
 							<div className="flex flex-wrap justify-center w-full px-4 mb-6 -mx-4 lg:w-auto">
 								<p className="font-semibold text-center text-slate-300">
-									Don’t have an account?{'  '}
+									{t('Login.dontHaveAccount')}{'  '}
 									<Link
 										className="text-red-500 hover:underline"
 										to="/registration"
 									>
-										Sign Up
+										{t('Login.signUp')}
 									</Link>
 								</p>
 							</div>
