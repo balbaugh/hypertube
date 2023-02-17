@@ -6,9 +6,8 @@ profile
 subtitles
 chron job to delete videos after 30 days
 
-TRANSLATIONS ACROSS PAGES UNTIL SWITCH BACK
-TRANSLATE MESSAGES FROM SERVER
-INSTALL TRANSLATION MODULE FOR SERVER
+comments
+- clear comment box after submit
 
 PROTECT PASSWORDS
 
@@ -16,23 +15,18 @@ ____________________________________________________________
 
 :: STARTED ::
 
-language stuff
--- FINISHED - footer, sort pages, forgot, navbar, landing, infotext, login, logout, registration, filmDetail,
--- STARTED - profile,
-
 search functionality
 **** uggghhhh, scroll to bottom resets query results ****
 
 comments
-- input form added
-- comment display added
-- db table added
-- routes started
+- clear comment box after submit
 
 
 ____________________________________________________________
 
 :: FINISHED ::
+
+language translation
 
 filter by imdb score
 - filters search query results by imdb score

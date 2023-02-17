@@ -89,9 +89,9 @@ const FilmDetail = ({itsMe}) => {
     console.log('comments', comments)
     console.log('users', users)
 
-    const commentInputRef = useRef(null);
+    const textInput =  React.useRef(null);
 
-    const handleCommentSubmit = (event) => {
+    const handleCommentSubmit = async (event) => {
         event.preventDefault();
         if (itsMe.username) {
             let text1 = newComment.trim();
@@ -114,7 +114,9 @@ const FilmDetail = ({itsMe}) => {
             axiosStuff.submitComment(comment)
                 .then((response) => {
                     setComments([...comments, response.data]);
-                    setNewComment('');
+                    setNewComment("");
+                    // commentInputRef.current.reset()
+
                     // event.target.comment.value = '';
                 })
                 .catch((error) => {
@@ -404,8 +406,9 @@ const FilmDetail = ({itsMe}) => {
                                                                         className="block w-full py-3 text-gray-700 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder={t('FilmDetail.addComment')}
                                                                         defaultValue={''}
+                                                                        value={newComment}
                                                                         onChange={handleNewComment}
-                                                                        ref={commentInputRef}
+                                                                        inputRef={textInput}
                                                                     />
 
                                                                     {/* Spacer element to match the height of the toolbar */}
@@ -422,6 +425,9 @@ const FilmDetail = ({itsMe}) => {
                                                                         <button
                                                                             type="submit"
                                                                             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                                            onClick={() => {
+                                                                                textInput.current.value = "";
+                                                                            }}
                                                                         >
                                                                             {t('FilmDetail.post')}
                                                                         </button>

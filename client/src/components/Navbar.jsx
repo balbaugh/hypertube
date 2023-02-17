@@ -162,7 +162,11 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
+<<<<<<< HEAD
 																href="#"
+=======
+																// href="#"
+>>>>>>> 37a0f8b5453e7190baad692f68c54e8a230d7542
 																onClick={() =>
 																	changeLanguage(
 																		'en'
