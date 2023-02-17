@@ -11,7 +11,7 @@ import Homepage from './components/Homepage';
 import FilmDetail from './components/FilmDetail';
 import Registration from './components/Registration';
 import Login from './components/Login';
-import Profile from './components/Profile';	
+import Profile from './components/Profile';
 import ProfileEdit from './components/ProfileEdit';
 import ChangePassword from './components/ChangePassword';
 import Forgot from './components/Forgot';
@@ -43,10 +43,10 @@ const App = () => {
 				setLoggedIn(true);
 				console.log('response.user in App.js, data from get login:', response.user)
 				setItsMe(response.user);
-				setSelectedAvatar(response.avatar)
+				// setSelectedAvatar(response.avatar)
 			}
 		});
-	}, [loggedIn]);	
+	}, [loggedIn]);
 
 	useEffect(() => {
 		const queryString = window.location.search;

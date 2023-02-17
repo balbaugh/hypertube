@@ -17,6 +17,7 @@ app.use(cors({
 
 app.use(express.static('downloads'));
 app.use('/images', express.static('./images'))
+app.use(express.static('subtitles'));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));

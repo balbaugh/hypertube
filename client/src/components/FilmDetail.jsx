@@ -47,8 +47,8 @@ const FilmDetail = ({ itsMe }) => {
     // const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
     const [comments, setComments] = useState([]);
-		const [newComment, setNewComment] = useState('');
-		const [users, setUsers] = useState([])
+	const [newComment, setNewComment] = useState('');
+	const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
 
     console.log('playerrf', playerRef)
@@ -122,10 +122,11 @@ const FilmDetail = ({ itsMe }) => {
 		// setOpen(!open)
 		setWatch(true);
         axiosStuff
-        .subtitles({imdbCode})
-         .then((response) => {
-            console.log('subs', response)
-         })
+         .subtitles({imdbCode})
+        // .then((response) => {
+        //    console.log('subs', response)
+        //    setSubs(response)
+        // })
          setTimeout(() => {
             console.log('TAMA', imdbCode)
             axiosStuff.getSubs({ imdbCode })
@@ -144,7 +145,6 @@ const FilmDetail = ({ itsMe }) => {
             }
             else {
                 setPlayMovie(`http://localhost:3001/stream`)
-                // setPlayMovie(`http://localhost:3001/ready`)
             }
          })
 	}
@@ -161,11 +161,8 @@ const FilmDetail = ({ itsMe }) => {
 				.map((sub) => ({
 					kind: 'subtitles',
 					src: `http://localhost:3001/${sub.path}`,
-					//src: `${sub.path}`,
-					// src: `http://localhost:3001/subtitles/${movies.imdbCode}`,
-					//src: `http://localhost:3001/getSubs`,
-					//src: '/goinfre/taitomer/finaltube/server/subtitles/tt2779318/tt2779318-2332018.vtt',
-					srcLang: sub.language
+					srcLang: sub.language,
+                    default: sub.language === 'en' ? 'en' : ''
 				}))
 			}
 		}
@@ -328,7 +325,7 @@ const FilmDetail = ({ itsMe }) => {
 							    			controls={true}
 							    			onError={onError}
 							    			muted={true}
-												config={subsConfig}
+											config={subsConfig}
 							    		/>
 							    	) : (<Loader />)}
 							    </div>

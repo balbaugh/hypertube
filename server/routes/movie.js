@@ -21,7 +21,8 @@ const router = express.Router();
 
  router.get('/movie/:id', (req, res) => {
 	const movieId = Number(req.params.id);
-	fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${movieId}&with_cast=true`)
+	fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${movieId}&with_cast=true`,
+		{ credentials: 'include' })
 	.then((data) => {
 		if (!data.ok) {
 			return res.status(500).send({ error: `Error fetching movie details.`})

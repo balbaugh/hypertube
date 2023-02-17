@@ -17,7 +17,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	};
 
 	useEffect(() => {
-		
+
 	}, [selectedAvatar]);
 
 	axios.defaults.withCredentials = true; // For the sessions the work
@@ -42,28 +42,28 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 		<Disclosure as="nav" className="">
 			{({ open }) => (
 				<>
-					<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-						<div className="relative flex h-16 items-center justify-between">
+					<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+						<div className="relative flex items-center justify-between h-16">
 							<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 								{/* Mobile menu button*/}
-								<Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+								<Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
 									<span className="sr-only">Open main menu</span>
 									{open ? (
-										<XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+										<XMarkIcon className="block w-6 h-6" aria-hidden="true" />
 									) : (
-										<Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+										<Bars3Icon className="block w-6 h-6" aria-hidden="true" />
 									)}
 								</Disclosure.Button>
 							</div>
-							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-								<div className="flex flex-shrink-0 items-center">
+							<div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+								<div className="flex items-center flex-shrink-0">
 									<img
-										className="block h-8 w-auto lg:hidden"
+										className="block w-auto h-8 lg:hidden"
 										src={require('../images/hypertubeLogo.png')}
 										alt="Hypertube Logo"
 									/>
 									<img
-										className="hidden h-8 w-auto lg:block"
+										className="hidden w-auto h-8 lg:block"
 										src={require('../images/hypertubeLogo.png')}
 										alt="Hypertube Logo"
 									/>
@@ -91,17 +91,17 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									<>
 										<a
 											href="/logout"
-											className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+											className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 										>
 											<span className="sr-only">{t('Navbar.SignOut')}</span>
-											<PowerIcon className="h-6 w-6" aria-hidden="true" />
+											<PowerIcon className="w-6 h-6" aria-hidden="true" />
 
 										</a>
 
 										{/* Language Dropdown */}
 										<Menu as="div" className="relative ml-4">
 											<div>
-												<Menu.Button className="flex rounded-full text-gray-400 hover:text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 													<span className="sr-only">Open language menu</span>
 													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
 														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
@@ -117,7 +117,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+												<Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<Menu.Item>
 														{({ active }) => (
 															<a
@@ -147,10 +147,10 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										{/* Profile dropdown */}
 										<Menu as="div" className="relative ml-4">
 											<div>
-												<Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2 focus:ring-offset-lime-500">
+												<Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2 focus:ring-offset-lime-500">
 													<span className="sr-only">Open user menu</span>
 													<img
-														className="h-8 w-8 rounded-full"
+														className="w-8 h-8 rounded-full"
 														src={selectedAvatar}
 														alt="PP"
 													/>
@@ -165,7 +165,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+												<Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<Menu.Item>
 														{({ active }) => (
 															<a
@@ -204,7 +204,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									<>
 										<Menu as="div" className="relative mr-1">
 											<div>
-												<Menu.Button className="flex rounded-full text-gray-400 hover:text-white bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 													<span className="sr-only">Open language menu</span>
 													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
 														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
@@ -220,7 +220,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+												<Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<Menu.Item>
 														{({ active }) => (
 															<a
@@ -248,7 +248,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 										<a
 											href="/login"
-											className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-gray-200 bg-lime-600 hover:bg-lime-700"
+											className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-gray-200 border border-transparent rounded-md shadow-sm bg-lime-600 hover:bg-lime-700"
 										>
 											{t('Navbar.SignIn')}
 										</a>
@@ -259,7 +259,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 					</div>
 
 					<Disclosure.Panel className="sm:hidden">
-						<div className="space-y-1 px-2 pt-2 pb-3">
+						<div className="px-2 pt-2 pb-3 space-y-1">
 							{navigation.map((item) => (
 								<Disclosure.Button
 									key={item.name}
@@ -301,7 +301,7 @@ export default Nav;
 // 		<>
 // 			<div className="flex">
 // 				{/* Logout Button */ }
-// 				<Link className="mr-2 mt-2" to="/logout">
+// 				<Link className="mt-2 mr-2" to="/logout">
 // 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
 // 						 stroke="#f05252" className="w-8 h-8">
 // 						<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
@@ -309,7 +309,7 @@ export default Nav;
 // 				</Link>
 //
 // 				{/* Menu Toggle */ }
-// 				<Navbar.Toggle className="mb-1 ml-5 border-2 border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
+// 				<Navbar.Toggle className="mb-1 ml-5 text-red-500 border-2 border-red-500 hover:bg-transparent hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
 //
 // 				<Navbar.Collapse>
 // 					<Navbar.Link
@@ -355,7 +355,7 @@ export default Nav;
 // 		<>
 // 			<div className="flex">
 // 				{/* Logout Button */ }
-// 				<Link className="mr-2 mt-2" to="/logout">
+// 				<Link className="mt-2 mr-2" to="/logout">
 // 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
 // 						 stroke="#f05252" className="w-8 h-8">
 // 						<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
@@ -365,7 +365,7 @@ export default Nav;
 //
 //
 // 				{/* Menu Toggle */ }
-// 				<Navbar.Toggle className="mb-1 ml-1 border-2 border-red-500 hover:bg-transparent text-red-500 hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
+// 				<Navbar.Toggle className="mb-1 ml-1 text-red-500 border-2 border-red-500 hover:bg-transparent hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
 //
 // 				<Navbar.Collapse>
 // 					<Navbar.Link

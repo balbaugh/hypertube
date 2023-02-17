@@ -17,7 +17,9 @@ router.get('/login', (req, res) => {
 				if (err)
 					console.log('req.user.session', err);
 				else {
-					res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
+					//res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
+					res.send({ loggedIn: true, user: req.session.user, result });
+
 					// console.log('LOGINNNRESULT', result)
 				}
 			})

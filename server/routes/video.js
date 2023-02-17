@@ -85,7 +85,8 @@ const download = async (
 	}*/
 
 	const file = fs.createWriteStream(finalDest);
-	const request = https.get(url, (response) => {
+	// const request =
+	https.get(url, (response) => {
 		response.pipe(file);
 		file.on('finish', function () {
 			file.close();
@@ -347,13 +348,14 @@ router.get('/subtitles', (req, res) => {
 
  router.get('/subtitles/:code/:filename', (req, res) => {
 	const { code, filename } = req.params;
-	console.log('HIHIHIHIHIHI', req.params)
- // Construct the absolute path to the subtitle file
- const filePath = `subtitles/${code}/${filename}}`;
+	console.log('HIHIHIHIHIHI', code)
+	console.log('HIHIHIHIHIHI2', filename)
 
- // Use the absolute path to send the subtitle file to the client
- res.sendFile(filePath);
- })
+// const filePath = `subtitles/${code}/${filename}`;
+ const filePath = path.join(process.cwd(), 'subtitles', code, filename)
+
+res.sendFile(filePath);
+})
 
 module.exports = router;
 

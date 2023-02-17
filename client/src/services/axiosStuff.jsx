@@ -145,7 +145,7 @@ const axiosStuff = {
 	 movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
 	profileInfo, updateProfile, setProfilePic, changePw, ready, stream, getComments, submitComment,
-	subtitles, getCommentUser
+	subtitles, getCommentUser, getSubs
 };
 
 export default axiosStuff;
