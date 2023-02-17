@@ -167,7 +167,6 @@ const FilmDetail = ({itsMe}) => {
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
 
-<<<<<<< HEAD
 		const subsConfig = {
 			file: {
 				attributes: {
@@ -185,22 +184,6 @@ const FilmDetail = ({itsMe}) => {
 
 		if (subsConfig.file.tracks.length)
 			console.log('subsconf', subsConfig)
-=======
-    const subsConfig = {
-        file: {
-            attributes: {
-                crossOrigin: 'true'
-            },
-            tracks: subs.filter((sub) => sub.imdb_code === movies.imdb_code)
-                .map((sub) => ({
-                    kind: 'subtitles',
-                    src: `http://localhost:3001/${sub.path}`,
-                    srcLang: sub.language,
-                    default: sub.language === 'en' ? 'en' : ''
-                }))
-        }
-    }
->>>>>>> 3a7f83efba4e4bfb4baf87e0dafdf20ceacb6e98
 
     if (subsConfig.file.tracks.length)
         console.log('subsconf', subsConfig)
@@ -254,7 +237,7 @@ const FilmDetail = ({itsMe}) => {
                                 </div>
 
                                 {!watch ? (
-                                    <div className="mt-3 flex sm:flex-col1">
+                                    <div className="flex mt-3 sm:flex-col1">
                                         <button
                                             type="button"
                                             className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
@@ -418,7 +401,7 @@ const FilmDetail = ({itsMe}) => {
                                                                         rows={3}
                                                                         name="comment"
                                                                         id="comment"
-                                                                        className="block w-full text-gray-700 py-3 border-0 resize-none focus:ring-0 sm:text-sm"
+                                                                        className="block w-full py-3 text-gray-700 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder={t('FilmDetail.addComment')}
                                                                         defaultValue={''}
                                                                         onChange={handleNewComment}
@@ -475,7 +458,7 @@ const FilmDetail = ({itsMe}) => {
                                                                                 </div>
                                                                             </div>
                                                                             <div
-                                                                                className="ml-8 mt-4 space-y-6 text-base italic text-gray-300"
+                                                                                className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
                                                                             >
                                                                                 {comment.text}
                                                                             </div>
