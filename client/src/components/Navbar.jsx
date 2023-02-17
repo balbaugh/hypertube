@@ -1,12 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, PowerIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Bars3Icon, PowerIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 function classNames(...classes) {
-	return classes.filter(Boolean).join(' ')
+	return classes.filter(Boolean).join(' ');
 }
 
 const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
@@ -18,14 +17,10 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	};
 
 	useEffect(() => {
-<<<<<<< HEAD
-
-=======
 		const savedLanguage = localStorage.getItem('language');
 		if (savedLanguage) {
 			i18n.changeLanguage(savedLanguage);
 		}
->>>>>>> c1426135851833f99d96176424f63181942f873c
 	}, [selectedAvatar]);
 
 	axios.defaults.withCredentials = true; // For the sessions the work
@@ -44,7 +39,11 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	console.log('ITSMEEE', itsMe.username);
 	console.log('ITSMEEE.path', itsMe.path);
 
-	console.log('ITSMEEE.username || ITSMEE.login', itsMe.username, itsMe.login)
+	console.log(
+		'ITSMEEE.username || ITSMEE.login',
+		itsMe.username,
+		itsMe.login
+	);
 
 	return (
 		<Disclosure as="nav" className="">
@@ -55,11 +54,19 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 							<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 								{/* Mobile menu button*/}
 								<Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-									<span className="sr-only">Open main menu</span>
+									<span className="sr-only">
+										Open main menu
+									</span>
 									{open ? (
-										<XMarkIcon className="block w-6 h-6" aria-hidden="true" />
+										<XMarkIcon
+											className="block w-6 h-6"
+											aria-hidden="true"
+										/>
 									) : (
-										<Bars3Icon className="block w-6 h-6" aria-hidden="true" />
+										<Bars3Icon
+											className="block w-6 h-6"
+											aria-hidden="true"
+										/>
 									)}
 								</Disclosure.Button>
 							</div>
@@ -83,10 +90,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												key={item.name}
 												href={item.href}
 												className={classNames(
-													item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+													item.current
+														? 'bg-gray-900 text-white'
+														: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 													'px-3 py-2 rounded-md text-sm font-medium'
 												)}
-												aria-current={item.current ? 'page' : undefined}
+												aria-current={
+													item.current
+														? 'page'
+														: undefined
+												}
 											>
 												{item.name}
 											</a>
@@ -99,28 +112,40 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									<>
 										<a
 											href="/logout"
-<<<<<<< HEAD
-											className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-=======
-											className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
->>>>>>> c1426135851833f99d96176424f63181942f873c
+											className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 										>
-											<span className="sr-only">{t('Navbar.SignOut')}</span>
-											<PowerIcon className="w-6 h-6" aria-hidden="true" />
-
+											<span className="sr-only">
+												{t('Navbar.SignOut')}
+											</span>
+											<PowerIcon
+												className="w-6 h-6"
+												aria-hidden="true"
+											/>
 										</a>
 
 										{/* Language Dropdown */}
-										<Menu as="div" className="relative ml-4">
+										<Menu
+											as="div"
+											className="relative ml-4"
+										>
 											<div>
-<<<<<<< HEAD
-												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-=======
-												<Menu.Button className="flex rounded-full text-gray-400 hover:text-lime-500 bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
->>>>>>> c1426135851833f99d96176424f63181942f873c
-													<span className="sr-only">Open language menu</span>
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-lime-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+													<span className="sr-only">
+														Open language menu
+													</span>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														strokeWidth={1.5}
+														stroke="currentColor"
+														className="w-8 h-8"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+														/>
 													</svg>
 												</Menu.Button>
 											</div>
@@ -138,10 +163,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('en')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'en'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.English')}
+																{t(
+																	'Navbar.English'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -149,10 +185,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('fi')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'fi'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Finnish')}
+																{t(
+																	'Navbar.Finnish'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -161,10 +208,15 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 
 										{/* Profile dropdown */}
-										<Menu as="div" className="relative ml-4">
+										<Menu
+											as="div"
+											className="relative ml-4"
+										>
 											<div>
 												<Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2 focus:ring-offset-lime-500">
-													<span className="sr-only">Open user menu</span>
+													<span className="sr-only">
+														Open user menu
+													</span>
 													<img
 														className="w-8 h-8 rounded-full"
 														src={selectedAvatar}
@@ -186,9 +238,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/profile"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Profile')}
+																{t(
+																	'Navbar.Profile'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -196,9 +255,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/profileEdit"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Settings')}
+																{t(
+																	'Navbar.Settings'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -206,9 +272,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/logout"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.SignOut')}
+																{t(
+																	'Navbar.SignOut'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -218,12 +291,28 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									</>
 								) : (
 									<>
-										<Menu as="div" className="relative mr-1">
+										<Menu
+											as="div"
+											className="relative mr-1"
+										>
 											<div>
 												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-													<span className="sr-only">Open language menu</span>
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+													<span className="sr-only">
+														Open language menu
+													</span>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														strokeWidth={1.5}
+														stroke="currentColor"
+														className="w-8 h-8"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+														/>
 													</svg>
 												</Menu.Button>
 											</div>
@@ -241,10 +330,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('en')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'en'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.English')}
+																{t(
+																	'Navbar.English'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -252,10 +352,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('fi')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'fi'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Finnish')}
+																{t(
+																	'Navbar.Finnish'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -282,10 +393,14 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									as="a"
 									href={item.href}
 									className={classNames(
-										item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+										item.current
+											? 'bg-gray-900 text-white'
+											: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 										'block px-3 py-2 rounded-md text-base font-medium'
 									)}
-									aria-current={item.current ? 'page' : undefined}
+									aria-current={
+										item.current ? 'page' : undefined
+									}
 								>
 									{item.name}
 								</Disclosure.Button>
@@ -298,132 +413,3 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	);
 };
 export default Nav;
-<<<<<<< HEAD
-
-
-// <Navbar
-// 	className="bg-zinc-900 border-b-[3px] border-zinc-700"
-// 	fluid={true}
-// 	id="navbar"
-// 	style={{ backgroundColor: '#19191c', borderColor: '#3F3F46' }}
-// >
-// 	<Navbar.Brand as={Link} to="/">
-// 		<img
-// 			src={require('../images/hypertubeLogo.png')}
-// 			className="h-12 mr-3 sm:h-9"
-// 			alt="Hypertube Logo"
-// 		/>
-// 	</Navbar.Brand>
-// 	{itsMe.username || itsMe.login ? (
-// 		<>
-// 			<div className="flex">
-// 				{/* Logout Button */ }
-// 				<Link className="mt-2 mr-2" to="/logout">
-// 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-// 						 stroke="#f05252" className="w-8 h-8">
-// 						<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
-// 					</svg>
-// 				</Link>
-//
-// 				{/* Menu Toggle */ }
-// 				<Navbar.Toggle className="mb-1 ml-5 text-red-500 border-2 border-red-500 hover:bg-transparent hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
-//
-// 				<Navbar.Collapse>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/homepage"
-// 						style={{ color: "#f05252" }}
-// 						// active={true}
-// 					>
-// 						Home
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/landing"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Landing
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/login"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Login
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/registration"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Registration
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/forgot"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Forgot
-// 					</Navbar.Link>
-// 				</Navbar.Collapse>
-// 			</div>
-// 		</>
-// 	) : (
-// 		<>
-// 			<div className="flex">
-// 				{/* Logout Button */ }
-// 				<Link className="mt-2 mr-2" to="/logout">
-// 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-// 						 stroke="#f05252" className="w-8 h-8">
-// 						<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/>
-// 					</svg>
-// 				</Link>
-// 			</div>
-//
-//
-// 				{/* Menu Toggle */ }
-// 				<Navbar.Toggle className="mb-1 ml-1 text-red-500 border-2 border-red-500 hover:bg-transparent hover:text-red-500 focus:text-red-500 focus:bg-transparent focus:border-red-500" />
-//
-// 				<Navbar.Collapse>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/homepage"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Home
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/landing"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Landing
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/login"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Login
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/registration"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Registration
-// 					</Navbar.Link>
-// 					<Navbar.Link
-// 						className="font-medium hover:bg-zinc-800 hover:text-red-600"
-// 						href="/forgot"
-// 						style={{ color: "#f05252" }}
-// 					>
-// 						Forgot
-// 					</Navbar.Link>
-// 				</Navbar.Collapse>
-//
-// 		</>
-// 	)}
-// </Navbar>
-=======
->>>>>>> c1426135851833f99d96176424f63181942f873c
