@@ -130,31 +130,42 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
                         <div className="mb-6 pt-2">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                <p>{t('Profile.username')}:</p>
-                                <p>{username ? username : "{t('Profile.username_not_found')}"}</p>
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.username')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{username ? username : "{t('Profile.username_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                <p>{t('Profile.first_name')}:</p>
-                                <p>{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.first_name')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                <p>{t('Profile.last_name')}:</p>
-                                <p>{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.last_name')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
-                            <div className="block mb-2 font-semibold text-slate-300">
-                                <p>{t('Profile.email')}:</p>
-                                <p>{email ? email : "{t('Profile.email_not_found')}')}"}</p>
-                                
+                            <div className="block mb-2">
+                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.email')}:</p>
+                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{email ? email : "{t('Profile.email_not_found')}')}"}</p>
+
+                            </div>
+                        </div>
+                        <div className="rounded-md">
+                            <label className="block pb-1 text-lg font-semibold text-red-500">{t('Profile.profile_picture')}:</label>
+                            <div className="mt-1 pb-6">
+                                <button
+                                    type="button"
+                                    className="inline-block w-full py-2 text-sm font-medium text-gray-700 shadow-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    <input className="rounded" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                                </button>
                             </div>
                         </div>
                         <Link to="/profileEdit">
@@ -188,17 +199,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         {/*    <br />*/}
                         {/*    <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>*/}
                         {/*</button>*/}
-                        <div className="rounded-md p-4 border-2 border-red-500">
-                            <label className="block pb-1 text-md font-medium text-gray-200">{t('Profile.profile_picture')}</label>
-                            <div className="mt-1 flex items-center">
-                                <button
-                                    type="button"
-                                    className="inline-block w-3/4 ml-5 rounded-md border border-gray-300 bg-gray-300 py-2 px-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    <input className="rounded bg-gray-400" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
-                                </button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </section>
