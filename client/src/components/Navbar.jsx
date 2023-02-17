@@ -1,12 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, PowerIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Bars3Icon, PowerIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 function classNames(...classes) {
-	return classes.filter(Boolean).join(' ')
+	return classes.filter(Boolean).join(' ');
 }
 
 const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
@@ -40,7 +39,11 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 	console.log('ITSMEEE', itsMe.username);
 	console.log('ITSMEEE.path', itsMe.path);
 
-	console.log('ITSMEEE.username || ITSMEE.login', itsMe.username, itsMe.login)
+	console.log(
+		'ITSMEEE.username || ITSMEE.login',
+		itsMe.username,
+		itsMe.login
+	);
 
 	return (
 		<Disclosure as="nav" className="">
@@ -51,11 +54,19 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 							<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 								{/* Mobile menu button*/}
 								<Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-									<span className="sr-only">Open main menu</span>
+									<span className="sr-only">
+										Open main menu
+									</span>
 									{open ? (
-										<XMarkIcon className="block w-6 h-6" aria-hidden="true" />
+										<XMarkIcon
+											className="block w-6 h-6"
+											aria-hidden="true"
+										/>
 									) : (
-										<Bars3Icon className="block w-6 h-6" aria-hidden="true" />
+										<Bars3Icon
+											className="block w-6 h-6"
+											aria-hidden="true"
+										/>
 									)}
 								</Disclosure.Button>
 							</div>
@@ -79,10 +90,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												key={item.name}
 												href={item.href}
 												className={classNames(
-													item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+													item.current
+														? 'bg-gray-900 text-white'
+														: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 													'px-3 py-2 rounded-md text-sm font-medium'
 												)}
-												aria-current={item.current ? 'page' : undefined}
+												aria-current={
+													item.current
+														? 'page'
+														: undefined
+												}
 											>
 												{item.name}
 											</a>
@@ -97,18 +114,44 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 											href="/logout"
 											className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 										>
-											<span className="sr-only">{t('Navbar.SignOut')}</span>
-											<PowerIcon className="w-6 h-6" aria-hidden="true" />
-
+											<span className="sr-only">
+												{t('Navbar.SignOut')}
+											</span>
+											<PowerIcon
+												className="w-6 h-6"
+												aria-hidden="true"
+											/>
 										</a>
 
 										{/* Language Dropdown */}
-										<Menu as="div" className="relative ml-4">
+										<Menu
+											as="div"
+											className="relative ml-4"
+										>
 											<div>
 												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-lime-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+<<<<<<< HEAD
 													<span className="sr-only">Open language menu</span>
 													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
 														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+=======
+													<span className="sr-only">
+														Open language menu
+													</span>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														strokeWidth={1.5}
+														stroke="currentColor"
+														className="w-8 h-8"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+														/>
+>>>>>>> 3a7f83efba4e4bfb4baf87e0dafdf20ceacb6e98
 													</svg>
 												</Menu.Button>
 											</div>
@@ -125,11 +168,28 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
+<<<<<<< HEAD
 																// href="#"
 																onClick={() => changeLanguage('en')}
 																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+=======
+																href="#"
+																onClick={() =>
+																	changeLanguage(
+																		'en'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
+>>>>>>> 3a7f83efba4e4bfb4baf87e0dafdf20ceacb6e98
 															>
-																{t('Navbar.English')}
+																{t(
+																	'Navbar.English'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -137,10 +197,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('fi')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'fi'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Finnish')}
+																{t(
+																	'Navbar.Finnish'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -149,10 +220,15 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 
 										{/* Profile dropdown */}
-										<Menu as="div" className="relative ml-4">
+										<Menu
+											as="div"
+											className="relative ml-4"
+										>
 											<div>
 												<Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-lime focus:ring-offset-2 focus:ring-offset-lime-500">
-													<span className="sr-only">Open user menu</span>
+													<span className="sr-only">
+														Open user menu
+													</span>
 													<img
 														className="w-8 h-8 rounded-full"
 														src={selectedAvatar}
@@ -174,9 +250,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/profile"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Profile')}
+																{t(
+																	'Navbar.Profile'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -184,9 +267,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/profileEdit"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Settings')}
+																{t(
+																	'Navbar.Settings'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -194,9 +284,16 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="/logout"
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.SignOut')}
+																{t(
+																	'Navbar.SignOut'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -206,12 +303,28 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									</>
 								) : (
 									<>
-										<Menu as="div" className="relative mr-1">
+										<Menu
+											as="div"
+											className="relative mr-1"
+										>
 											<div>
 												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-													<span className="sr-only">Open language menu</span>
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-														<path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+													<span className="sr-only">
+														Open language menu
+													</span>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														fill="none"
+														viewBox="0 0 24 24"
+														strokeWidth={1.5}
+														stroke="currentColor"
+														className="w-8 h-8"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802"
+														/>
 													</svg>
 												</Menu.Button>
 											</div>
@@ -229,10 +342,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('en')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'en'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.English')}
+																{t(
+																	'Navbar.English'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -240,10 +364,21 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 														{({ active }) => (
 															<a
 																href="#"
-																onClick={() => changeLanguage('fi')}
-																className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+																onClick={() =>
+																	changeLanguage(
+																		'fi'
+																	)
+																}
+																className={classNames(
+																	active
+																		? 'bg-gray-100'
+																		: '',
+																	'block px-4 py-2 text-sm text-gray-700'
+																)}
 															>
-																{t('Navbar.Finnish')}
+																{t(
+																	'Navbar.Finnish'
+																)}
 															</a>
 														)}
 													</Menu.Item>
@@ -270,10 +405,14 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									as="a"
 									href={item.href}
 									className={classNames(
-										item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+										item.current
+											? 'bg-gray-900 text-white'
+											: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 										'block px-3 py-2 rounded-md text-base font-medium'
 									)}
-									aria-current={item.current ? 'page' : undefined}
+									aria-current={
+										item.current ? 'page' : undefined
+									}
 								>
 									{item.name}
 								</Disclosure.Button>
