@@ -5,33 +5,9 @@ import {Disclosure} from '@headlessui/react'
 import {StarIcon} from '@heroicons/react/20/solid'
 import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
 import {useTranslation} from 'react-i18next';
+import axios from "axios";
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
-
-const reviews = {
-    average: 4,
-    totalCount: 1624,
-    counts: [
-        {rating: 5, count: 1019},
-        {rating: 4, count: 162},
-        {rating: 3, count: 97},
-        {rating: 2, count: 199},
-        {rating: 1, count: 147},
-    ],
-    featured: [
-        {
-            id: 1,
-            rating: 5,
-            content: `
-        <p>This film is one of the greats. If you haven't seen it before, stop everything and watch it now!!!</p>
-      `,
-            author: 'Emily Selman',
-            avatarSrc:
-                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        // More reviews...
-    ],
-}
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -45,11 +21,10 @@ const FilmDetail = ({itsMe}) => {
     const [playMovie, setPlayMovie] = useState('');
     // const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState('');
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
-
 
     console.log('playerrf', playerRef)
     console.log('mee', itsMe.username)
@@ -60,10 +35,6 @@ const FilmDetail = ({itsMe}) => {
             playerRef.current.seekTo(0, 'seconds');
         }
     }, [playerRef])
-
-    const handleNewComment = (event) => {
-        setNewComment(event.target.value)
-    }
 
     useEffect(() => {
         axiosStuff.toMovie(id)
@@ -87,32 +58,72 @@ const FilmDetail = ({itsMe}) => {
                 .then((response1) => {
                     setUsers(response1)
                 })
-        })
+        });
+
+        const fetchNewComments = setInterval(() => {
+            axiosStuff.getComments(id)
+                .then((response) => {
+                    setComments(response);
+                }).then(() => {
+                axiosStuff.getCommentUser()
+                    .then((response1) => {
+                        setUsers(response1)
+                    })
+            })
+        }, 3000);
+
+        // cleanup function to clear interval when component unmounts or id changes
+        return () => clearInterval(fetchNewComments);
+    }, [id]);
+
+    useEffect(() => {
+        axios.get(`/movies/${id}/comments`).then((response) => {
+            setComments(response.data);
+        });
     }, [id]);
 
     console.log('comments', comments)
     console.log('users', users)
 
+    const commentInputRef = useRef(null);
+
     const handleCommentSubmit = (event) => {
         event.preventDefault();
         if (itsMe.username) {
+            let text1 = newComment.trim();
+            if (text1.length > 255) {
+                text1 = text1.slice(0, 255);
+            }
+            if (text1.length === 0) {
+                return;
+            }
+            else if (newComment.replace(/\s/g, '').length === 0) {
+                setNewComment('');
+                return
+            }
             const comment = {
                 movie_id: movies.id,
                 user_id: itsMe.id,
-                text: newComment
-            }
-            axiosStuff
-                .submitComment(comment)
+                text1: newComment.trim(),
+                text: text1.slice(0, 255)
+            };
+            axiosStuff.submitComment(comment)
                 .then((response) => {
                     setComments([...comments, response.data]);
-                    event.target.comment.value = '';
+                    setNewComment('');
+                    // event.target.comment.value = '';
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
+    };
 
+
+    const handleNewComment = (event) => {
+        setNewComment(event.target.value)
     }
+
 
     const startMovie = () => {
         const movieHash = movies.torrents[0].hash;
@@ -368,9 +379,9 @@ const FilmDetail = ({itsMe}) => {
                                                                     </span>
                                                     </Disclosure.Button>
                                                 </h3>
-                                                <Disclosure.Panel as="div" className="pb-6 prose-sm prose">
 
-                                                    {/* COMMENTS PANEL */}
+                                                {/* COMMENTS PANEL */}
+                                                <Disclosure.Panel as="div" className="pb-6 prose-sm prose">
                                                     <div className="flex items-start pt-8 pb-6 space-x-4">
                                                         <div className="flex-1 min-w-0">
                                                             <form onSubmit={handleCommentSubmit} className="relative">
@@ -383,10 +394,11 @@ const FilmDetail = ({itsMe}) => {
                                                                         rows={3}
                                                                         name="comment"
                                                                         id="comment"
-                                                                        className="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm"
+                                                                        className="block w-full text-gray-700 py-3 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder={t('FilmDetail.addComment')}
                                                                         defaultValue={''}
                                                                         onChange={handleNewComment}
+                                                                        ref={commentInputRef}
                                                                     />
 
                                                                     {/* Spacer element to match the height of the toolbar */}
@@ -397,13 +409,12 @@ const FilmDetail = ({itsMe}) => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                                 <div
                                                                     className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
                                                                     <div className="flex-shrink-0">
                                                                         <button
                                                                             type="submit"
-                                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                         >
                                                                             {t('FilmDetail.post')}
                                                                         </button>
@@ -412,8 +423,6 @@ const FilmDetail = ({itsMe}) => {
                                                             </form>
                                                         </div>
                                                     </div>
-
-
                                                     <div
                                                         className="mt-2 lg:col-span-7 lg:col-start-6 lg:mt-0">
                                                         <h3 className="sr-only">{t('FilmDetail.comments')}</h3>
@@ -443,8 +452,9 @@ const FilmDetail = ({itsMe}) => {
                                                                             </div>
                                                                             <div
                                                                                 className="ml-8 mt-4 space-y-6 text-base italic text-gray-300"
-                                                                                dangerouslySetInnerHTML={{__html: comment.text}}
-                                                                            />
+                                                                            >
+                                                                                {comment.text}
+                                                                            </div>
                                                                         </div>
                                                                     )
                                                                 })
