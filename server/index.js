@@ -2,6 +2,7 @@ const config = require('./utils/config');
 const express = require('express');
 const cors = require('cors');
 
+
 // Session stuff
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -42,70 +43,17 @@ const middleware = require('./utils/middleware');
 app.use(middleware.requestLogger);
 app.use(middleware.morganLogger);
 
+
+
+// const filePath = path.join(process.cwd(), 'subtitles', code, filename)
+
 app.get('/', (req, res) => {
 	res.sendStatus(200).end()
 });
 
-app.get('/42', (req, res) => {
-	const code = req.query.codeParam;
 
-  fetch(`https://api.intra.42.fr/oauth/token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${Buffer.from(`${config.UID_42}:${config.SECRET_42}`).toString('base64')}`
-    },
-    body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
-  })
-  .then((response) => {
-    return response.json()
-  })
-  .then((data) => {
-    const accessToken = data.access_token;
-    fetch(`https://api.intra.42.fr/v2/me`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      // console.log('ma', data)
-      req.session.user = data;
-      res.send({ loggedIn: true, user: req.session.user })
-    })
-  })
-})
 
-app.get('/github', (req, res) => {
-	const code = req.query.codeParam;
-	fetch(`https://github.com/login/oauth/access_token?client_id=${config.GITHUB_CLIENT_ID}&client_secret=${config.GITHUB_CLIENT_SECRET}&code=${code}`, {
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json'
-		}
-	})
-		.then((response) => {
-			return response.json()
-		})
-		.then((data) => {
-			const accessToken = data.access_token;
-			fetch(`https://api.github.com/user`, {
-				headers: {
-					'Authorization': `Token ${accessToken}`
-				}
-			})
-				.then((response) => {
-					return response.json()
-				})
-				.then((data) => {
-					console.log('ma', data)
-					req.session.user = data;
-					res.send({ loggedIn: true, user: req.session.user })
-				})
-		})
-})
+
 
 // const getCommentsFromDatabase = (movieId, connection) => {
 // 	return new Promise((resolve, reject) => {

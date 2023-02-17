@@ -300,7 +300,7 @@ const Homepage = () => {
                                                         </div>
                                                     </Link>
                                                     <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
-                                                        <p className="mb-2 text-md font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</p>
+                                                        <p className="mb-2 font-semibold text-red-500 text-md">{movie.title}&nbsp;&nbsp;({movie.year})</p>
                                                         <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} / 10</p>
                                                     </div>
                                                 </div>

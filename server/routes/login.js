@@ -3,8 +3,116 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+const path = require('path');
+const fs = require('fs');
 
 const dbConn = require('../utils/dbConnection');
+
+const checkDelete = () => {
+	dbConn.pool.query('SELECT * FROM movies', (err, result) => {
+		if (err) {
+			console.error('Error getting movie data from the database', err);
+			return;
+		}
+
+		const movies = result.rows;
+
+		// Filter out movies that are less than 30 days old
+		const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+		const oldMovies = movies.filter((movie) => new Date(movie.date) < thirtyDaysAgo);
+
+		// Delete the files for the remaining movies from the computer
+		oldMovies.forEach((movie) => {
+			const moviePath = `downloads/${movie.movie_path}`;
+			const pathElements = moviePath.split('/');
+			const movieDir = `${pathElements[0]}/${pathElements[1]}`
+			// const encoded = encodeURIComponent(moviePath)
+			console.log('MOVIIIEEE PATTHH', moviePath)
+			console.log('MOVIIEEEE DIR', movieDir)
+
+			 fs.rm(movieDir, {
+				recursive: true
+			}, (err) => {
+				if (err) {
+					console.error(`Error deleting movie file ${movieDir}`, err);
+				} else {
+					console.log(`Deleted movie file ${movieDir}`);
+				}
+			});
+		});
+
+		const oldMovieIds = oldMovies.map((movie) => movie.id);
+		dbConn.pool.query('DELETE FROM movies WHERE id = ANY($1::int[])', [oldMovieIds], (err, result) => {
+			if (err) {
+				console.error('Error deleting old movies from the database', err);
+			} else {
+				console.log(`Deleted ${result.rowCount} old movies from the database`);
+			}
+		});
+	});
+}
+
+router.get('/42', (req, res) => {
+	const code = req.query.codeParam;
+
+  fetch(`https://api.intra.42.fr/oauth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${Buffer.from(`${config.UID_42}:${config.SECRET_42}`).toString('base64')}`
+    },
+    body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    const accessToken = data.access_token;
+    fetch(`https://api.intra.42.fr/v2/me`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    })
+    .then((response) => {
+      return response.json()
+    })
+    .then((data) => {
+      // console.log('ma', data)
+			checkDelete()
+      req.session.user = data;
+      res.send({ loggedIn: true, user: req.session.user })
+    })
+  })
+})
+
+router.get('/github', (req, res) => {
+	const code = req.query.codeParam;
+	fetch(`https://github.com/login/oauth/access_token?client_id=${config.GITHUB_CLIENT_ID}&client_secret=${config.GITHUB_CLIENT_SECRET}&code=${code}`, {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json'
+		}
+	})
+		.then((response) => {
+			return response.json()
+		})
+		.then((data) => {
+			const accessToken = data.access_token;
+			fetch(`https://api.github.com/user`, {
+				headers: {
+					'Authorization': `Token ${accessToken}`
+				}
+			})
+				.then((response) => {
+					return response.json()
+				})
+				.then((data) => {
+					checkDelete()
+					req.session.user = data;
+					res.send({ loggedIn: true, user: req.session.user })
+				})
+		})
+})
 
 router.get('/login', (req, res) => {
 	if (req.session.user) {
