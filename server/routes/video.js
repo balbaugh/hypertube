@@ -147,6 +147,13 @@ router.get('/play', (req, res) => {
 							console.log('movie Err', err);
 						else if (result.rowCount > 0) {
 							if (result.rows[0].downloaded === true) {
+								dbConn.pool.query(`UPDATE movies SET date = NOW() WHERE movie_path = $1`,
+								[`${imdbCode}/${file.path}`],
+								(err3) => {
+									if (err3) {
+										console.log('date update err', err3)
+									}
+								})
 								sentResponse = true
 								// return res.send(result.rows[0])
 								return res.send({ downloaded: true, result })
