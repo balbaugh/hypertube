@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
 	lastname VARCHAR(255) NOT NULL,
 	password VARCHAR(255) NOT NULL,
 	verifycode VARCHAR(255) NOT NULL,
+	github_id INT DEFAULT -1,
+	fortytwo_id INT DEFAULT -1,
 	status INT DEFAULT 0 NOT NULL
 );
 

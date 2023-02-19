@@ -34,6 +34,7 @@ function useGetProfileInfo() {
 			confPasswd: passwordCReg,
 			user: username
 		}
+		console.log('username, password:', username, passwordReg)
 		axiosStuff
 			.changePw(newPw).then((response) => {
 				setMessage(response.message)

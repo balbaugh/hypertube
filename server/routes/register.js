@@ -48,7 +48,7 @@ router.post('/register', (req, res) => {
 	if (email.length > 40)
 		return res.send({ message: `Max 40 characters on email.` })
 
-	console.log(config)
+	console.log('config:', config)
 
 	const sendVerifyCode = () => {
 		const theMail = {

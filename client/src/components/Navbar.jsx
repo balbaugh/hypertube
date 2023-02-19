@@ -36,14 +36,9 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 
 	// setItsMe({ ...itsMe, path: selectedAvatar })
 
-	console.log('ITSMEEE', itsMe.username);
 	console.log('ITSMEEE.path', itsMe.path);
-
-	console.log(
-		'ITSMEEE.username || ITSMEE.login',
-		itsMe.username,
-		itsMe.login
-	);
+	console.log('ITSMEEE.username', itsMe.username)
+	console.log('ITSMEE.login', itsMe.login)
 
 	return (
 		<Disclosure as="nav" className="">
@@ -162,11 +157,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<a
-<<<<<<< HEAD
 																href="#"
-=======
-																// href="#"
->>>>>>> 37a0f8b5453e7190baad692f68c54e8a230d7542
 																onClick={() =>
 																	changeLanguage(
 																		'en'

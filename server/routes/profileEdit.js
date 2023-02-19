@@ -46,7 +46,7 @@ router.get('/profileInfo', (req, res) => {
 
 router.put('/profileEdit', (req, res) => {
     if (req.session.user) {
-        const username = req.body.username;
+        const username = req.body.username.toLowerCase();
         const firstname = req.body.firstname;
         const lastname = req.body.lastname;
         const id = req.session.user.id
@@ -95,6 +95,7 @@ router.put('/profileEdit', (req, res) => {
 
 router.post('/setprofilepic', upload.single('file'), async (request, response) => {
     const session = request.session.user
+    console.log('request.session.user', request.session.user)
     const picture = 'http://localhost:3001/images/' + request.file.filename
     if (session.id) {
         if (request.file.size > 5242880) {

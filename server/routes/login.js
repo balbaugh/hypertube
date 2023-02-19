@@ -2,6 +2,8 @@ const config = require('../utils/config');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+let algo = 'sha256'
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
@@ -30,7 +32,7 @@ const checkDelete = () => {
 			console.log('MOVIIIEEE PATTHH', moviePath)
 			console.log('MOVIIEEEE DIR', movieDir)
 
-			 fs.rm(movieDir, {
+			fs.rm(movieDir, {
 				recursive: true
 			}, (err) => {
 				if (err) {
@@ -55,38 +57,351 @@ const checkDelete = () => {
 router.get('/42', (req, res) => {
 	const code = req.query.codeParam;
 
-  fetch(`https://api.intra.42.fr/oauth/token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${Buffer.from(`${config.UID_42}:${config.SECRET_42}`).toString('base64')}`
-    },
-    body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
-  })
-  .then((response) => {
-    return response.json()
-  })
-  .then((data) => {
-    const accessToken = data.access_token;
-    fetch(`https://api.intra.42.fr/v2/me`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      // console.log('ma', data)
-			checkDelete()
-      req.session.user = data;
-      res.send({ loggedIn: true, user: req.session.user })
-    })
-  })
+	const retrieveId = async (randomUsername) => {
+		try {
+			var sql = "SELECT id FROM users WHERE username = $1;"
+			var { rows } = await dbConn.pool.query(sql, [randomUsername])
+			return (rows[0].id)
+		} catch (error) {
+			console.error("Something went wrong when trying to retrieve user ID:", error)
+		}
+	}
+
+	const generateRandomUsername = async () => {
+		while (true) {
+			var randomUsername = crypto.randomBytes(20).toString('hex')
+			var sql = 'SELECT * FROM users WHERE username = $1;'
+			const result = await dbConn.pool.query(sql, [randomUsername])
+			console.log('randomUsername:', randomUsername)
+			console.log('result.rows:', result.rows)
+			if (result.rows.length < 1) {
+				console.log('No duplicates found for the newly generated random username in getlogin.')
+				break
+			} else {
+				console.log('Found a duplicate for the newly generated random username in getlogin. Proceeding to generate a new random username.')
+				continue
+			}
+		}
+		return randomUsername
+	}
+
+	const fetchSessionInfo = async (id) => {
+		try {
+			const sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+					INNER JOIN profile_pics
+					ON users.id = profile_pics.user_id
+					WHERE users.id = $1;`
+			const result = await dbConn.pool.query(sql, [id])
+			return (result.rows[0])
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	fetch(`https://api.intra.42.fr/oauth/token`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Authorization': `Basic ${Buffer.from(`${config.UID_42}:${config.SECRET_42}`).toString('base64')}`
+		},
+		body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
+	})
+		.then((response) => {
+			return response.json()
+		})
+		.then((data) => {
+			const accessToken = data.access_token;
+			fetch(`https://api.intra.42.fr/v2/me`, {
+				headers: {
+					'Authorization': `Bearer ${accessToken}`
+				}
+			})
+				.then((response) => {
+					return response.json()
+				})
+				.then((data) => {
+					console.log('42 login data in server/index:', data)
+					checkDelete()
+
+					if (data?.login) {
+						console.log('req.session.user.login in get 42:', data.login)
+						console.log('req.session.user.id in get 42:', data.id)
+						console.log('req.session.user.url in get 42:', data.url)
+
+						const urlAsString = JSON.stringify(data.url);
+						// We're checking if the user is logging in via the 42 OAuth or the Github OAuth.
+						if (urlAsString.match(/api\.intra\.42/)) {
+							console.log('String contained substring \'api.intra.42\'. Seems we\'re accessing the 42 OAuth API.')
+
+							const fortytwo_id = data.id
+							console.log('data.id', data.id)
+
+							const checkIf42UserExists = async (fortytwo_id) => {
+								const sql = 'SELECT * FROM users WHERE fortytwo_id = $1;'
+								const result = await dbConn.pool.query(sql, [fortytwo_id])
+								if (result.rows.length < 1) {
+									console.log('OAuth user is not yet in the users table.')
+									return false
+								} else {
+									console.log('OAuth user already exists in the users table.')
+									return true
+								}
+							}
+
+							const retrieveIdBy42Id = async (fortytwo_id) => {
+								try {
+									var sql = "SELECT id FROM users WHERE fortytwo_id = $1;"
+									var { rows } = await dbConn.pool.query(sql, [fortytwo_id])
+									return (rows[0].id)
+								} catch (error) {
+									console.error("Something went wrong when trying to retrieve user ID:", error)
+								}
+							}
+
+							checkIf42UserExists(fortytwo_id)
+								.then((bool) => {
+									// If the user was not found in the table, we'll create a new user and log in as them. We'll set the avatar as the default profile picture.
+									if (bool === false) {
+										generateRandomUsername()
+											.then((randomUsername) => {
+												const verifycode = crypto.createHash(algo).update(randomUsername).digest('base64url');
+												var sql = `INSERT INTO users (username, firstname, lastname, email, password, verifycode, fortytwo_id, status)
+																		VALUES ($1, 	$2, 		$3, 	$4,		$5, 		$6,			$7,			$8)`
+												dbConn.pool.query(sql, [randomUsername, "Not yet set", "Not yet set", "Not yet set", "None", verifycode, fortytwo_id, 1],
+													(err, result) => {
+														if (err)
+															console.log('INSERT________ERRRORRR: ', err);
+														else {
+															retrieveId(randomUsername)
+																.then((id) => {
+																	console.log('rows[0].id', id)
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
+																		(err, result) => {
+																			if (err)
+																				console.error("Something went wrong when trying to assign the default avatar to the user:", err)
+																			else {
+																				try {
+																					fetchSessionInfo(id)
+																						.then((response) => {
+																							req.session.user = response
+																							return res.send({
+																								loggedIn: true,
+																								user: req.session.user,
+																								avatar: "http://localhost:3001/images/default_profilepic.jpg",
+																								result
+																							})
+																						})
+																				} catch (error) {
+																					console.error("Something went wrong when trying to generate user session:", error)
+																				}
+																			}
+																		})
+																}).catch((error) => {
+																	return (error)
+																})
+														}
+													})
+											})
+										// If the user was found in the table, we'll log in as them, as an existing 42 user.
+									} else {
+										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+													LEFT JOIN profile_pics
+													ON users.id = profile_pics.user_id
+													WHERE fortytwo_id = $1;`
+										dbConn.pool.query(sql, [fortytwo_id],
+											(err, result) => {
+												if (err) {
+													console.error('req.user.session', err);
+												} else {
+													req.session.user = result.rows[0]
+													console.log('Logging in as an existing 42 user. result.rows[0]:', result.rows[0])
+													if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
+														// If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
+														try {
+															retrieveIdBy42Id(fortytwo_id)
+																.then((id) => {
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
+																	res.send({ loggedIn: true, user: req.session.user, avatar: "http://localhost:3001/images/default_profilepic.jpg", result })
+																}).catch(error => {
+																	console.error(error)
+																})
+														} catch (error) {
+															console.error(error)
+														}
+													} else {
+														res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
+													}
+												}
+											})
+									}
+								}).catch(error => {
+									console.error(error)
+								})
+						} else {
+							console.log('We\'re accessing the Github OAuth API.')
+
+							const github_id = data.id;
+							console.log('data.id', data.id)
+
+							const checkIfGithubUserExists = async (github_id) => {
+								var sql = 'SELECT * FROM users WHERE github_id = $1;'
+								var result = await dbConn.pool.query(sql, [github_id])
+								if (result.rows.length < 1) {
+									console.log('OAuth user is not in the users table yet.')
+									return false
+								} else {
+									console.log('OAuth user already exists in the users table.')
+									return true
+								}
+							}
+
+							const retrieveIdByGithubId = async (github_id) => {
+								try {
+									var sql = "SELECT id FROM users WHERE github_id = $1;"
+									var { rows } = await dbConn.pool.query(sql, [github_id])
+									return (rows[0].id)
+								} catch (error) {
+									console.error("Something went wrong when trying to retrieve user ID:", error)
+								}
+							}
+
+							checkIfGithubUserExists(github_id)
+								.then((bool) => {
+									// If the user was not found in the table, we'll create a new user and log in as them. We'll set the avatar as the default profile picture.
+									if (bool === false) {
+										generateRandomUsername()
+											.then((randomUsername) => {
+												const verifycode = crypto.createHash(algo).update(randomUsername).digest('base64url');
+												var sql = `INSERT INTO users (username, firstname, lastname, email, password, verifycode, github_id, status)
+																		VALUES ($1, 	$2, 		$3, 	$4, 	$5, 		$6, 		$7, 		$8);`
+												dbConn.pool.query(sql, [randomUsername, "Not yet set", "Not yet set", "Not yet set", "None", verifycode, github_id, 1],
+													(err, result) => {
+														if (err)
+															console.error('INSERT________ERRRORRR:', err)
+														else {
+															retrieveId(randomUsername)
+																.then((id) => {
+																	console.log('rows[0].id', id)
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
+																		(err, result) => {
+																			if (err)
+																				console.error("Something went wrong when trying to assign the default avatar to the user:", err)
+																			else {
+																				try {
+																					fetchSessionInfo(id)
+																						.then((response) => {
+																							req.session.user = response
+																							return res.send({
+																								loggedIn: true,
+																								user: req.session.user,
+																								avatar: "http://localhost:3001/images/default_profilepic.jpg",
+																								result
+																							})
+																						})
+																				} catch (error) {
+																					console.error("Something went wrong when trying to generate user session:", error)
+																				}
+																			}
+																		})
+																}).catch((error) => {
+																	return (error)
+																})
+														}
+													})
+											})
+										// If the user was found in the table, we'll log in as them, as an existing Github user.
+									} else {
+										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+													LEFT JOIN profile_pics
+													ON users.id = profile_pics.user_id
+													WHERE github_id = $1;`
+										dbConn.pool.query(sql, [github_id],
+											(err, result) => {
+												if (err) {
+													console.error('req.user.session', err);
+												} else {
+													req.session.user = result.rows[0]
+													console.log('Logging in as an existing Github user. result.rows[0]:', result.rows[0])
+													if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
+														// If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
+														try {
+															retrieveIdByGithubId(github_id)
+																.then((id) => {
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
+																	res.send({ loggedIn: true, user: req.session.user, avatar: "http://localhost:3001/images/default_profilepic.jpg", result })
+																}).catch(error => {
+																	console.error(error)
+																})
+														} catch (error) {
+															console.error(error)
+														}
+													} else {
+														res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
+													}
+												}
+											})
+									}
+								}).catch(error => {
+									console.error(error)
+								})
+
+						}
+					}
+				}).catch(error => {
+					console.error(error)
+				})
+		})
 })
 
 router.get('/github', (req, res) => {
 	const code = req.query.codeParam;
+
+	console.log('Made it here')
+	const retrieveId = async (randomUsername) => {
+		try {
+			var sql = "SELECT id FROM users WHERE username = $1;"
+			var { rows } = await dbConn.pool.query(sql, [randomUsername])
+			return (rows[0].id)
+		} catch (error) {
+			console.error("Something went wrong when trying to retrieve user ID:", error)
+		}
+	}
+
+	const generateRandomUsername = async () => {
+		while (true) {
+			var randomUsername = crypto.randomBytes(20).toString('hex')
+			var sql = 'SELECT * FROM users WHERE username = $1;'
+			const result = await dbConn.pool.query(sql, [randomUsername])
+			console.log('randomUsername:', randomUsername)
+			console.log('result.rows:', result.rows)
+			if (result.rows.length < 1) {
+				console.log('No duplicates found for the newly generated random username in getlogin.')
+				break
+			} else {
+				console.log('Found a duplicate for the newly generated random username in getlogin. Proceeding to generate a new random username.')
+				continue
+			}
+		}
+		return randomUsername
+	}
+
+	const fetchSessionInfo = async (id) => {
+		try {
+			const sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+					INNER JOIN profile_pics
+					ON users.id = profile_pics.user_id
+					WHERE users.id = $1;`
+			const result = await dbConn.pool.query(sql, [id])
+			return (result.rows[0])
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	fetch(`https://github.com/login/oauth/access_token?client_id=${config.GITHUB_CLIENT_ID}&client_secret=${config.GITHUB_CLIENT_SECRET}&code=${code}`, {
 		method: 'POST',
 		headers: {
@@ -107,31 +422,259 @@ router.get('/github', (req, res) => {
 					return response.json()
 				})
 				.then((data) => {
+					console.log('github login data in server/index:', data)
 					checkDelete()
-					req.session.user = data;
-					res.send({ loggedIn: true, user: req.session.user })
+
+					if (data?.login) {
+						console.log('req.session.user.login in get github:', data.login)
+						console.log('req.session.user.id in get github:', data.id)
+						console.log('req.session.user.url in get github:', data.url)
+
+						const urlAsString = JSON.stringify(data.url);
+						// We're checking if the user is logging in via the 42 OAuth or the Github OAuth.
+						if (urlAsString.match(/api\.intra\.42/)) {
+							console.log('String contained substring \'api.intra.42\'. Seems we\'re accessing the 42 OAuth API.')
+
+							const fortytwo_id = data.id
+							console.log('data.id', data.id)
+
+							const checkIf42UserExists = async (fortytwo_id) => {
+								const sql = 'SELECT * FROM users WHERE fortytwo_id = $1;'
+								const result = await dbConn.pool.query(sql, [fortytwo_id])
+								if (result.rows.length < 1) {
+									console.log('OAuth user is not yet in the users table.')
+									return false
+								} else {
+									console.log('OAuth user already exists in the users table.')
+									return true
+								}
+							}
+
+							const retrieveIdBy42Id = async (fortytwo_id) => {
+								try {
+									var sql = "SELECT id FROM users WHERE fortytwo_id = $1;"
+									var { rows } = await dbConn.pool.query(sql, [fortytwo_id])
+									return (rows[0].id)
+								} catch (error) {
+									console.error("Something went wrong when trying to retrieve user ID:", error)
+								}
+							}
+
+							checkIf42UserExists(fortytwo_id)
+								.then((bool) => {
+									// If the user was not found in the table, we'll create a new user and log in as them. We'll set the avatar as the default profile picture.
+									if (bool === false) {
+										generateRandomUsername()
+											.then((randomUsername) => {
+												const verifycode = crypto.createHash(algo).update(randomUsername).digest('base64url');
+												var sql = `INSERT INTO users (username, firstname, lastname, email, password, verifycode, fortytwo_id, status)
+																		VALUES ($1, 	$2, 		$3, 	$4,		$5, 		$6,			$7,			$8)`
+												dbConn.pool.query(sql, [randomUsername, "Not yet set", "Not yet set", "Not yet set", "None", verifycode, fortytwo_id, 1],
+													(err, result) => {
+														if (err)
+															console.log('INSERT________ERRRORRR: ', err);
+														else {
+															retrieveId(randomUsername)
+																.then((id) => {
+																	console.log('rows[0].id', id)
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
+																		(err, result) => {
+																			if (err)
+																				console.error("Something went wrong when trying to assign the default avatar to the user:", err)
+																			else {
+																				try {
+																					fetchSessionInfo(id)
+																						.then((response) => {
+																							req.session.user = response
+																							return res.send({
+																								loggedIn: true,
+																								user: req.session.user,
+																								avatar: "http://localhost:3001/images/default_profilepic.jpg",
+																								result
+																							})
+																						})
+																				} catch (error) {
+																					console.error("Something went wrong when trying to generate user session:", error)
+																				}
+																			}
+																		})
+																}).catch((error) => {
+																	return (error)
+																})
+														}
+													})
+											})
+										// If the user was found in the table, we'll log in as them, as an existing 42 user.
+									} else {
+										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+													LEFT JOIN profile_pics
+													ON users.id = profile_pics.user_id
+													WHERE fortytwo_id = $1;`
+										dbConn.pool.query(sql, [fortytwo_id],
+											(err, result) => {
+												if (err) {
+													console.error('req.user.session', err);
+												} else {
+													req.session.user = result.rows[0]
+													console.log('Logging in as an existing 42 user. result.rows[0][path]', result.rows[0])
+													if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
+														// If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
+														try {
+															retrieveIdBy42Id(fortytwo_id)
+																.then((id) => {
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
+																	res.send({ loggedIn: true, user: req.session.user, avatar: "http://localhost:3001/images/default_profilepic.jpg", result })
+																}).catch(error => {
+																	console.error(error)
+																})
+														} catch (error) {
+															console.error(error)
+														}
+													} else {
+														res.send({ loggedIn: true, user: req.session.user, avatar: "http://localhost:3001/images/default_profilepic.jpg", result })
+													}
+												}
+											})
+									}
+								}).catch(error => {
+									console.error(error)
+								})
+						} else {
+							console.log('We\'re accessing the Github OAuth API.')
+
+							const github_id = data.id;
+							console.log('data.id', data.id)
+
+							const checkIfGithubUserExists = async (github_id) => {
+								var sql = 'SELECT * FROM users WHERE github_id = $1;'
+								var result = await dbConn.pool.query(sql, [github_id])
+								if (result.rows.length < 1) {
+									console.log('OAuth user is not in the users table yet.')
+									return false
+								} else {
+									console.log('OAuth user already exists in the users table.')
+									return true
+								}
+							}
+
+							const retrieveIdByGithubId = async (github_id) => {
+								try {
+									var sql = "SELECT id FROM users WHERE github_id = $1;"
+									var { rows } = await dbConn.pool.query(sql, [github_id])
+									return (rows[0].id)
+								} catch (error) {
+									console.error("Something went wrong when trying to retrieve user ID:", error)
+								}
+							}
+
+							checkIfGithubUserExists(github_id)
+								.then((bool) => {
+									// If the user was not found in the table, we'll create a new user and log in as them. We'll set the avatar as the default profile picture.
+									if (bool === false) {
+										generateRandomUsername()
+											.then((randomUsername) => {
+												const verifycode = crypto.createHash(algo).update(randomUsername).digest('base64url');
+												var sql = `INSERT INTO users (username, firstname, lastname, email, password, verifycode, github_id, status)
+																		VALUES ($1, 	$2, 		$3, 	$4, 	$5, 		$6, 		$7, 		$8);`
+												dbConn.pool.query(sql, [randomUsername, "Not yet set", "Not yet set", "Not yet set", "None", verifycode, github_id, 1],
+													(err, result) => {
+														if (err)
+															console.error('INSERT________ERRRORRR:', err)
+														else {
+															retrieveId(randomUsername)
+																.then((id) => {
+																	console.log('rows[0].id', id)
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
+																		(err, result) => {
+																			if (err)
+																				console.error("Something went wrong when trying to assign the default avatar to the user:", err)
+																			else {
+																				try {
+																					fetchSessionInfo(id)
+																						.then((response) => {
+																							req.session.user = response
+																							return res.send({
+																								loggedIn: true,
+																								user: req.session.user,
+																								avatar: "http://localhost:3001/images/default_profilepic.jpg",
+																								result
+																							})
+																						})
+																				} catch (error) {
+																					console.error("Something went wrong when trying to generate user session:", error)
+																				}
+																			}
+																		})
+																}).catch((error) => {
+																	return (error)
+																})
+														}
+													})
+											})
+										// If the user was found in the table, we'll log in as them, as an existing Github user.
+									} else {
+										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
+													LEFT JOIN profile_pics
+													ON users.id = profile_pics.user_id
+													WHERE github_id = $1;`
+										dbConn.pool.query(sql, [github_id],
+											(err, result) => {
+												if (err) {
+													console.error('req.user.session', err);
+												} else {
+													req.session.user = result.rows[0]
+													console.log('Logging in as an existing Github user. result.rows[0]', result.rows[0])
+													if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
+														// If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
+														try {
+															retrieveIdByGithubId(github_id)
+																.then((id) => {
+																	sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
+																	dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
+																	res.send({ loggedIn: true, user: req.session.user, avatar: "http://localhost:3001/images/default_profilepic.jpg", result })
+																}).catch(error => {
+																	console.error(error)
+																})
+														} catch (error) {
+															console.error(error)
+														}
+													} else {
+														res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result })
+													}
+												}
+											})
+									}
+								}).catch(error => {
+									console.error(error)
+								})
+
+						}
+					}
+				}).catch(error => {
+					console.error(error)
 				})
 		})
 })
 
 router.get('/login', (req, res) => {
+	// console.log('req.session.user in getlogin:', req.session.user)
+
 	if (req.session.user) {
-		dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, password, path FROM users
+		dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, path FROM users
 							INNER JOIN profile_pics
 							ON users.id = profile_pics.user_id
-							WHERE username = $1;`,
-			[req.session.user.username],
+							WHERE users.id = $1;`,
+			[req.session.user.id],
 			(err, result) => {
-				if (err)
-					console.log('req.user.session', err);
-				else {
-					//res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
-					res.send({ loggedIn: true, user: req.session.user, result });
-
-					// console.log('LOGINNNRESULT', result)
+				if (err) {
+					console.error('req.user.session', err);
+				} else {
+					res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
 				}
 			})
-		// console.log('session', req.session.user)
 	}
 	else
 		res.send({ loggedIn: false });
@@ -159,6 +702,7 @@ router.post('/login', (req, res) => {
 		(err, result) => {
 			if (err)
 				console.log('Login', err);
+			// console.log('result.rows[0] in postlogin:', result.rows[0])
 			if (result.rowCount === 1) {
 				bcrypt.compare(password, result.rows[0].password, (error, response) => {
 					if (response) {

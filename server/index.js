@@ -16,6 +16,10 @@ app.use(cors({
 	credentials: true
 }));
 
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+let algo = 'sha256'
+
 app.use(express.static('downloads'));
 app.use('/images', express.static('./images'))
 app.use(express.static('subtitles'));
@@ -29,7 +33,7 @@ app.use(session({
 	saveUninitialized: false,
 	cookie: {
 		expires: 1000 * 60 * 60 * 24,
-		 sameSite: 'Lax'
+		sameSite: 'Lax'
 		//sameSite: 'none',
 		//secure: true
 	}
@@ -50,10 +54,6 @@ app.use(middleware.morganLogger);
 app.get('/', (req, res) => {
 	res.sendStatus(200).end()
 });
-
-
-
-
 
 // const getCommentsFromDatabase = (movieId, connection) => {
 // 	return new Promise((resolve, reject) => {
