@@ -68,12 +68,12 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 							<div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
 								<div className="flex items-center flex-shrink-0">
 									<img
-										className="block w-auto h-8 lg:hidden"
-										src={require('../images/hypertubeLogo.png')}
+										className="block w-auto h-8 md:hidden"
+										src={require('../images/favicon64.ico')}
 										alt="Hypertube Logo"
 									/>
 									<img
-										className="hidden w-auto h-8 lg:block"
+										className="hidden w-auto h-8 md:block"
 										src={require('../images/hypertubeLogo.png')}
 										alt="Hypertube Logo"
 									/>
@@ -102,7 +102,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 									</div>
 								</div>
 							</div>
-							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-0 sm:pr-0">
 								{itsMe.username || itsMe.login ? (
 									<>
 										<a
@@ -121,7 +121,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										{/* Language Dropdown */}
 										<Menu
 											as="div"
-											className="relative ml-4"
+											className="relative ml-3"
 										>
 											<div>
 												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-lime-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -370,7 +370,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 										<a
 											href="/login"
-											className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-gray-200 border border-transparent rounded-md shadow-sm bg-lime-600 hover:bg-lime-700"
+											className="inline-flex items-center justify-center px-4 mobile:ml-1 mobile:px-2 py-2 ml-8 text-base font-medium text-gray-200 border border-transparent rounded-md shadow-sm bg-lime-600 hover:bg-lime-700"
 										>
 											{t('Navbar.SignIn')}
 										</a>
@@ -380,7 +380,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 						</div>
 					</div>
 
-					<Disclosure.Panel className="sm:hidden">
+					<Disclosure.Panel className="mobile:hidden">
 						<div className="px-2 pt-2 pb-3 space-y-1">
 							{navigation.map((item) => (
 								<Disclosure.Button
