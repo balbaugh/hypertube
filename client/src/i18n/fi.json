@@ -131,13 +131,13 @@
     "Profile": {
         "your_profile": "Profiilisi",
         "username": "Käyttäjätunnus",
-        "username_not_found": "käyttäjätunnusta ei löydy! Odotettavissa, jos käytät OAuth.",
+        "username_not_found": "Käyttäjätunnusta ei löydy!",
         "first_name": "Etunimi",
-        "first_name_not_found": "firstName not found! Expected if you're using OAuth.",
+        "first_name_not_found": "Etunimeä ei löydy!",
         "last_name": "Sukunimi",
-        "last_name_not_found": "etunimeä ei löydy! Odotettavissa, jos käytät OAuth.",
+        "last_name_not_found": "Sukunimeä ei löydy!",
         "email": "Sähköposti",
-        "email_not_found": "sähköpostia ei löydy! Odotettavissa, jos käytät OAuth.",
+        "email_not_found": "Sähköpostia ei löydy!",
         "edit_profile": "Muokkaa Profiiliasi",
         "change_password": "Vaihda Salasana",
         "change_email": "Vaihda Sähköposti",
@@ -148,6 +148,7 @@
         "username": "Käyttäjätunnus",
         "first_name": "Etunimi",
         "last_name": "Sukunimi",
+        "email": "Sähköposti",
         "save_changes": "Tallenna Muutokset"
     },
     "Registration": {
@@ -166,6 +167,21 @@
         "haveAccount":"On tili?",
         "signIn":"Kirjaudu Sisään",
         "signUpButton":"Kirjaudu"
+    },
+    "UserProfile": {
+        "your_profile": "Profiilisi",
+        "username": "Käyttäjätunnus",
+        "username_not_found": "Käyttäjätunnusta ei löydy!",
+        "first_name": "Etunimi",
+        "first_name_not_found": "Etunimeä ei löydy!",
+        "last_name": "Sukunimi",
+        "last_name_not_found": "Sukunimeä ei löydy!",
+        "email": "Sähköposti",
+        "email_not_found": "Sähköpostia ei löydy!",
+        "edit_profile": "Muokkaa Profiiliasi",
+        "change_password": "Vaihda Salasana",
+        "change_email": "Vaihda Sähköposti",
+        "profile_picture": "Profiilikuva"
     },
     "YearNewOld": {
         "Browse": "Selaa",

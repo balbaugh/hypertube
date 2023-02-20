@@ -34,26 +34,14 @@ function useProfile() {
     }, [])
 
     return {
-        userId, username, firstName, lastName, email, profilePic
+        username, firstName, lastName, email
     }
 }
 
 const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
     const [message, setMessage] = useState(null);
 
-    const { userId, username, firstName, lastName, email, profilePic } = useProfile();
-
-    useEffect(() => {
-
-    }, [selectedAvatar]);
-
-    // if (isLoading) {
-    //     return (
-    //         <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
-    //             Loading profile information...
-    //         </h2>
-    //     )
-    // }
+    const { username, firstName, lastName, email } = useProfile();
 
     const setProfilePicture = async (event) => {
         const image = event.target.files[0]
@@ -80,34 +68,8 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
         event.target.value = ''
     }
 
-    // const login = (event) => {
-    //     event.preventDefault();
-    //     const login2 = {
-    //         username,
-    //         password,
-    //     };
-    //     axiosStuff.login(login2)
-    //         .then((response) => {
-    //             if (response.message)
-    //                 setMessage(response.message);
-    //             if (response.result) {
-    //                 setLoginsStatus(response.result.rows[0].username)
-    //                 setTimeout(() => {
-    //                     window.location.replace('/homepage')
-    //                 }, 1000)
-    //             }
-    //         });
-    //     setTimeout(() => {
-    //         setMessage(null);
-    //     }, 8000);
-    //     event.target.reset();
-    // };
-
-    useEffect(() => {
-
-    }, [selectedAvatar]);
-
     const { t } = useTranslation();
+    console.log()
 
     return (
         <div>
@@ -126,6 +88,9 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                             <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
                                 {t('Profile.your_profile')}
                             </h2>
+                            <div className="inline-block mx-auto mb-6 w-60 h-60">
+                                <img src={selectedAvatar} alt="" />
+                            </div>
                         </div>
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
@@ -182,14 +147,6 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                                 className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             >
                                 {t('Profile.change_password')}
-                            </button>
-                        </Link>
-                        <Link to="/changeEmail">
-                            <button
-                                type="button"
-                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
-                            >
-                                {t('Profile.change_email')} (Doesn't work yet!)
                             </button>
                         </Link>
                         {/*<button*/}

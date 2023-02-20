@@ -25,7 +25,7 @@ const upload = multer({ storage: storage })
 router.get('/profileInfo', (req, res) => {
     console.log('req.session.user', req.session.user)
     if (req.session.user) {
-        dbConn.pool.query(`SELECT * FROM users
+        dbConn.pool.query(`SELECT users.id, email, username, firstname, lastname, status, path FROM users
 							INNER JOIN profile_pics
 							ON users.id = profile_pics.user_id
 							WHERE users.id = $1;`,
@@ -44,17 +44,47 @@ router.get('/profileInfo', (req, res) => {
     }
 })
 
+router.get('/profileInfo/:id', (req, res) => {
+    const target_id = req.params.id
+    console.log('req.body', req.params)
+    console.log('req.body.id', req.params.id)
+    console.log('req.session.user', req.session.user)
+    if (req.session.user) {
+        dbConn.pool.query(`SELECT users.id, username, firstname, lastname, path FROM users
+							INNER JOIN profile_pics
+							ON users.id = profile_pics.user_id
+							WHERE users.id = $1;`,
+            [target_id],
+            (err, result) => {
+                if (err)
+                    console.error('edit', err);
+                else {
+                    console.log('Data brought from profileInfo/:id:', result.rows[0])
+                    res.send(result.rows[0]);
+                }
+            })
+    }
+    else {
+        res.redirect('/');
+    }
+})
+
 router.put('/profileEdit', (req, res) => {
     if (req.session.user) {
-        const username = req.body.username.toLowerCase();
-        const firstname = req.body.firstname;
-        const lastname = req.body.lastname;
+        const username = req.body.username.toLowerCase()
+        const firstname = req.body.firstname
+        const lastname = req.body.lastname
+        const email = req.body.email
         const id = req.session.user.id
 
         if (username.length < 4 || username.length > 20)
             return res.send({ message: `Username must be between 4 - 20 characters.` })
-        if (!username.match(/^[a-zA-Z0-9_.!@-]+$/))
-            return res.send({ message: 'Username can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
+        if (!username.match(/^[a-zA-Z0-9_.!#@-]+$/))
+            return res.send({
+                message: `Username can only have letters (a-z or A-Z),
+                            numbers (0-9)
+                            and some special characters (_.!#@-)`
+            })
         // name checks
         if (!firstname.match(/^[a-zA-Z_.-]+$/))
             return res.send({ message: 'Firstname can only have letters (a-z or A-Z) and some special characters (_.-)' })
@@ -64,27 +94,39 @@ router.put('/profileEdit', (req, res) => {
             return res.send({ message: 'Lastname can only have letters (a-z or A-Z) and some special characters (_.-)' })
         if (lastname.length < 2 || lastname.length > 20)
             return res.send({ message: `Lastname must be between 4 - 20 characters.` })
+        if (email.length > 40 || !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))
+            return res.send({ message: `Please enter a valid e-mail address.` })
 
         // AND OTHER CHECKS!!!
-        dbConn.pool.query('SELECT * FROM users WHERE username = $1 AND id != $2',
+        dbConn.pool.query('SELECT id, email, username, firstname, lastname, status FROM users WHERE username = $1 AND id != $2',
             [username, id],
             (err, result) => {
                 if (err)
-                    console.log('update', err);
+                    console.error('update', err);
                 if (result.rowCount > 0 && result.rows[0].username !== req.session.user.username) {
-                    // console.log('update duplicate', result);
-                    return res.send({ message: `Username already exists`, result })
+                    return res.send({ message: `Username already exists. Please choose another one!` })
                 }
                 else {
-                    dbConn.pool.query(`UPDATE users
-                                        SET username = $1, firstname = $2, lastname = $3
-                                        WHERE id = $4`,
-                        [username, firstname, lastname, req.session.user.id],
+                    dbConn.pool.query('SELECT id, email, username, firstname, lastname, status FROM users WHERE email = $1 AND id != $2',
+                        [email, id],
                         (err1, result1) => {
                             if (err1)
-                                console.log('UPDATE PROFILE error:', err)
+                                console.error('update', err);
+                            if (result1.rowCount > 0 && result1.rows[0].username !== req.session.user.username) {
+                                return res.send({ message: `Email is already taken. Please choose another one!` })
+                            }
                             else {
-                                res.send({ message: 'Profile successfully updated!', result, result1 })
+                                dbConn.pool.query(`UPDATE users
+                                                    SET username = $1, firstname = $2, lastname = $3, email = $4
+                                                    WHERE id = $5`,
+                                    [username, firstname, lastname, email, req.session.user.id],
+                                    (err2, result2) => {
+                                        if (err2)
+                                            console.error('UPDATE PROFILE error:', err)
+                                        else {
+                                            res.send({ message: 'Profile successfully updated!' })
+                                        }
+                                    })
                             }
                         })
                 }
