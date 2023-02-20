@@ -12,9 +12,9 @@ import axiosStuff from "../services/axiosStuff";
 
 const short = require('short-uuid');
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+// function classNames(...classes) {
+//     return classes.filter(Boolean).join(' ')
+// }
 
 function valuetext(value: number) {
     return `${value}`;

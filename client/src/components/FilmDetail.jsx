@@ -313,7 +313,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <ul role="list">
+                                                            <ul>
                                                                 <li className="py-2">
                                                                     <p className="text-xl text-red-500">{t('FilmDetail.runtime')}:</p>
                                                                     {movies.runtime && (
@@ -324,7 +324,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     {movies.cast && (
                                                                         <div>
                                                                             <p className="text-xl text-red-500">{t('FilmDetail.starring')}:</p>
-                                                                            <ul role="list">
+                                                                            <ul>
                                                                                 {movies.cast.map((cast, index) => (
                                                                                     <li key={index}>
                                                                                         <p>
@@ -341,7 +341,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     {movies.genres && (
                                                                         <div>
                                                                             <p className="text-xl text-red-500">{t('FilmDetail.genres')}:</p>
-                                                                            <ul role="list">
+                                                                            <ul>
                                                                                 {movies.genres.map((genre, index) => (
                                                                                     <li key={index}>
                                                                                         <p>- {genre}</p>
@@ -356,7 +356,6 @@ const FilmDetail = ({itsMe}) => {
 
                                                             <div className="mt-6 border-t divide-y divide-gray-200"/>
                                                         </Disclosure.Panel>
-
                                                     </div>
                                                 </>
                                             )}

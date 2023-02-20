@@ -156,7 +156,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												<Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<Menu.Item>
 														{({ active }) => (
-															<a
+															<button
 																href="#"
 																onClick={() =>
 																	changeLanguage(
@@ -165,20 +165,20 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 																}
 																className={classNames(
 																	active
-																		? 'bg-gray-100'
+																		? 'w-full bg-gray-100'
 																		: '',
-																	'block px-4 py-2 text-sm text-gray-700'
+																	'w-full block px-4 py-2 text-sm text-gray-700'
 																)}
 															>
 																{t(
 																	'Navbar.English'
 																)}
-															</a>
+															</button>
 														)}
 													</Menu.Item>
 													<Menu.Item>
 														{({ active }) => (
-															<a
+															<button
 																href="#"
 																onClick={() =>
 																	changeLanguage(
@@ -187,15 +187,15 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 																}
 																className={classNames(
 																	active
-																		? 'bg-gray-100'
+																		? 'w-full bg-gray-100'
 																		: '',
-																	'block px-4 py-2 text-sm text-gray-700'
+																	'w-full block px-4 py-2 text-sm text-gray-700'
 																)}
 															>
 																{t(
 																	'Navbar.Finnish'
 																)}
-															</a>
+															</button>
 														)}
 													</Menu.Item>
 												</Menu.Items>
@@ -323,7 +323,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 												<Menu.Items className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<Menu.Item>
 														{({ active }) => (
-															<a
+															<button
 																href="#"
 																onClick={() =>
 																	changeLanguage(
@@ -332,20 +332,20 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 																}
 																className={classNames(
 																	active
-																		? 'bg-gray-100'
+																		? 'w-full bg-gray-100'
 																		: '',
-																	'block px-4 py-2 text-sm text-gray-700'
+																	'w-full block px-4 py-2 text-sm text-gray-700'
 																)}
 															>
 																{t(
 																	'Navbar.English'
 																)}
-															</a>
+															</button>
 														)}
 													</Menu.Item>
 													<Menu.Item>
 														{({ active }) => (
-															<a
+															<button
 																href="#"
 																onClick={() =>
 																	changeLanguage(
@@ -354,15 +354,15 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 																}
 																className={classNames(
 																	active
-																		? 'bg-gray-100'
+																		? 'w-full bg-gray-100'
 																		: '',
-																	'block px-4 py-2 text-sm text-gray-700'
+																	'w-full block px-4 py-2 text-sm text-gray-700'
 																)}
 															>
 																{t(
 																	'Navbar.Finnish'
 																)}
-															</a>
+															</button>
 														)}
 													</Menu.Item>
 												</Menu.Items>
