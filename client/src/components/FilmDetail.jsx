@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player'
-import {Disclosure} from '@headlessui/react'
-import {StarIcon} from '@heroicons/react/20/solid'
-import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
-import {useTranslation} from 'react-i18next';
+import { Disclosure } from '@headlessui/react'
+import { StarIcon } from '@heroicons/react/20/solid'
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
@@ -13,8 +13,8 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const FilmDetail = ({itsMe}) => {
-    const {id} = useParams();
+const FilmDetail = ({ itsMe }) => {
+    const { id } = useParams();
     const [movies, setMovies] = useState(id);
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
@@ -25,6 +25,7 @@ const FilmDetail = ({itsMe}) => {
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
+    const navigate = useNavigate()
 
     console.log('playerrf', playerRef)
     console.log('mee', itsMe.username)
@@ -58,22 +59,22 @@ const FilmDetail = ({itsMe}) => {
             .then((response) => {
                 setComments(response);
             }).then(() => {
-            axiosStuff.getCommentUser()
-                .then((response1) => {
-                    setUsers(response1)
-                })
-        });
+                axiosStuff.getCommentUser()
+                    .then((response1) => {
+                        setUsers(response1)
+                    })
+            });
 
         const fetchNewComments = setInterval(() => {
             axiosStuff.getComments(id)
                 .then((response) => {
                     setComments(response);
                 }).then(() => {
-                axiosStuff.getCommentUser()
-                    .then((response1) => {
-                        setUsers(response1)
-                    })
-            })
+                    axiosStuff.getCommentUser()
+                        .then((response1) => {
+                            setUsers(response1)
+                        })
+                })
         }, 3000);
 
         // cleanup function to clear interval when component unmounts or id changes
@@ -89,7 +90,7 @@ const FilmDetail = ({itsMe}) => {
     console.log('comments', comments)
     console.log('users', users)
 
-    const textInput =  React.useRef(null);
+    const textInput = React.useRef(null);
 
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
@@ -126,7 +127,6 @@ const FilmDetail = ({itsMe}) => {
         }
     };
 
-
     const handleNewComment = (event) => {
         setNewComment(event.target.value)
     }
@@ -141,14 +141,14 @@ const FilmDetail = ({itsMe}) => {
         // setOpen(!open)
         setWatch(true);
         axiosStuff
-            .subtitles({imdbCode})
+            .subtitles({ imdbCode })
         // .then((response) => {
         //    console.log('subs', response)
         //    setSubs(response)
         // })
         setTimeout(() => {
             console.log('TAMA', imdbCode)
-            axiosStuff.getSubs({imdbCode})
+            axiosStuff.getSubs({ imdbCode })
                 .then((response2) => {
                     console.log('subs', response2)
                     setSubs(response2)
@@ -156,7 +156,7 @@ const FilmDetail = ({itsMe}) => {
         }, 1000)
 
         axiosStuff
-            .play({title, magnetUrl, imdbCode})
+            .play({ title, magnetUrl, imdbCode })
             .then((response) => {
                 console.log('hii', response)
                 if (response.downloaded) {
@@ -170,31 +170,31 @@ const FilmDetail = ({itsMe}) => {
     if (playMovie)
         console.log('backrespoPLAYMOVIE', playMovie)
 
-		const subsConfig = {
-			file: {
-				attributes: {
-					crossOrigin: 'true'
-				},
-				tracks: subs.filter((sub) => sub.imdb_code === movies.imdb_code)
-				.map((sub) => ({
-					kind: 'subtitles',
-					src: `http://localhost:3001/${sub.path}`,
-					srcLang: sub.language,
+    const subsConfig = {
+        file: {
+            attributes: {
+                crossOrigin: 'true'
+            },
+            tracks: subs.filter((sub) => sub.imdb_code === movies.imdb_code)
+                .map((sub) => ({
+                    kind: 'subtitles',
+                    src: `http://localhost:3001/${sub.path}`,
+                    srcLang: sub.language,
                     default: sub.language === `${savedLanguage}` ? `${savedLanguage}` : ''
-				}))
-			}
-		}
+                }))
+        }
+    }
 
     if (subsConfig.file.tracks.length)
         console.log('subsconf', subsConfig)
 
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     return (
         <div>
             {loading ? (
                 <div className="py-20">
-                    <Loader/>
+                    <Loader />
                 </div>
             ) : (
                 <div className="">
@@ -204,8 +204,8 @@ const FilmDetail = ({itsMe}) => {
                             <div className="m-auto text-center">
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
-                                         src={movies.medium_cover_image}
-                                         alt={movies.title}
+                                        src={movies.medium_cover_image}
+                                        alt={movies.title}
                                     />
                                 </div>
                             </div>
@@ -242,7 +242,7 @@ const FilmDetail = ({itsMe}) => {
                                             type="button"
                                             className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
                                             onClick={startMovie}
-                                            // onClick={() => setOpen(!open)}
+                                        // onClick={() => setOpen(!open)}
                                         >
                                             {t('FilmDetail.stream')}
                                         </button>
@@ -261,7 +261,7 @@ const FilmDetail = ({itsMe}) => {
                                                 muted={true}
                                                 config={subsConfig}
                                             />
-                                        ) : (<Loader/>)}
+                                        ) : (<Loader />)}
                                     </div>
                                 ) : null}
 
@@ -274,29 +274,29 @@ const FilmDetail = ({itsMe}) => {
                                     <div className="border-t divide-y divide-gray-200">
 
                                         <Disclosure as="div">
-                                            {({open}) => (
+                                            {({ open }) => (
                                                 <>
                                                     <h3>
                                                         <Disclosure.Button
                                                             className="relative flex items-center justify-between w-full py-6 text-left group">
-                                                                <span
-                                                                    className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
-                                                                >
-                                                                  {t('FilmDetail.details')}
-                                                                </span>
+                                                            <span
+                                                                className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
+                                                            >
+                                                                {t('FilmDetail.details')}
+                                                            </span>
                                                             <span className="flex items-center ml-6">
-                                                                      {open ? (
-                                                                          <MinusIcon
-                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
-                                                                              aria-hidden="true"
-                                                                          />
-                                                                      ) : (
-                                                                          <PlusIcon
-                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
-                                                                              aria-hidden="true"
-                                                                          />
-                                                                      )}
-                                                                    </span>
+                                                                {open ? (
+                                                                    <MinusIcon
+                                                                        className="block w-6 h-6 text-red-500 group-hover:text-red-600"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                ) : (
+                                                                    <PlusIcon
+                                                                        className="block w-6 h-6 text-red-500 group-hover:text-red-600"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                )}
+                                                            </span>
                                                         </Disclosure.Button>
                                                     </h3>
                                                     <div className="border-t divide-y divide-gray-200">
@@ -307,7 +307,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     <h2 className="text-xl text-red-500">{t('FilmDetail.summary')}:</h2>
                                                                     <div
                                                                         className="space-y-6 text-base"
-                                                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
+                                                                        dangerouslySetInnerHTML={{ __html: movies.description_full }}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -352,7 +352,7 @@ const FilmDetail = ({itsMe}) => {
 
                                                             </ul>
 
-                                                            <div className="mt-6 border-t divide-y divide-gray-200"/>
+                                                            <div className="mt-6 border-t divide-y divide-gray-200" />
                                                         </Disclosure.Panel>
                                                     </div>
                                                 </>
@@ -360,29 +360,29 @@ const FilmDetail = ({itsMe}) => {
                                         </Disclosure>
                                     </div>
                                     <Disclosure as="div">
-                                        {({open}) => (
+                                        {({ open }) => (
                                             <>
                                                 <h3>
                                                     <Disclosure.Button
                                                         className="relative flex items-center justify-between w-full py-6 text-left group">
-                                                                <span
-                                                                    className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
-                                                                >
-                                                                  {t('FilmDetail.comments')}
-                                                                </span>
+                                                        <span
+                                                            className={classNames(open ? 'text-grey-300' : 'text-gray-200', 'font-bold', 'text-2xl')}
+                                                        >
+                                                            {t('FilmDetail.comments')}
+                                                        </span>
                                                         <span className="flex items-center ml-6">
-                                                                      {open ? (
-                                                                          <MinusIcon
-                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
-                                                                              aria-hidden="true"
-                                                                          />
-                                                                      ) : (
-                                                                          <PlusIcon
-                                                                              className="block w-6 h-6 text-red-500 group-hover:text-red-600"
-                                                                              aria-hidden="true"
-                                                                          />
-                                                                      )}
-                                                                    </span>
+                                                            {open ? (
+                                                                <MinusIcon
+                                                                    className="block w-6 h-6 text-red-500 group-hover:text-red-600"
+                                                                    aria-hidden="true"
+                                                                />
+                                                            ) : (
+                                                                <PlusIcon
+                                                                    className="block w-6 h-6 text-red-500 group-hover:text-red-600"
+                                                                    aria-hidden="true"
+                                                                />
+                                                            )}
+                                                        </span>
                                                     </Disclosure.Button>
                                                 </h3>
 
@@ -410,7 +410,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     <div className="py-2" aria-hidden="true">
                                                                         {/* Matches height of button in toolbar (1px border + 36px content height) */}
                                                                         <div className="py-px">
-                                                                            <div className="h-9"/>
+                                                                            <div className="h-9" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -436,9 +436,10 @@ const FilmDetail = ({itsMe}) => {
                                                                 comments.map((comment) => {
                                                                     const user = users.find(user => user.id === comment.user_id)
                                                                     const username = user.username
+                                                                    const id = user.id
                                                                     return (
                                                                         <div key={comment.id}
-                                                                             className="py-6">
+                                                                            className="py-6">
                                                                             <div
                                                                                 className="flex items-center">
                                                                                 {/*<img*/}
@@ -447,11 +448,13 @@ const FilmDetail = ({itsMe}) => {
                                                                                 {/*    alt={username}*/}
                                                                                 {/*/>*/}
                                                                                 <div className="ml-4">
-                                                                                    <h4
-                                                                                        className="text-sm font-bold text-red-400"
-                                                                                        dangerouslySetInnerHTML={{ __html: username }}
-                                                                                    >
-                                                                                    </h4>
+                                                                                    <a className="cursor-pointer" onClick={() => navigate(`/profile/${id}`)}>
+                                                                                        <h4
+                                                                                            className="text-sm font-bold text-red-400"
+                                                                                            dangerouslySetInnerHTML={{ __html: username }}
+                                                                                        >
+                                                                                        </h4>
+                                                                                    </a>
                                                                                     <p className="text-sm text-gray-400">
                                                                                         {comment.created_at.substring(0, 10)} {comment.created_at.substring(11, 19)}
                                                                                     </p>
@@ -479,7 +482,7 @@ const FilmDetail = ({itsMe}) => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <div className="mt-4 border-t divide-y divide-gray-200"/>
+                                                    <div className="mt-4 border-t divide-y divide-gray-200" />
                                                 </Disclosure.Panel>
                                             </>
                                         )}
