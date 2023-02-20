@@ -21,7 +21,6 @@ function valuetext(value: number) {
     return `${value}`;
 }
 
-
 const BestRating = () => {
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -282,7 +281,6 @@ const BestRating = () => {
                                     loadMore={loadMoreMovies}
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
-
                                 >
                                     <div className="container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
