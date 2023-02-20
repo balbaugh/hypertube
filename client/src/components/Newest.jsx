@@ -6,10 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
-
-import InfiniteScroll from 'react-infinite-scroller';
-import { debounce } from 'lodash';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -59,7 +56,7 @@ const Newest = () => {
         const body = document.body;
         const html = document.documentElement;
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-        const windowBottom = windowHeight + window.scrollY;
+        const windowBottom = windowHeight + window.pageYOffset;
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
@@ -68,8 +65,6 @@ const Newest = () => {
             }
         }
     };
-
-    const debouncedHandleScroll = debounce(handleScroll, 100);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -82,8 +77,6 @@ const Newest = () => {
         loadMoreMovies().then(r => console.log('movies', movies));
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-        window.addEventListener("scroll", debouncedHandleScroll);
-        return () => window.removeEventListener("scroll", debouncedHandleScroll);
     }, []);
 
     const handleRatingChange = (event, newValue) => {
@@ -270,18 +263,27 @@ const Newest = () => {
                             {/* Film grid */}
                             <section
                                 aria-labelledby="films-heading"
+                                // className="overflow-auto"
+
                             >
                                 <h2 id="products-heading" className="sr-only">
                                     {t('BestRating.Films')}
                                 </h2>
 
                                 <InfiniteScroll
-                                    pageStart={0}
-                                    loadMore={loadMoreMovies}
+                                    dataLength={filteredMovies.length}
+                                    next={loadMoreMovies}
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
+                                    endMessage={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b>{t('BestRating.SeenItAll')}</b>
+                                        </p>
+                                    }
+                                    style={{ overflow: 'hidden' }}
+                                    // scrollableTarget="scrollableDiv"
                                 >
-                                    <div className="container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
