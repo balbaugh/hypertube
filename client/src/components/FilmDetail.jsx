@@ -54,7 +54,17 @@ const FilmDetail = ({itsMe}) => {
                 console.log(error);
             });
 
-        if (comments.length > 0) {
+        axiosStuff.getComments(id)
+            .then((response) => {
+                setComments(response);
+            }).then(() => {
+            axiosStuff.getCommentUser()
+                .then((response1) => {
+                    setUsers(response1)
+                })
+        });
+
+        const fetchNewComments = setInterval(() => {
             axiosStuff.getComments(id)
                 .then((response) => {
                     setComments(response);
@@ -63,28 +73,12 @@ const FilmDetail = ({itsMe}) => {
                     .then((response1) => {
                         setUsers(response1)
                     })
-            });
-        }
-
-        const fetchNewComments = setInterval(() => {
-            if (comments.length > 0) {
-                axiosStuff.getComments(id)
-                    .then((response) => {
-                        setComments(response);
-                    }).then(() => {
-                    axiosStuff.getCommentUser()
-                        .then((response1) => {
-                            setUsers(response1)
-                        })
-                })
-            }
+            })
         }, 3000);
-
 
         // cleanup function to clear interval when component unmounts or id changes
         return () => clearInterval(fetchNewComments);
-    }, [id, comments]);
-
+    }, [id]);
 
     useEffect(() => {
         axios.get(`/movies/${id}/comments`).then((response) => {
@@ -429,7 +423,6 @@ const FilmDetail = ({itsMe}) => {
                                                                     <div className="flex-shrink-0">
                                                                         <button
                                                                             type="submit"
-                                                                            disabled={comments.length === 0}
                                                                             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                             onClick={() => {
                                                                                 textInput.current.value = "";
@@ -461,8 +454,10 @@ const FilmDetail = ({itsMe}) => {
                                                                                 {/*    alt={username}*/}
                                                                                 {/*/>*/}
                                                                                 <div className="ml-4">
-                                                                                    <h4 className="text-sm font-bold text-red-400">
-                                                                                        {username}
+                                                                                    <h4
+                                                                                        className="text-sm font-bold text-red-400"
+                                                                                        dangerouslySetInnerHTML={{ __html: username }}
+                                                                                    >
                                                                                     </h4>
                                                                                     <p className="text-sm text-gray-400">
                                                                                         {comment.created_at.substring(0, 10)} {comment.created_at.substring(11, 19)}
@@ -471,12 +466,9 @@ const FilmDetail = ({itsMe}) => {
                                                                             </div>
                                                                             <div
                                                                                 className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
-                                                                            >
-                                                                                {/*<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.text) }} />*/}
-                                                                                <div>
-                                                                                    dangerouslySetInnerHTML={comment.text}}
-                                                                                </div>
-                                                                            </div>
+                                                                                dangerouslySetInnerHTML={{ __html: comment.text }}
+                                                                            ></div>
+
                                                                         </div>
                                                                     )
                                                                 })
