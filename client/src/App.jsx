@@ -12,6 +12,7 @@ import FilmDetail from './components/FilmDetail';
 import Registration from './components/Registration';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import UserProfile from './components/UserProfile';
 import ProfileEdit from './components/ProfileEdit';
 import ChangePassword from './components/ChangePassword';
 import Forgot from './components/Forgot';
@@ -99,7 +100,8 @@ const App = () => {
 					{/* <Route path="testmovie" element={<TestMovieThumb />} />
 					<Route path="thetest/:id" element={<TheTest />} /> */}
 					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
-					<Route path="/profile" element={loggedIn ? <Profile setItsMe={setItsMe} itsMe={itsMe} setSelectedAvatar={setSelectedAvatar}/> : <Homepage />} />
+					<Route path="/profile" element={loggedIn ? <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar}/> : <Homepage />} />
+					<Route path="/profile/:id" element={loggedIn ? <UserProfile /> : <Homepage />} />
 					<Route path="/profileEdit" element={loggedIn ? <ProfileEdit /> : <Landing />} />
 					<Route path="/best-rating" element={loggedIn ? <BestRating /> : <Landing />} />
 					<Route path="/newest" element={loggedIn ? <Newest /> : <Landing />} />

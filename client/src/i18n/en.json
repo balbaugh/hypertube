@@ -131,13 +131,13 @@
     "Profile": {
         "your_profile": "Your Profile",
         "username": "Username",
-        "username_not_found": "Username not found! Expected if you're using OAuth.",
+        "username_not_found": "Username not found!",
         "first_name": "First Name",
-        "first_name_not_found": "FirstName not found! Expected if you're using OAuth.",
+        "first_name_not_found": "FirstName not found!",
         "last_name": "Last Name",
-        "last_name_not_found": "LastName not found! Expected if you're using OAuth.",
+        "last_name_not_found": "LastName not found!",
         "email": "Email",
-        "email_not_found": "Email not found! Expected if you're using OAuth.",
+        "email_not_found": "Email not found!",
         "edit_profile": "Edit Your Profile",
         "change_password": "Change Password",
         "change_email": "Change Email",
@@ -148,6 +148,7 @@
         "username": "Username",
         "first_name": "First Name",
         "last_name": "Last Name",
+        "email": "Email",
         "save_changes": "Save Changes"
     },
     "Registration": {
@@ -166,6 +167,21 @@
         "haveAccount":"Have an account?",
         "signIn":"Sign In",
         "signUpButton":"Sign Up"
+    },
+    "UserProfile": {
+        "your_profile": "Your Profile",
+        "username": "Username",
+        "username_not_found": "Username not found!",
+        "first_name": "First Name",
+        "first_name_not_found": "FirstName not found!",
+        "last_name": "Last Name",
+        "last_name_not_found": "LastName not found!",
+        "email": "Email",
+        "email_not_found": "Email not found!",
+        "edit_profile": "Edit Your Profile",
+        "change_password": "Change Password",
+        "change_email": "Change Email",
+        "profile_picture": "Profile Picture"
     },
     "YearNewOld": {
         "Browse": "Browse",

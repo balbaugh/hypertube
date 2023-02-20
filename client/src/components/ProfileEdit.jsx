@@ -5,10 +5,10 @@ import axiosStuff from "../services/axiosStuff";
 import InfoText from './infoText';
 
 function useGetProfileInfo() {
-	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState(null);
 
     useEffect(() => {
@@ -32,13 +32,17 @@ function useGetProfileInfo() {
     const handleLastnameChange = (event) => {
 		setLastname(event.target.value);
 	};
+	const handleEmailChange = (event) => {
+		setEmail(event.target.value);
+	};
 
 	const submitEditProfile = (event) => {
 		event.preventDefault();
 		const entries = {
 			username: username,
 			firstname: firstname,
-			lastname: lastname
+			lastname: lastname,
+			email: email
 		}
 		axiosStuff
 			.updateProfile(entries).then((response) => {
@@ -52,7 +56,7 @@ function useGetProfileInfo() {
 
 	return {
 		email, username, firstname, lastname, message,
-		handleUsernameChange, handleFirstnameChange, handleLastnameChange,
+		handleUsernameChange, handleFirstnameChange, handleLastnameChange, handleEmailChange,
 		submitEditProfile
 	};
 }
@@ -62,8 +66,8 @@ function ProfileEdit () {
 
 	const { t } = useTranslation();
 
-	const { username, firstname, lastname, message,
-        handleUsernameChange, handleFirstnameChange, handleLastnameChange,
+	const { email, username, firstname, lastname, message,
+        handleUsernameChange, handleFirstnameChange, handleLastnameChange, handleEmailChange,
 		submitEditProfile } = useGetProfileInfo();
 
 	return (
@@ -129,6 +133,23 @@ function ProfileEdit () {
                                 value={lastname}
 								required autoComplete="off"
 								onChange={handleLastnameChange}
+							/>
+						</div>
+						<div className="mb-6">
+							<label
+								className="block mb-2 font-extrabold"
+								htmlFor="email"
+							>
+								{t('ProfileEdit.email')}
+							</label>
+							<input
+								className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
+								type="text"
+								placeholder="Your email here"
+								id="email"
+                                value={email}
+								required autoComplete="off"
+								onChange={handleEmailChange}
 							/>
 						</div>
 						<button

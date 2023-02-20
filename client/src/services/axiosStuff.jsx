@@ -114,8 +114,12 @@ const profileInfo = () => {
 	return req.then((response) => response.data)
 }
 
+const getUserProfileInfo = (user_id) => {
+	const req = axios.get(`${baseUrl}/profileInfo/${user_id}`);
+	return req.then((response) => response.data)
+}
+
 const updateProfile = (newObject) => {
-	console.log('Made it to updateProfile')
 	const req = axios.put(`${baseUrl}/profileEdit`, newObject);
 	return req.then((response) => response.data);
 }
@@ -142,9 +146,10 @@ const setProfilePic = (Picture) => {
 
 const axiosStuff = {
 	// test,
-	 movieTest, toMovie, play, register, verifyemail, login,
+	movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
-	profileInfo, updateProfile, setProfilePic, changePw, ready, stream, getComments, submitComment,
+	profileInfo, getUserProfileInfo, updateProfile, setProfilePic,
+	changePw, ready, stream, getComments, submitComment,
 	subtitles, getCommentUser, getSubs
 };
 
