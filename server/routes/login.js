@@ -672,6 +672,7 @@ router.get('/login', (req, res) => {
 				if (err) {
 					console.error('req.user.session', err);
 				} else {
+					checkDelete();
 					res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
 				}
 			})

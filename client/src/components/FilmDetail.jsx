@@ -185,9 +185,6 @@ const FilmDetail = ({itsMe}) => {
 			}
 		}
 
-		if (subsConfig.file.tracks.length)
-			console.log('subsconf', subsConfig)
-
     if (subsConfig.file.tracks.length)
         console.log('subsconf', subsConfig)
 
