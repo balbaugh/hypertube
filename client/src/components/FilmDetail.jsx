@@ -114,14 +114,15 @@ const FilmDetail = ({itsMe}) => {
             axiosStuff.submitComment(comment)
                 .then((response) => {
                     setComments([...comments, response.data]);
-                    setNewComment("");
-                    // commentInputRef.current.reset()
-
-                    // event.target.comment.value = '';
+                    setNewComment('');
+                    textInput.current.value = '';
+                    textInput.value = '';
+                    document.getElementById('myForm').reset();
                 })
                 .catch((error) => {
                     console.log(error);
                 });
+            document.getElementById('myForm').reset();
         }
     };
 
@@ -392,22 +393,22 @@ const FilmDetail = ({itsMe}) => {
                                                 <Disclosure.Panel as="div" className="pb-6 prose-sm prose">
                                                     <div className="flex items-start pt-8 pb-6 space-x-4">
                                                         <div className="flex-1 min-w-0">
-                                                            <form onSubmit={handleCommentSubmit} className="relative">
+                                                            <form onSubmit={handleCommentSubmit} className="relative" id="myForm">
                                                                 <div
-                                                                    className="overflow-hidden border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+                                                                    className="overflow-hidden border border-red-300 rounded-lg shadow-sm focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500">
                                                                     <label htmlFor="comment" className="sr-only">
                                                                         {t('FilmDetail.addComment')}
                                                                     </label>
                                                                     <textarea
                                                                         rows={3}
                                                                         name="comment"
-                                                                        id="comment"
+                                                                        id="myForm"
                                                                         className="block w-full py-3 text-gray-700 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder={t('FilmDetail.addComment')}
-                                                                        defaultValue={''}
-                                                                        // value={newComment}
+                                                                        // defaultValue={''}
+                                                                        value={newComment}
                                                                         onChange={handleNewComment}
-                                                                        inputref={textInput}
+                                                                        ref={textInput}
                                                                     />
 
                                                                     {/* Spacer element to match the height of the toolbar */}
@@ -423,7 +424,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     <div className="flex-shrink-0">
                                                                         <button
                                                                             type="submit"
-                                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                         >
                                                                             {t('FilmDetail.post')}
                                                                         </button>
