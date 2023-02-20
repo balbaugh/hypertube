@@ -99,7 +99,7 @@
         "Logged_Out": "Olet kirjautunut ulos..."
     },
     "Navbar": {
-        "SignIn": "Kirjaudu sisään",
+        "SignIn": "Kirjaudu",
         "SignOut": "Kirjaudu ulos",
         "Profile": "Profiilisi",
         "Settings": "Asetukset",

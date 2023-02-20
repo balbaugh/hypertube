@@ -370,7 +370,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 										<a
 											href="/login"
-											className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-gray-200 border border-transparent rounded-md shadow-sm bg-lime-600 hover:bg-lime-700"
+											className="inline-flex items-center justify-center px-2 py-1 ml-2 text-base font-sm text-gray-200 border border-transparent rounded-lg shadow-sm bg-lime-600 hover:bg-lime-700"
 										>
 											{t('Navbar.SignIn')}
 										</a>
