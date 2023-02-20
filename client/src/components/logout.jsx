@@ -31,7 +31,7 @@ function Logout({ loggedIn, setLoggedIn }) {
 	return (
 		<div className="font-semibold text-xl text-red-500">{t('logout.Logged_Out')}</div>
 	)
-};
+}
 
 Logout.propTypes = {
 	setLoggedIn: PropTypes.func.isRequired,

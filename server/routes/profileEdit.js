@@ -115,7 +115,6 @@ router.post('/setprofilepic', upload.single('file'), async (request, response) =
                 fs.unlink(oldImage, (error) => {
                     if (error) {
                         console.error('fs.unlink failed:', error)
-                        return
                     }
                 })
             }

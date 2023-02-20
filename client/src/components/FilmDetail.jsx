@@ -38,7 +38,7 @@ const FilmDetail = ({itsMe}) => {
         if (playerRef.current !== null) {
             playerRef.current.seekTo(0, 'seconds');
         }
-    }, [playerRef])
+    }, [playerRef.current])
 
     useEffect(() => {
         axiosStuff.toMovie(id)
@@ -249,7 +249,7 @@ const FilmDetail = ({itsMe}) => {
                                             {t('FilmDetail.stream')}
                                         </button>
                                     </div>
-                                ) : (null)}
+                                ) : null}
                                 {/* </form> */}
                                 {watch ? (
                                     <div className="mt-9">
@@ -265,7 +265,7 @@ const FilmDetail = ({itsMe}) => {
                                             />
                                         ) : (<Loader/>)}
                                     </div>
-                                ) : (null)}
+                                ) : null}
 
                                 {/* DETAILS PANEL */}
                                 <section aria-labelledby="details-heading" className="mt-9">

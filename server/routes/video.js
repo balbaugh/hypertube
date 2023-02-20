@@ -334,7 +334,7 @@ router.get('/subtitles', (req, res) => {
 					.catch((err) => console.error(err));
 				}
 			);
-		};
+		}
 	})
 })
 
