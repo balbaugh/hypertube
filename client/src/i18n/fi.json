@@ -1,21 +1,21 @@
 {
     "BestRating": {
         "Browse": "Selaa",
-        "Sort": "Järjestellä",
-        "IMDbRating": "IMDb Luokitus",
+        "Sort": "Järjestä",
+        "IMDbRating": "IMDb-luokitus",
         "Search": "Hae",
         "Films": "Elokuvat",
         "Loading": "Ladataan...",
         "SeenItAll": "Jee! Olet nähnyt kaiken.",
-        "IMDbScore:": "IMDb Pisteet:",
+        "IMDbScore:": "IMDb-pisteet:",
         "ProductionYear:": "Tuotantovuosi:",
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
         "Popular": "Suosittu",
         "Newest": "Uusin",
-        "YearNewOld": "Vuosi: Uusin Vanhin",
-        "YearOldNew": "Vuosi: Vanhin Uusin"
+        "YearNewOld": "Vuosi: Uusin-Vanhin",
+        "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
     "FilmDetail": {
         "filmInformation": "Elokuvan Tiedot",
@@ -24,24 +24,25 @@
         "comments": "Kommentit",
         "addComment": "Lisää kommentti...",
         "stream": "Striimaa",
-        "post": "Lähettää",
+        "post": "Lähetä",
         "noComments": "Ei vielä kommentteja...",
-        "summary": "Yhteenveto",
-        "runtime": "Suoritusaika",
+        "summary": "Kuvaus",
+        "runtime": "Pituus",
+        "minutes": "minuuttia",
         "starring": "Pääosassa",
         "genres": "Tyylilajit",
         "imdb": "IMDb:",
-        "outOfTen": "ulos 10"
+        "outOfTen": "10:stä"
     },
     "Footer": {
         "copyright": "© 2023 Hypertube. Kaikki oikeudet pidätetään."
     },
     "Forgot": {
-        "title": "Unohtuiko Salasana",
-        "subtitle": "Vuokraa Hypertubes",
+        "title": "Unohtuiko salasana?",
+        "subtitle": "Palaa Hypertubeen",
         "emailLabel": "Sähköposti",
         "resetPasswordButton": "Nollaa Salasana",
-        "haveAccount": "On tili?",
+        "haveAccount": "Onko sinulla jo tili?",
         "signInLink": "Kirjaudu Sisään"
     },
     "forgot2": {
@@ -54,21 +55,21 @@
     },
     "Homepage": {
         "Browse": "Selaa",
-        "Sort": "Järjestellä",
-        "IMDbRating": "IMDb Luokitus",
+        "Sort": "Järjestä",
+        "IMDbRating": "IMDb-luokitus",
         "Search": "Hae",
         "Films": "Elokuvat",
         "Loading": "Ladataan...",
         "SeenItAll": "Jee! Olet nähnyt kaiken.",
-        "IMDbScore:": "IMDb Pisteet:",
+        "IMDbScore:": "IMDb-pisteet:",
         "ProductionYear:": "Tuotantovuosi:",
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
         "Popular": "Suosittu",
         "Newest": "Uusin",
-        "YearNewOld": "Vuosi: Uusin Vanhin",
-        "YearOldNew": "Vuosi: Vanhin Uusin"
+        "YearNewOld": "Vuosi: Uusin-Vanhin",
+        "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
     "infoText": {
         "attention": "HUOMIO"
@@ -76,24 +77,24 @@
     "Landing": {
         "landing_section_title": "Rajoittamaton Suoratoisto",
         "landing_section_subtitle": "Miksi vuokrata, kun voit torRenttia?",
-        "landing_section_button": "Aloittaa",
-        "landing_section_header": "Nauttia...",
+        "landing_section_button": "Aloita",
+        "landing_section_header": "Nauti.",
         "landing_section_description": "Vain parasta Hypertubessa."
     },
     "Login": {
         "signIn": "Kirjaudu sisään",
-        "enterHypertubes": "Syötä Hypertubes",
+        "enterHypertubes": "Astu sisään Hypertubeen",
         "signInWith": "Kirjaudu sisään",
         "signInWith42": "Kirjaudu sisään 42",
         "signInWithGitHub": "Kirjaudu sisään GitHub",
-        "orContinueWith": "Tai jatka eteenpäin",
+        "orContinueWith": "tai jatka eteenpäin tunnuksilla",
         "username": "Käyttäjätunnus",
         "password": "Salasana",
-        "forgotPassword": "Unohdin salasanasi?",
+        "forgotPassword": "Unohditko salasanasi?",
         "clickHere": "Klikkaa Tästä",
         "signInButton": "Kirjaudu Sisään",
         "dontHaveAccount": "Eikö sinulla ole tiliä?",
-        "signUp": "Kirjaudu"
+        "signUp": "Rekisteröidy"
     },
     "logout": {
         "Logged_Out": "Olet kirjautunut ulos..."
@@ -105,28 +106,28 @@
         "Settings": "Asetukset",
         "Home": "Koti",
         "Register": "Rekisteröidy",
-        "Forgot": "Unohdin",
-        "About": "Noin",
+        "Forgot": "Unohdin salasanan",
+        "About": "Tietoa meistä",
         "Finnish": "Finnish",
         "English": "Englanti"
     },
     "Popular": {
         "Browse": "Selaa",
-        "Sort": "Järjestellä",
-        "IMDbRating": "IMDb Luokitus",
+        "Sort": "Järjestä",
+        "IMDbRating": "IMDb-luokitus",
         "Search": "Hae",
         "Films": "Elokuvat",
         "Loading": "Ladataan...",
         "SeenItAll": "Jee! Olet nähnyt kaiken.",
-        "IMDbScore:": "IMDb Pisteet:",
+        "IMDbScore:": "IMDb-pisteet:",
         "ProductionYear:": "Tuotantovuosi:",
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
         "Popular": "Suosittu",
         "Newest": "Uusin",
-        "YearNewOld": "Vuosi: Uusin Vanhin",
-        "YearOldNew": "Vuosi: Vanhin Uusin"
+        "YearNewOld": "Vuosi: Uusin-Vanhin",
+        "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
     "Profile": {
         "your_profile": "Profiilisi",
@@ -149,22 +150,22 @@
         "first_name": "Etunimi",
         "last_name": "Sukunimi",
         "email": "Sähköposti",
-        "save_changes": "Tallenna Muutokset"
+        "save_changes": "Tallenna muutokset"
     },
     "Registration": {
         "title":"Kirjaudu",
-        "enterHypertubes":"Syötä Hypertubes",
-        "signUpWith":"Ilmoittaudu mukaan",
-        "signInWith42": "Kirjaudu sisään 42",
-        "signInWithGitHub": "Kirjaudu sisään GitHub",
-        "continueWith":"Tai jatka eteenpäin",
+        "enterHypertubes":"Astu sisään Hypertubeen",
+        "signUpWith":"Kirjaudu palvelulla",
+        "signInWith42": "Kirjaudu sisään 42:lla",
+        "signInWithGitHub": "Kirjaudu sisään GitHubilla",
+        "continueWith":"Tai jatka eteenpäin tunnuksilla",
         "username":"Käyttäjätunnus",
         "firstName":"Etunimi",
         "lastName":"Sukunimi",
         "email":"Sähköposti",
         "password":"Salasana",
         "confirmPassword":"Vahvista Salasana",
-        "haveAccount":"On tili?",
+        "haveAccount":"Onko sinulla jo tili?",
         "signIn":"Kirjaudu Sisään",
         "signUpButton":"Kirjaudu"
     },
@@ -185,38 +186,38 @@
     },
     "YearNewOld": {
         "Browse": "Selaa",
-        "Sort": "Järjestellä",
-        "IMDbRating": "IMDb Luokitus",
+        "Sort": "Järjestä",
+        "IMDbRating": "IMDb-luokitus",
         "Search": "Hae",
         "Films": "Elokuvat",
         "Loading": "Ladataan...",
         "SeenItAll": "Jee! Olet nähnyt kaiken.",
-        "IMDbScore:": "IMDb Pisteet:",
+        "IMDbScore:": "IMDb-pisteet:",
         "ProductionYear:": "Tuotantovuosi:",
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
         "Popular": "Suosittu",
         "Newest": "Uusin",
-        "YearNewOld": "Vuosi: Uusin Vanhin",
-        "YearOldNew": "Vuosi: Vanhin Uusin"
+        "YearNewOld": "Vuosi: Uusin-Vanhin",
+        "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
     "YearOldNew": {
         "Browse": "Selaa",
-        "Sort": "Järjestellä",
-        "IMDbRating": "IMDb Luokitus",
+        "Sort": "Järjestä",
+        "IMDbRating": "IMDb-luokitus",
         "Search": "Hae",
         "Films": "Elokuvat",
         "Loading": "Ladataan...",
         "SeenItAll": "Jee! Olet nähnyt kaiken.",
-        "IMDbScore:": "IMDb Pisteet:",
+        "IMDbScore:": "IMDb-pisteet:",
         "ProductionYear:": "Tuotantovuosi:",
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
         "Popular": "Suosittu",
         "Newest": "Uusin",
-        "YearNewOld": "Vuosi: Uusin Vanhin",
-        "YearOldNew": "Vuosi: Vanhin Uusin"
+        "YearNewOld": "Vuosi: Uusin-Vanhin",
+        "YearOldNew": "Vuosi: Vanhin-Uusin"
     }
 }

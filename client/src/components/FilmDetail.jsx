@@ -315,7 +315,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                 <li className="py-2">
                                                                     <p className="text-xl text-red-500">{t('FilmDetail.runtime')}:</p>
                                                                     {movies.runtime && (
-                                                                        <p className="">– {movies.runtime} minutes</p>
+                                                                        <p className="">– {movies.runtime} {t('FilmDetail.minutes')}</p>
                                                                     )}
                                                                 </li>
                                                                 <li className="py-2">
