@@ -102,7 +102,7 @@ const Homepage = () => {
             setHasMore(true); // set hasMore to true when clearing search results
             setCurrentPage(1);
             setMovies([]);
-            loadMoreMovies();
+            await loadMoreMovies();
             return;
         }
         setIsLoading(true);

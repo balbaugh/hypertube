@@ -54,17 +54,7 @@ const FilmDetail = ({itsMe}) => {
                 console.log(error);
             });
 
-        axiosStuff.getComments(id)
-            .then((response) => {
-                setComments(response);
-            }).then(() => {
-            axiosStuff.getCommentUser()
-                .then((response1) => {
-                    setUsers(response1)
-                })
-        });
-
-        const fetchNewComments = setInterval(() => {
+        if (comments.length > 0) {
             axiosStuff.getComments(id)
                 .then((response) => {
                     setComments(response);
@@ -73,12 +63,28 @@ const FilmDetail = ({itsMe}) => {
                     .then((response1) => {
                         setUsers(response1)
                     })
-            })
+            });
+        }
+
+        const fetchNewComments = setInterval(() => {
+            if (comments.length > 0) {
+                axiosStuff.getComments(id)
+                    .then((response) => {
+                        setComments(response);
+                    }).then(() => {
+                    axiosStuff.getCommentUser()
+                        .then((response1) => {
+                            setUsers(response1)
+                        })
+                })
+            }
         }, 3000);
+
 
         // cleanup function to clear interval when component unmounts or id changes
         return () => clearInterval(fetchNewComments);
-    }, [id]);
+    }, [id, comments]);
+
 
     useEffect(() => {
         axios.get(`/movies/${id}/comments`).then((response) => {
@@ -407,7 +413,7 @@ const FilmDetail = ({itsMe}) => {
                                                                         defaultValue={''}
                                                                         value={newComment}
                                                                         onChange={handleNewComment}
-                                                                        inputRef={textInput}
+                                                                        inputref={textInput}
                                                                     />
 
                                                                     {/* Spacer element to match the height of the toolbar */}
@@ -423,6 +429,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     <div className="flex-shrink-0">
                                                                         <button
                                                                             type="submit"
+                                                                            disabled={comments.length === 0}
                                                                             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-200 bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                                             onClick={() => {
                                                                                 textInput.current.value = "";
@@ -465,7 +472,10 @@ const FilmDetail = ({itsMe}) => {
                                                                             <div
                                                                                 className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
                                                                             >
-                                                                                {comment.text}
+                                                                                {/*<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.text) }} />*/}
+                                                                                <div>
+                                                                                    dangerouslySetInnerHTML={comment.text}}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     )
