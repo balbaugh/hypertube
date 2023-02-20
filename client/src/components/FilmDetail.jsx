@@ -405,7 +405,7 @@ const FilmDetail = ({itsMe}) => {
                                                                         className="block w-full py-3 text-gray-700 border-0 resize-none focus:ring-0 sm:text-sm"
                                                                         placeholder={t('FilmDetail.addComment')}
                                                                         defaultValue={''}
-                                                                        value={newComment}
+                                                                        // value={newComment}
                                                                         onChange={handleNewComment}
                                                                         inputref={textInput}
                                                                     />
