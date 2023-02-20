@@ -8,7 +8,6 @@ module.exports = {
 	],
   theme: {
     extend: {},
-    // DONT KNOW ABOUT THIS
     screens: {
 
       'mobile': '320px',

@@ -129,7 +129,7 @@ router.get('/42', (req, res) => {
 						console.log('req.session.user.url in get 42:', data.url)
 
 						const urlAsString = JSON.stringify(data.url);
-						// We're checking if the user is logging in via the 42 OAuth or the Github OAuth.
+						// We're checking if the user is logging in via the 42 OAuth or the GitHub OAuth.
 						if (urlAsString.match(/api\.intra\.42/)) {
 							console.log('String contained substring \'api.intra.42\'. Seems we\'re accessing the 42 OAuth API.')
 
@@ -312,7 +312,7 @@ router.get('/42', (req, res) => {
 														}
 													})
 											})
-										// If the user was found in the table, we'll log in as them, as an existing Github user.
+										// If the user was found in the table, we'll log in as them, as an existing GitHub user.
 									} else {
 										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
 													LEFT JOIN profile_pics
@@ -431,7 +431,7 @@ router.get('/github', (req, res) => {
 						console.log('req.session.user.url in get github:', data.url)
 
 						const urlAsString = JSON.stringify(data.url);
-						// We're checking if the user is logging in via the 42 OAuth or the Github OAuth.
+						// We're checking if the user is logging in via the 42 OAuth or the GitHub OAuth.
 						if (urlAsString.match(/api\.intra\.42/)) {
 							console.log('String contained substring \'api.intra.42\'. Seems we\'re accessing the 42 OAuth API.')
 
@@ -614,7 +614,7 @@ router.get('/github', (req, res) => {
 														}
 													})
 											})
-										// If the user was found in the table, we'll log in as them, as an existing Github user.
+										// If the user was found in the table, we'll log in as them, as an existing GitHub user.
 									} else {
 										var sql = `SELECT users.id, status, username, firstname, lastname, path FROM users
 													LEFT JOIN profile_pics

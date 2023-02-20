@@ -58,8 +58,12 @@ const YearNewOld = () => {
         const html = document.documentElement;
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
         const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom >= docHeight && !isLoading && hasMore) {
-            loadMoreMovies();
+        if (windowBottom >= docHeight) {
+            if (!isLoading) {
+                if (hasMore) {
+                    loadMoreMovies().then(r => console.log('movies', movies));
+                }
+            }
         }
     };
 

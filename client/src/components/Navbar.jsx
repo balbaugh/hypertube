@@ -157,7 +157,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<button
-																href="#"
+																// href="#"
 																onClick={() =>
 																	changeLanguage(
 																		'en'
@@ -179,7 +179,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<button
-																href="#"
+																// href="#"
 																onClick={() =>
 																	changeLanguage(
 																		'fi'
@@ -324,7 +324,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<button
-																href="#"
+																// href="#"
 																onClick={() =>
 																	changeLanguage(
 																		'en'
@@ -346,7 +346,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 													<Menu.Item>
 														{({ active }) => (
 															<button
-																href="#"
+																// href="#"
 																onClick={() =>
 																	changeLanguage(
 																		'fi'
