@@ -327,7 +327,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                                     <li key={index}>
                                                                                         <p>
                                                                                             <span
-                                                                                                className="font-semibold">– {cast.name}</span> as {cast.character_name}
+                                                                                                className="font-semibold">– {cast.name}</span> {t('FilmDetail.inRole')} {cast.character_name}
                                                                                         </p>
                                                                                     </li>
                                                                                 ))}

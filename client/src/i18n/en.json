@@ -30,6 +30,7 @@
         "runtime": "Runtime",
         "minutes": "minutes",
         "starring": "Starring",
+        "inRole": "as",
         "genres": "Genres",
         "imdb": "IMDb:",
         "outOfTen": "out of 10"

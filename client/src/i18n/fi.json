@@ -12,8 +12,8 @@
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
-        "Popular": "Suosittu",
-        "Newest": "Uusin",
+        "Popular": "Suosituimmat",
+        "Newest": "Uusimmat",
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
@@ -30,6 +30,7 @@
         "runtime": "Pituus",
         "minutes": "minuuttia",
         "starring": "Pääosassa",
+        "inRole": "roolissa",
         "genres": "Tyylilajit",
         "imdb": "IMDb:",
         "outOfTen": "10:stä"
@@ -66,8 +67,8 @@
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
-        "Popular": "Suosittu",
-        "Newest": "Uusin",
+        "Popular": "Suosituimmat",
+        "Newest": "Uusimmat",
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
@@ -124,8 +125,8 @@
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
-        "Popular": "Suosittu",
-        "Newest": "Uusin",
+        "Popular": "Suosituimmat",
+        "Newest": "Uusimmat",
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
@@ -197,8 +198,8 @@
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
-        "Popular": "Suosittu",
-        "Newest": "Uusin",
+        "Popular": "Suosituimmat",
+        "Newest": "Uusimmat",
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
@@ -215,8 +216,8 @@
         "Genres:": "Genret:",
         "Description:": "Kuvaus:",
         "BestRating": "Paras Luokitus",
-        "Popular": "Suosittu",
-        "Newest": "Uusin",
+        "Popular": "Suosituimmat",
+        "Newest": "Uusimmat",
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     }
