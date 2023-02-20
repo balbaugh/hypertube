@@ -80,11 +80,11 @@ const FilmDetail = ({itsMe}) => {
         return () => clearInterval(fetchNewComments);
     }, [id]);
 
-    useEffect(() => {
-        axios.get(`/movies/${id}/comments`).then((response) => {
-            setComments(response.data);
-        });
-    }, [id]);
+    // useEffect(() => {
+    //     axios.get(`/movies/${id}/comments`).then((response) => {
+    //         setComments(response.data);
+    //     });
+    // }, [id]);
 
     console.log('comments', comments)
     console.log('users', users)
