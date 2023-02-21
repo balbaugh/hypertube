@@ -30,8 +30,11 @@ const YearOldNew = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
+    const [watched, setWatched] = useState([]);
 
-    //const containerRef = useRef(null);
+    const loadMoreRef = useRef();
+    const rootRef = useRef(null);
+
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -40,34 +43,39 @@ const YearOldNew = () => {
             .movieTest().then((response) => {
             console.log('oikee', response)
         })
+        // axiosStuff
+        //    .test().then((response1) => {
+        //    console.log('testi', response1)
+        // })
         setTimeout(() => {
             setLoading(false);
         }, 5000)
     }, [])
 
+    useEffect(() => {
+        axiosStuff
+            .getWatched().then((response) => {
+            setWatched(response.map(all => all.movie_id))
+        })
+    }, [])
+
+    console.log('WATHCEEED', watched)
+
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-        const newMovies = response.data.data.movies.filter(filterMovies);
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=50&page=${currentPage}`, { withCredentials: false });
+        const newMovies = response.data.data.movies.filter(filterMovies).map((movie) => {
+            if (movie.medium_cover_image === null) {
+                movie.medium_cover_image = require('../images/noImage.png');
+            }
+            return movie;
+        });
         setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
     };
 
-    const handleScroll = () => {
-        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-        const body = document.body - 200;
-        const html = document.documentElement - 200;
-        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-        const windowBottom = windowHeight + 500;
-        if (windowBottom >= docHeight) {
-            if (!isLoading) {
-                if (hasMore) {
-                    throttledLoadMoreMovies();
-                }
-            }
-        }
-    };
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -78,8 +86,29 @@ const YearOldNew = () => {
 
     useEffect(() => {
         loadMoreMovies().then(r => console.log('movies', movies));
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const loadMoreNode = loadMoreRef.current;
+        const observer = new IntersectionObserver((entries) => {
+            const target = entries[0];
+            if (target.isIntersecting) {
+                if (!isLoading) {
+                    if (hasMore) {
+                        throttledLoadMoreMovies();
+                    }
+                }
+            }
+        }, {
+            root: rootRef.current,
+            rootMargin: "100px",
+            threshold: 0.5
+        });
+        if (loadMoreNode) {
+            observer.observe(loadMoreNode);
+        }
+        return () => {
+            if (loadMoreNode) {
+                observer.unobserve(loadMoreNode);
+            }
+        };
     }, []);
 
     const handleRatingChange = (event, newValue) => {
@@ -135,8 +164,6 @@ const YearOldNew = () => {
     };
 
     const { t } = useTranslation();
-
-    const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
     return (
         <div>
@@ -266,10 +293,11 @@ const YearOldNew = () => {
                             </Combobox>
 
                             {/* Film grid */}
-                            <section
+                            <div
                                 aria-labelledby="films-heading"
                                 // className="overflow-auto"
-
+                                // id="content"
+                                className="overflow-visible"
                             >
                                 <h2 id="products-heading" className="sr-only">
                                     {t('BestRating.Films')}
@@ -285,23 +313,43 @@ const YearOldNew = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    style={{ overflow: 'hidden' }}
-                                    // scrollableTarget="scrollableDiv"
+                                    // style={{ overflow: 'hidden' }}
+                                    // rootMargin="0px 0px 400px 0px"
+                                    scrollableTarget={loadMoreRef.current}
                                 >
-                                    <div id="movie-list" className="container grid px-4 pt-12 pb-16 mx-auto overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div ref={rootRef} className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
-                                                        <img
-                                                            className="rounded"
-                                                            src={movie.medium_cover_image}
-                                                            alt={movie.title}
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = require('../images/noImage.png');
-                                                            }}
-                                                        />
+                                                        {watched.includes(movie.id) ? (
+                                                            <div>
+                                                                <img
+                                                                    className="border-2 border-indigo-600 border-solid rounded filter grayscale"
+                                                                    src={movie.medium_cover_image}
+                                                                    alt={movie.title}
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = require('../images/noImage.png');
+                                                                    }}
+                                                                />
+                                                                <span
+                                                                    className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red">
+                                                                Watched
+                                                            </span>
+                                                            </div>
+                                                        ) : (
+                                                            <img
+                                                                className="rounded"
+                                                                src={movie.medium_cover_image}
+                                                                alt={movie.title}
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = require('../images/noImage.png');
+                                                                }}
+                                                            />
+                                                        )}
+
 
                                                         <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
                                                             <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</h4>
@@ -317,12 +365,17 @@ const YearOldNew = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-
-                            </section>
+                                <div ref={loadMoreRef} />
+                            </div>
                         </main>
+
                     </div>
+
                 </section>
+
+
             )}
+
         </div>
     )
 }

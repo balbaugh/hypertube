@@ -7,8 +7,6 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { debounce } from 'lodash';
 
@@ -16,10 +14,6 @@ import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
 const short = require('short-uuid');
-
-// function classNames(...classes) {
-//     return classes.filter(Boolean).join(' ')
-// }
 
 function valuetext(value) {
     return `${value}`;
@@ -37,7 +31,9 @@ const Homepage = () => {
     const [watched, setWatched] = useState([]);
     const [foto, setfoto] = useState('')
 
-    // const containerRef = useRef(null);
+    const loadMoreRef = useRef();
+    const rootRef = useRef(null);
+
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -58,25 +54,7 @@ const Homepage = () => {
         })
     }, [])
 
-    // const loadMoreMovies = async () => {
-    //     setIsLoading(true);
-    //     const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-    //     const newMovies = response.data.data.movies.filter(filterMovies);
-    //     setMovies(movies.concat(newMovies));
-    //     setCurrentPage(currentPage + 1);
-    //     setIsLoading(false);
-    // };
-
-    const posterStuff = (code) => {
-       return axiosStuff
-        .getPoster(code)
-        .then((response) => {
-            console.log('huh', response)
-            setfoto(response)
-        })
-    }
-
-    console.log('FOTO', foto)
+    console.log('WATHCEEED', watched)
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
@@ -93,21 +71,6 @@ const Homepage = () => {
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
-    const handleScroll = () => {
-        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-        const body = document.body - 200;
-        const html = document.documentElement - 200;
-        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-        const windowBottom = windowHeight + 500;
-        if (windowBottom >= docHeight) {
-            if (!isLoading) {
-                if (hasMore) {
-                    throttledLoadMoreMovies();
-                }
-            }
-        }
-    };
-
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
@@ -117,8 +80,29 @@ const Homepage = () => {
 
     useEffect(() => {
         loadMoreMovies().then(r => console.log('movies', movies));
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const loadMoreNode = loadMoreRef.current;
+        const observer = new IntersectionObserver((entries) => {
+            const target = entries[0];
+            if (target.isIntersecting) {
+                if (!isLoading) {
+                    if (hasMore) {
+                        throttledLoadMoreMovies();
+                    }
+                }
+            }
+        }, {
+            root: rootRef.current,
+            rootMargin: "100px",
+            threshold: 0.5
+        });
+        if (loadMoreNode) {
+            observer.observe(loadMoreNode);
+        }
+        return () => {
+            if (loadMoreNode) {
+                observer.unobserve(loadMoreNode);
+            }
+        };
     }, []);
 
     const handleRatingChange = (event, newValue) => {
@@ -304,10 +288,11 @@ const Homepage = () => {
                             </Combobox>
 
                             {/* Film grid */}
-                            <section
+                            <div
                                 aria-labelledby="films-heading"
                                 // className="overflow-auto"
-
+                                // id="content"
+                                className="overflow-visible"
                             >
                                 <h2 id="products-heading" className="sr-only">
                                     {t('BestRating.Films')}
@@ -323,27 +308,31 @@ const Homepage = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    style={{ overflow: 'hidden' }}
-                                    rootMargin="0px 0px 400px 0px"
-                                    // scrollableTarget="scrollableDiv"
+                                    // style={{ overflow: 'hidden' }}
+                                    // rootMargin="0px 0px 400px 0px"
+                                    scrollableTarget={loadMoreRef.current}
                                 >
-                                    <div id="movie-list"
-                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8 min-height"
-                                        >
+                                    <div ref={rootRef} className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
                                                         {watched.includes(movie.id) ? (
-                                                        <img
-                                                            className="border-2 border-indigo-600 border-solid rounded"
-                                                            src={movie.medium_cover_image}
-                                                            alt={movie.title}
-                                                            onError={(e) => {
-                                                                //e.target.onerror = null;
-                                                                e.target.src = require('../images/noImage.png');
-                                                            }}
-                                                        />
+                                                        <div>
+                                                            <img
+                                                                className="border-2 border-indigo-600 border-solid rounded filter grayscale"
+                                                                src={movie.medium_cover_image}
+                                                                alt={movie.title}
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = require('../images/noImage.png');
+                                                                }}
+                                                            />
+                                                            <span
+                                                                className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red">
+                                                                Watched
+                                                            </span>
+                                                        </div>
                                                         ) : (
                                                             <img
                                                             className="rounded"
@@ -372,12 +361,17 @@ const Homepage = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-
-                            </section>
+                                <div ref={loadMoreRef} />
+                            </div>
                         </main>
+
                     </div>
+
                 </section>
-            )}
+
+
+                )}
+
         </div>
     )
 }
