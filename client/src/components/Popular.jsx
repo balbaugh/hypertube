@@ -323,15 +323,21 @@ const Popular = () => {
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
                                                         {watched.includes(movie.id) ? (
-                                                            <img
-                                                                className="border-2 border-indigo-600 border-solid rounded"
-                                                                src={movie.medium_cover_image}
-                                                                alt={movie.title}
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src = require('../images/noImage.png');
-                                                                }}
-                                                            />
+                                                            <div>
+                                                                <img
+                                                                    className="border-2 border-indigo-600 border-solid rounded filter grayscale"
+                                                                    src={movie.medium_cover_image}
+                                                                    alt={movie.title}
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = require('../images/noImage.png');
+                                                                    }}
+                                                                />
+                                                                <span
+                                                                    className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 text-red text-center text-lg font-semibold uppercase rounded flex justify-center items-center">
+                                                                Watched
+                                                            </span>
+                                                            </div>
                                                         ) : (
                                                             <img
                                                                 className="rounded"

@@ -7,7 +7,11 @@ module.exports = {
           'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
 	],
   theme: {
-    extend: {},
+    extend: {
+      grayscale: {
+        50: '50%',
+      }
+    },
     screens: {
       'mobile': '320px',
       'tablet': '640px',
