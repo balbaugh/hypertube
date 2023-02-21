@@ -152,6 +152,7 @@ function ProfileEdit () {
 								onChange={handleEmailChange}
 							/>
 						</div>
+						<div className="mb-6 border-t divide-y divide-gray-200" />
 						<button
 							type="submit"
 							className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"

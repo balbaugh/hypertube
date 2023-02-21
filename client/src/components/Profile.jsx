@@ -133,6 +133,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                                 </button>
                             </div>
                         </div>
+                        <div className="mb-6 border-t divide-y divide-gray-200" />
                         <Link to="/profileEdit">
                             <button
                                 type="button"
