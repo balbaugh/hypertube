@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { debounce } from 'lodash';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -30,6 +31,8 @@ const Popular = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
+    const containerRef = useRef(null);
+
     axios.defaults.withCredentials = true // For the sessions the work
 
     useEffect(() => {
@@ -44,7 +47,7 @@ const Popular = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=download_count&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by download count desc
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
         const newMovies = response.data.data.movies.filter(filterMovies);
         setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
@@ -60,7 +63,7 @@ const Popular = () => {
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
-                    loadMoreMovies().then(r => console.log('movies', movies));
+                    throttledLoadMoreMovies().then(r => console.log('movies', movies));
                 }
             }
         }
@@ -132,6 +135,8 @@ const Popular = () => {
     };
 
     const { t } = useTranslation();
+
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 500);
 
     return (
         <div>
@@ -283,7 +288,7 @@ const Popular = () => {
                                     style={{ overflow: 'hidden' }}
                                     // scrollableTarget="scrollableDiv"
                                 >
-                                    <div className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div id="movie-list" className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
@@ -304,7 +309,7 @@ const Popular = () => {
                                                         </div>
                                                     </Link>
                                                     <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
-                                                        <p className="mb-2 text-md font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</p>
+                                                        <p className="mb-2 font-semibold text-red-500 text-md">{movie.title}&nbsp;&nbsp;({movie.year})</p>
                                                         <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} / 10</p>
                                                     </div>
                                                 </div>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
@@ -7,6 +7,8 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { debounce } from 'lodash';
+
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -30,6 +32,8 @@ const Homepage = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
+    const containerRef = useRef(null);
+
     axios.defaults.withCredentials = true // For the sessions the work
 
     useEffect(() => {
@@ -46,10 +50,24 @@ const Homepage = () => {
         }, 5000)
     }, [])
 
+    // const loadMoreMovies = async () => {
+    //     setIsLoading(true);
+    //     const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
+    //     const newMovies = response.data.data.movies.filter(filterMovies);
+    //     setMovies(movies.concat(newMovies));
+    //     setCurrentPage(currentPage + 1);
+    //     setIsLoading(false);
+    // };
+
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-        const newMovies = response.data.data.movies.filter(filterMovies);
+        const newMovies = response.data.data.movies.filter(filterMovies).map((movie) => {
+            if (movie.medium_cover_image === null) {
+                movie.medium_cover_image = require('../images/noImage.png');
+            }
+            return movie;
+        });
         setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
@@ -64,7 +82,7 @@ const Homepage = () => {
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
-                    loadMoreMovies().then(r => console.log('movies', movies));
+                    throttledLoadMoreMovies().then(r => console.log('movies', movies));
                 }
             }
         }
@@ -136,6 +154,9 @@ const Homepage = () => {
     };
 
     const { t } = useTranslation();
+
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 500);
+
 
     return (
         <div>
@@ -287,7 +308,7 @@ const Homepage = () => {
                                     style={{ overflow: 'hidden' }}
                                     // scrollableTarget="scrollableDiv"
                                 >
-                                    <div className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div id="movie-list" className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">

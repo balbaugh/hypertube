@@ -31,7 +31,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 		{ name: t('Navbar.Home'), href: '/homepage', current: false },
 		{ name: t('Navbar.Register'), href: '/registration', current: false },
 		{ name: t('Navbar.Forgot'), href: '/forgot', current: false },
-		{ name: t('Navbar.About'), href: '/landing', current: false },
+		{ name: t('Navbar.About'), href: '/', current: false },
 	];
 
 	// setItsMe({ ...itsMe, path: selectedAvatar })
