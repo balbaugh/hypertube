@@ -36,6 +36,7 @@ const Homepage = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
     const containerRef = useRef(null);
+    const myRef = useRef(null);
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -159,10 +160,7 @@ const Homepage = () => {
     };
 
     const { t } = useTranslation();
-
-
-
-
+    
     return (
         <div>
             {loading ? (
@@ -291,10 +289,11 @@ const Homepage = () => {
                             </Combobox>
 
                             {/* Film grid */}
-                            <section
+                            <div
                                 aria-labelledby="films-heading"
                                 // className="overflow-auto"
-
+                                // id="content"
+                                className="overflow-visible"
                             >
                                 <h2 id="products-heading" className="sr-only">
                                     {t('BestRating.Films')}
@@ -311,8 +310,6 @@ const Homepage = () => {
                                         </p>
                                     }
                                     style={{ overflow: 'hidden' }}
-                                    rootMargin="0px 0px 400px 0px"
-                                    // scrollableTarget="scrollableDiv"
                                 >
                                     <div id="movie-list" className="overflow-hidden container grid px-4 mt-12 mb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
@@ -343,8 +340,7 @@ const Homepage = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-
-                            </section>
+                            </div>
                         </main>
                     </div>
                 </section>
