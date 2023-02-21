@@ -6,8 +6,8 @@ import axios from 'axios';
 import InfoText from "./infoText";
 // import Loader from "./Loader";
 
-const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
-const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
+//const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
+//const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
 
 function useProfile() {
     const [userId, setUserId] = useState('');
@@ -45,7 +45,7 @@ const UserProfile = ({ }) => {
 
     // if (isLoading) {
     //     return (
-    //         <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
+    //         <h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
     //             Loading profile information...
     //         </h2>
     //     )
@@ -73,29 +73,29 @@ const UserProfile = ({ }) => {
                         </div>
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
-                        <div className="mb-6 pt-2">
+                        <div className="pt-2 mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('UserProfile.username')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{username ? username : "{t('UserProfile.username_not_found')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('UserProfile.username')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{username ? username : "{t('UserProfile.username_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('UserProfile.first_name')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{firstName ? firstName : "{t('UserProfile.first_name_not_found')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('UserProfile.first_name')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{firstName ? firstName : "{t('UserProfile.first_name_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('UserProfile.last_name')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{lastName ? lastName : "{t('UserProfile.last_name_not_found')}')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('UserProfile.last_name')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{lastName ? lastName : "{t('UserProfile.last_name_not_found')}')}"}</p>
 
                             </div>
                         </div>
                         {/*<button*/}
-                        {/*    className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
+                        {/*    className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center border-2 border-red-500 rounded text-slate-200"*/}
                         {/*>*/}
                         {/*    <label>{t('Profile.profile_picture')}</label>*/}
                         {/*    <br />*/}

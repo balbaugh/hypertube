@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { Fragment, useState, useEffect, } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
@@ -17,7 +17,7 @@ const short = require('short-uuid');
 //     return classes.filter(Boolean).join(' ')
 // }
 
-function valuetext(value: number) {
+function valuetext(value) {
     return `${value}`;
 }
 
@@ -31,7 +31,7 @@ const YearOldNew = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
 
-    const containerRef = useRef(null);
+    //const containerRef = useRef(null);
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -288,7 +288,7 @@ const YearOldNew = () => {
                                     style={{ overflow: 'hidden' }}
                                     // scrollableTarget="scrollableDiv"
                                 >
-                                    <div id="movie-list" className="overflow-hidden container grid px-4 pt-12 pb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
+                                    <div id="movie-list" className="container grid px-4 pt-12 pb-16 mx-auto overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:pt-16 sm:pb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">

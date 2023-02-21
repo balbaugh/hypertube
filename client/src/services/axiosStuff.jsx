@@ -154,13 +154,18 @@ const setProfilePic = (Picture) => {
 	return request.then(response => response.data)
 }
 
+const getPoster = (id) => {
+	const req = axios.get(`${baseUrl}/poster/${id}`);
+	return req.then((response) => response.data);
+}
+
 const axiosStuff = {
 	// test,
 	movieTest, toMovie, play, register, verifyemail, login,
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
 	profileInfo, getUserProfileInfo, updateProfile, setProfilePic,
 	changePw, ready, stream, getComments, submitComment,
-	subtitles, getCommentUser, getSubs, addWatched, getWatched
+	subtitles, getCommentUser, getSubs, addWatched, getWatched, getPoster
 };
 
 export default axiosStuff;

@@ -6,8 +6,8 @@ import axios from 'axios';
 import InfoText from "./infoText";
 // import Loader from "./Loader";
 
-const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
-const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
+//const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
+//const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
 
 function useProfile() {
     const [userId, setUserId] = useState('');
@@ -85,7 +85,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                             <Link className="inline-block mx-auto mb-6" to="/">
                                 <img src={require("../images/hypertubeText.png")} alt="" />
                             </Link>
-                            <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
+                            <h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
                                 {t('Profile.your_profile')}
                             </h2>
                             <div className="inline-block mx-auto mt-6 mb-6 w-60 h-60">
@@ -94,40 +94,40 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         </div>
                         {/* OAUTH STUFF */}
                         <InfoText message={message} />
-                        <div className="mb-6 pt-2">
+                        <div className="pt-2 mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.username')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{username ? username : "{t('Profile.username_not_found')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('Profile.username')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{username ? username : "{t('Profile.username_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.first_name')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('Profile.first_name')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{firstName ? firstName : "{t('Profile.first_name_not_found')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.last_name')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('Profile.last_name')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{lastName ? lastName : "{t('Profile.last_name_not_found')}')}"}</p>
 
                             </div>
                         </div>
                         <div className="mb-6">
                             <div className="block mb-2">
-                                <p className="block mb-2 font-semibold text-xl text-red-500">{t('Profile.email')}:</p>
-                                <p className="block mb-2 pl-3 font-semibold text-lg text-gray-200">{email ? email : "{t('Profile.email_not_found')}')}"}</p>
+                                <p className="block mb-2 text-xl font-semibold text-red-500">{t('Profile.email')}:</p>
+                                <p className="block pl-3 mb-2 text-lg font-semibold text-gray-200">{email ? email : "{t('Profile.email_not_found')}')}"}</p>
 
                             </div>
                         </div>
                         <div className="rounded-md">
                             <label className="block pb-1 text-lg font-semibold text-red-500">{t('Profile.profile_picture')}:</label>
-                            <div className="mt-1 pb-6">
+                            <div className="pb-6 mt-1">
                                 <button
                                     type="button"
-                                    className="inline-block w-full py-2 text-sm font-medium text-gray-700 shadow-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    className="inline-block w-full py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                     <input className="rounded" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
                                 </button>
@@ -137,7 +137,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         <Link to="/profileEdit">
                             <button
                                 type="button"
-                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
                             >
                                 {t('Profile.edit_profile')}
                             </button>
@@ -145,13 +145,13 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         <Link to="/changePassword">
                             <button
                                 type="button"
-                                className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
                             >
                                 {t('Profile.change_password')}
                             </button>
                         </Link>
                         {/*<button*/}
-                        {/*    className="mb-6 inline-block w-full rounded border-2 border-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"*/}
+                        {/*    className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center border-2 border-red-500 rounded text-slate-200"*/}
                         {/*>*/}
                         {/*    <label>{t('Profile.profile_picture')}</label>*/}
                         {/*    <br />*/}

@@ -35,8 +35,9 @@ const Homepage = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
+    const [foto, setfoto] = useState('')
 
-    const containerRef = useRef(null);
+    // const containerRef = useRef(null);
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -45,10 +46,6 @@ const Homepage = () => {
             .movieTest().then((response) => {
             console.log('oikee', response)
         })
-        // axiosStuff
-        //    .test().then((response1) => {
-        //    console.log('testi', response1)
-        // })
         setTimeout(() => {
             setLoading(false);
         }, 5000)
@@ -61,8 +58,6 @@ const Homepage = () => {
         })
     }, [])
 
-    console.log('WATHCEEED', watched)
-
     // const loadMoreMovies = async () => {
     //     setIsLoading(true);
     //     const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
@@ -72,19 +67,29 @@ const Homepage = () => {
     //     setIsLoading(false);
     // };
 
+    const posterStuff = (code) => {
+       return axiosStuff
+        .getPoster(code)
+        .then((response) => {
+            console.log('huh', response)
+            setfoto(response)
+        })
+    }
+
+    console.log('FOTO', foto)
+
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
         const newMovies = response.data.data.movies.filter(filterMovies).map((movie) => {
-            if (movie.medium_cover_image === null) {
-                movie.medium_cover_image = require('../images/noImage.png');
-            }
             return movie;
         });
         setMovies(movies.concat(newMovies));
         setCurrentPage(currentPage + 1);
-        setIsLoading(false);
+        setIsLoading(false)
     };
+
+     console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -143,12 +148,13 @@ const Homepage = () => {
             return;
         }
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, { withCredentials: false });
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, {
+            withCredentials: false
+        });
         setSearchResults(response.data.data.movies);
         setIsLoading(false);
         setHasMore(true); // set hasMore to true when updating movies with search results
     };
-
 
     useEffect(() => {
         if (query === '') {
@@ -169,9 +175,6 @@ const Homepage = () => {
     };
 
     const { t } = useTranslation();
-
-
-
 
     return (
         <div>
@@ -324,7 +327,9 @@ const Homepage = () => {
                                     rootMargin="0px 0px 400px 0px"
                                     // scrollableTarget="scrollableDiv"
                                 >
-                                    <div id="movie-list" className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                    <div id="movie-list"
+                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8 min-height"
+                                        >
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
@@ -335,19 +340,20 @@ const Homepage = () => {
                                                             src={movie.medium_cover_image}
                                                             alt={movie.title}
                                                             onError={(e) => {
-                                                                e.target.onerror = null;
+                                                                //e.target.onerror = null;
                                                                 e.target.src = require('../images/noImage.png');
                                                             }}
                                                         />
                                                         ) : (
                                                             <img
                                                             className="rounded"
+                                                            //src={posterStuff(movie.imdb_code)}
                                                             src={movie.medium_cover_image}
                                                             alt={movie.title}
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = require('../images/noImage.png');
-                                                            }}
+                                                            //onError={(e) => {
+                                                            //    e.target.onerror = null;
+                                                            //    e.target.src = require('../images/noImage.png');
+                                                            //}}
                                                         />
                                                         )}
 

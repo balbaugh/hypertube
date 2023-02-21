@@ -5,9 +5,11 @@ import { Disclosure } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from 'react-i18next';
-import axios from "axios";
+//import axios from "axios";
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
+
+const backUp = require('../images/noImage.png')
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -25,7 +27,8 @@ const FilmDetail = ({ itsMe }) => {
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    //const [imgSrc, setImgSrc] = useState(backUp);
 
     console.log('playerrf', playerRef)
     console.log('mee', itsMe.username)
@@ -33,7 +36,6 @@ const FilmDetail = ({ itsMe }) => {
 
     const savedLanguage = localStorage.getItem('language')
     console.log('aaaa', savedLanguage)
-
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -45,6 +47,10 @@ const FilmDetail = ({ itsMe }) => {
         axiosStuff.toMovie(id)
             .then((response) => {
                 if (response.parsed.data.movie) {
+                    //if (response.parsed.data.movie?.medium_cover_image) {
+                    //    setImgSrc(movies.medium_cover_image)
+                    //}
+                    //console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
                     setMovies(response.parsed.data.movie);
                     setLoading(false);
                 } else {
@@ -87,8 +93,9 @@ const FilmDetail = ({ itsMe }) => {
     //     });
     // }, [id]);
 
-    console.log('comments', comments)
-    console.log('users', users)
+    //console.log('comments', comments)
+    //console.log('users', users)
+
 
     const textInput = React.useRef(null);
 
@@ -207,7 +214,14 @@ const FilmDetail = ({ itsMe }) => {
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
                                         src={movies.medium_cover_image}
+                                        //src={imgSrc}
                                         alt={movies.title}
+                                        onError={(e) => {
+                                            console.log('error loading', e)
+                                            //e.target.onerror = null;
+                                            e.target.src = backUp;
+                                          }}
+                                        //onError={() => setImgSrc(backUp)}
                                     />
                                 </div>
                             </div>
