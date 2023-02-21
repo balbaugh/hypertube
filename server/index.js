@@ -2,7 +2,6 @@ const config = require('./utils/config');
 const express = require('express');
 const cors = require('cors');
 
-
 // Session stuff
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');

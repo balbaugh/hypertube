@@ -34,6 +34,7 @@ const Homepage = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
+    const [watched, setWatched] = useState([]);
 
     const containerRef = useRef(null);
     const myRef = useRef(null);
@@ -53,6 +54,15 @@ const Homepage = () => {
             setLoading(false);
         }, 5000)
     }, [])
+
+    useEffect(() => {
+        axiosStuff
+        .getWatched().then((response) => {
+            setWatched(response.map(all => all.movie_id))
+        })
+    }, [])
+
+    console.log('WATHCEEED', watched)
 
     // const loadMoreMovies = async () => {
     //     setIsLoading(true);
@@ -311,12 +321,23 @@ const Homepage = () => {
                                     }
                                     style={{ overflow: 'hidden' }}
                                 >
-                                    <div id="movie-list" className="overflow-hidden container grid px-4 mt-12 mb-16 mx-auto mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                    <div id="movie-list" className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
+                                                        {watched.includes(movie.id) ? (
                                                         <img
+                                                            className="border-2 border-indigo-600 border-solid rounded"
+                                                            src={movie.medium_cover_image}
+                                                            alt={movie.title}
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = require('../images/noImage.png');
+                                                            }}
+                                                        />
+                                                        ) : (
+                                                            <img
                                                             className="rounded"
                                                             src={movie.medium_cover_image}
                                                             alt={movie.title}
@@ -325,6 +346,8 @@ const Homepage = () => {
                                                                 e.target.src = require('../images/noImage.png');
                                                             }}
                                                         />
+                                                        )}
+
 
                                                         <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
                                                             <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</h4>

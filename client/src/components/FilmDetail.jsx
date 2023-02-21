@@ -136,6 +136,10 @@ const FilmDetail = ({ itsMe }) => {
         const encodedTitle = encodeURIComponent(title);
         const magnetUrl = `magnet:?xt=urn:btih:${movieHash}&dn=${encodedTitle}`
         const imdbCode = movies.imdb_code;
+        const movieId = movies.id
+
+        axiosStuff
+        .addWatched({ movieId })
         // setOpen(!open)
         setWatch(true);
         axiosStuff

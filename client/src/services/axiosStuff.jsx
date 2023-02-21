@@ -17,6 +17,16 @@ const toMovie = (id) => {
 	return req.then((response) => response.data);
 }
 
+const addWatched = (movieId) => {
+	const req = axios.post(`${baseUrl}/watched`, movieId);
+	return req.then((response) => response.data);
+}
+
+const getWatched = () => {
+	const req = axios.get(`${baseUrl}/watched`);
+	return req.then((response) => response.data);
+}
+
 const subtitles = (code) => {
 	const req = axios.get(`${baseUrl}/subtitles`,{
 		params: { code }
@@ -150,7 +160,7 @@ const axiosStuff = {
 	getCookie, logout, forgot, getForgot, newPw, getGitProfile, get42Profile,
 	profileInfo, getUserProfileInfo, updateProfile, setProfilePic,
 	changePw, ready, stream, getComments, submitComment,
-	subtitles, getCommentUser, getSubs
+	subtitles, getCommentUser, getSubs, addWatched, getWatched
 };
 
 export default axiosStuff;
