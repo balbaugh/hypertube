@@ -104,12 +104,12 @@
         "SignIn": "Sign In",
         "SignOut": "Sign Out",
         "Profile": "Your Profile",
-        "Settings": "Settings",
+        "EditProfile": "Edit Profile",
         "Home": "Home",
         "Register": "Register",
         "Forgot": "Forgot",
         "About": "About",
-        "Finnish": "Suomi",
+        "Finnish": "Finnish",
         "English": "English"
     },
     "Popular": {

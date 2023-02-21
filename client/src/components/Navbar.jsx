@@ -258,7 +258,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 																)}
 															>
 																{t(
-																	'Navbar.Settings'
+																	'Navbar.EditProfile'
 																)}
 															</a>
 														)}

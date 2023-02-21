@@ -104,13 +104,13 @@
         "SignIn": "Kirjaudu",
         "SignOut": "Kirjaudu ulos",
         "Profile": "Profiilisi",
-        "Settings": "Asetukset",
+        "EditProfile": "Muokkaa Profiiliasi",
         "Home": "Koti",
         "Register": "Rekisteröidy",
         "Forgot": "Unohdin salasanan",
         "About": "Tietoa meistä",
-        "Finnish": "Finnish",
-        "English": "Englanti"
+        "Finnish": "Suomi",
+        "English": "English"
     },
     "Popular": {
         "Browse": "Selaa",

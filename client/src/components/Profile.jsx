@@ -88,8 +88,8 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                             <h2 className="mb-2 text-3xl text-slate-300 hover:text-red-500 font-extrabold md:text-4xl">
                                 {t('Profile.your_profile')}
                             </h2>
-                            <div className="inline-block mx-auto mb-6 w-60 h-60">
-                                <img src={selectedAvatar} alt="" />
+                            <div className="inline-block mx-auto mt-6 mb-6 w-60 h-60">
+                                <img className="rounded rounded-full" src={selectedAvatar} alt="" />
                             </div>
                         </div>
                         {/* OAUTH STUFF */}
@@ -133,6 +133,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                                 </button>
                             </div>
                         </div>
+                        <div className="mb-6 border-t divide-y divide-gray-200" />
                         <Link to="/profileEdit">
                             <button
                                 type="button"
