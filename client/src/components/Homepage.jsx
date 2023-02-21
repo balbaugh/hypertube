@@ -7,8 +7,6 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 
-import useInfiniteScroll from 'react-infinite-scroll-hook';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { debounce } from 'lodash';
 
@@ -16,10 +14,6 @@ import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
 const short = require('short-uuid');
-
-// function classNames(...classes) {
-//     return classes.filter(Boolean).join(' ')
-// }
 
 function valuetext(value) {
     return `${value}`;
@@ -36,8 +30,9 @@ const Homepage = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
 
-    const containerRef = useRef(null);
-    const myRef = useRef(null);
+    const loadMoreRef = useRef();
+    const rootRef = useRef(null);
+
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -64,15 +59,6 @@ const Homepage = () => {
 
     console.log('WATHCEEED', watched)
 
-    // const loadMoreMovies = async () => {
-    //     setIsLoading(true);
-    //     const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-    //     const newMovies = response.data.data.movies.filter(filterMovies);
-    //     setMovies(movies.concat(newMovies));
-    //     setCurrentPage(currentPage + 1);
-    //     setIsLoading(false);
-    // };
-
     const loadMoreMovies = async () => {
         setIsLoading(true);
         const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
@@ -89,21 +75,6 @@ const Homepage = () => {
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
-    const handleScroll = () => {
-        const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-        const body = document.body - 200;
-        const html = document.documentElement - 200;
-        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-        const windowBottom = windowHeight + 500;
-        if (windowBottom >= docHeight) {
-            if (!isLoading) {
-                if (hasMore) {
-                    throttledLoadMoreMovies();
-                }
-            }
-        }
-    };
-
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
@@ -113,8 +84,29 @@ const Homepage = () => {
 
     useEffect(() => {
         loadMoreMovies().then(r => console.log('movies', movies));
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const loadMoreNode = loadMoreRef.current;
+        const observer = new IntersectionObserver((entries) => {
+            const target = entries[0];
+            if (target.isIntersecting) {
+                if (!isLoading) {
+                    if (hasMore) {
+                        throttledLoadMoreMovies();
+                    }
+                }
+            }
+        }, {
+            root: rootRef.current,
+            rootMargin: "100px",
+            threshold: 0.5
+        });
+        if (loadMoreNode) {
+            observer.observe(loadMoreNode);
+        }
+        return () => {
+            if (loadMoreNode) {
+                observer.unobserve(loadMoreNode);
+            }
+        };
     }, []);
 
     const handleRatingChange = (event, newValue) => {
@@ -319,9 +311,11 @@ const Homepage = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    style={{ overflow: 'hidden' }}
+                                    // style={{ overflow: 'hidden' }}
+                                    // rootMargin="0px 0px 400px 0px"
+                                    scrollableTarget={loadMoreRef.current}
                                 >
-                                    <div id="movie-list" className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                    <div ref={rootRef} className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div className="relative mobile:flex mobile:flex-col mobile:items-center">
@@ -363,11 +357,17 @@ const Homepage = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
+                                <div ref={loadMoreRef} />
                             </div>
                         </main>
+
                     </div>
+
                 </section>
-            )}
+
+
+                )}
+
         </div>
     )
 }
