@@ -73,6 +73,8 @@ const Homepage = () => {
         setIsLoading(false);
     };
 
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 500);
+
     const handleScroll = () => {
         const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
         const body = document.body;
@@ -82,7 +84,7 @@ const Homepage = () => {
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
-                    throttledLoadMoreMovies().then(r => console.log('movies', movies));
+                    throttledLoadMoreMovies();
                 }
             }
         }
@@ -155,7 +157,7 @@ const Homepage = () => {
 
     const { t } = useTranslation();
 
-    const throttledLoadMoreMovies = debounce(loadMoreMovies, 500);
+
 
 
     return (

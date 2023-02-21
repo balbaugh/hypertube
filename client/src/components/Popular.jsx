@@ -63,7 +63,7 @@ const Popular = () => {
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
-                    throttledLoadMoreMovies().then(r => console.log('movies', movies));
+                    throttledLoadMoreMovies();
                 }
             }
         }
