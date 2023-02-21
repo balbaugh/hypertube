@@ -811,10 +811,10 @@ router.put('/newPw', (req, res) => {
 		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 	if (!pw.match(/(?=^.{8,20}$)(?=.*\d)(?=.*[_.!#@-]+)(?=.*[A-Z])(?=.*[a-z]).*$/)) {
 		return res.send({
-			message: `Please enter a password with a length between 8 and 30 characters, 
-					at least one lowercase alphabetical character (a to z), 
-					at least one uppercase alphabetical character (A to Z), 
-					at least one numeric character (0 to 9), 
+			message: `Please enter a password with a length between 8 and 30 characters,
+					at least one lowercase alphabetical character (a to z),
+					at least one uppercase alphabetical character (A to Z),
+					at least one numeric character (0 to 9),
 					and at least one special character (_.!#@-)`
 		})
 	}
@@ -853,10 +853,10 @@ router.put('/changePw', (req, res) => {
 		return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 	if (!pw.match(/(?=^.{8,20}$)(?=.*\d)(?=.*[_.!#@-]+)(?=.*[A-Z])(?=.*[a-z]).*$/)) {
 		return res.send({
-			message: `Please enter a password with a length between 8 and 30 characters, 
-						at least one lowercase alphabetical character (a to z), 
-						at least one uppercase alphabetical character (A to Z), 
-						at least one numeric character (0 to 9), 
+			message: `Please enter a password with a length between 8 and 30 characters,
+						at least one lowercase alphabetical character (a to z),
+						at least one uppercase alphabetical character (A to Z),
+						at least one numeric character (0 to 9),
 						and at least one special character (_.!#@-)`
 		})
 	}
