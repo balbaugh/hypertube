@@ -116,14 +116,12 @@ const FilmDetail = ({ itsMe }) => {
                 .then((response) => {
                     setComments([...comments, response.data]);
                     setNewComment('');
-                    textInput.current.value = '';
-                    textInput.value = '';
-                    document.getElementById('myForm').reset();
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            document.getElementById('myForm').reset();
+            setNewComment('');
+            textInput.value = '';
         }
     };
 

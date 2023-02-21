@@ -59,10 +59,10 @@ const BestRating = () => {
 
     const handleScroll = () => {
         const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-        const body = document.body;
-        const html = document.documentElement;
+        const body = document.body - 200;
+        const html = document.documentElement - 200;
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
-        const windowBottom = windowHeight + window.pageYOffset;
+        const windowBottom = windowHeight + 500;
         if (windowBottom >= docHeight) {
             if (!isLoading) {
                 if (hasMore) {
@@ -139,7 +139,7 @@ const BestRating = () => {
 
     const { t } = useTranslation();
 
-    const throttledLoadMoreMovies = debounce(loadMoreMovies, 500);
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
     return (
         <div>
