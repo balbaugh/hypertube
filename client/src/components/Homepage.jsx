@@ -67,26 +67,26 @@ const Homepage = () => {
         setIsLoading(false);
 
         // Fetch poster images for new movies
-        const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+        //const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
 
-        moviesToFetch.forEach((movie) => {
-            const fetchPoster = async (code) => {
-                try {
-                    const response = await axiosStuff.getPoster(code);
-                    const url = `https://image.tmdb.org/t/p/w500/${response}`;
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
-                } catch (error) {
-                    console.error(error);
-                }
-            };
+        //moviesToFetch.forEach((movie) => {
+        //    const fetchPoster = async (code) => {
+        //        try {
+        //            const response = await axiosStuff.getPoster(code);
+        //            const url = `https://image.tmdb.org/t/p/w500/${response}`;
+        //            setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+        //        } catch (error) {
+        //            console.error(error);
+        //        }
+        //    };
 
-            fetchPoster(movie.imdb_code);
-        });
+        //    fetchPoster(movie.imdb_code);
+        //});
     };
 
 
 
-    console.log('MOVIIIE', movies.map(code => code.imdb_code))
+    //console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -177,28 +177,28 @@ const Homepage = () => {
         }
     };
 
-    const [posterUrls, setPosterUrls] = useState({});
+    //const [posterUrls, setPosterUrls] = useState({});
 
-    useEffect(() => {
-        const fetchPoster = async (code) => {
-            if (!posterUrls[code]) { // check if poster URL has already been fetched
-                try {
-                    const response = await axiosStuff.getPoster(code);
-                    console.log('Response data:', response);
-                    const url = `https://image.tmdb.org/t/p/w500/${response}`;
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        };
+    //useEffect(() => {
+    //    const fetchPoster = async (code) => {
+    //        if (!posterUrls[code]) { // check if poster URL has already been fetched
+    //            try {
+    //                const response = await axiosStuff.getPoster(code);
+    //                console.log('Response data:', response);
+    //                const url = `https://image.tmdb.org/t/p/w500/${response}`;
+    //                setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+    //            } catch (error) {
+    //                console.error(error);
+    //            }
+    //        }
+    //    };
 
-        const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+    //    const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
 
-        moviesToFetch.forEach((movie) => {
-            fetchPoster(movie.imdb_code);
-        });
-    }, [filteredMovies, posterUrls]);
+    //    moviesToFetch.forEach((movie) => {
+    //        fetchPoster(movie.imdb_code);
+    //    });
+    //}, [filteredMovies, posterUrls]);
 
     const {t} = useTranslation();
 
@@ -368,8 +368,9 @@ const Homepage = () => {
                                                                 <img
                                                                     className="border-2 border-indigo-600 border-solid rounded filter grayscale"
                                                                     src={
-                                                                        posterUrls[movie.imdb_code] ||
-                                                                        require('../images/noImage.png')
+                                                                        //posterUrls[movie.imdb_code] ||
+                                                                        //require('../images/noImage.png')
+                                                                        movie.medium_cover_image
                                                                     }
                                                                     alt={movie.title}
                                                                 />
@@ -383,8 +384,9 @@ const Homepage = () => {
                                                             <img
                                                                 className="rounded"
                                                                 src={
-                                                                    posterUrls[movie.imdb_code] ||
-                                                                    require('../images/noImage.png')
+                                                                    //posterUrls[movie.imdb_code] ||
+                                                                    //require('../images/noImage.png')
+                                                                    movie.medium_cover_image
                                                                 }
                                                                 alt={movie.title}
                                                             />

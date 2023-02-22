@@ -9,7 +9,12 @@ import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
-const backUp = require('../images/noImage.png')
+const backUp = require('../images/noImage.png');
+const imageError = (e) => {
+    console.log('Image failed to load:', e.target.src);
+
+    e.target.src = backUp;
+}
 
 //function isValidUrl(url) {
 //    const urlRegex = /^(http(s)?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$/;
@@ -57,6 +62,7 @@ const FilmDetail = ({ itsMe }) => {
                     }
                     console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
                     setMovies(response.parsed.data.movie);
+                    //setImgSrc(backUp)
                     //setImgSrc(response.parsed.data.movie.medium_cover_image)
                     setLoading(false);
                 } else {
@@ -212,12 +218,9 @@ const FilmDetail = ({ itsMe }) => {
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
                                         src={movies.medium_cover_image}
-                                        //src={imgSrc}
+                                        //src={movies.medium_cover_image ? movies.medium_cover_image : backUp}
                                         alt={movies.title}
-                                        onError={({ currentTarget }) => {
-                                            currentTarget.onerror = null;
-                                            currentTarget.src = backUp
-                                        }}
+                                        onError={imageError}
                                         //onError={(e) => {
                                         //    console.log('error loading', e)
                                         //    e.target.onerror = null;
