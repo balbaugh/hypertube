@@ -1,14 +1,14 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Combobox, Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useTranslation } from 'react-i18next';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {Combobox, Menu, Transition} from '@headlessui/react'
+import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid'
+import {useTranslation} from 'react-i18next';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
@@ -34,7 +34,6 @@ const Homepage = () => {
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
 
-
     axios.defaults.withCredentials = true // For the sessions the work
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const Homepage = () => {
 
     useEffect(() => {
         axiosStuff
-        .getWatched().then((response) => {
+            .getWatched().then((response) => {
             setWatched(response.map(all => all.movie_id))
         })
     }, [])
@@ -58,16 +57,36 @@ const Homepage = () => {
 
     const loadMoreMovies = async () => {
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-        const newMovies = response.data.data.movies.filter(filterMovies).map((movie) => {
-            return movie;
-        });
-        setMovies(movies.concat(newMovies));
+        const response = await axios.get(
+            `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`,
+            { withCredentials: false }
+        );
+        const newMovies = response.data.data.movies.filter(filterMovies);
+        setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
         setCurrentPage(currentPage + 1);
-        setIsLoading(false)
+        setIsLoading(false);
+
+        // Fetch poster images for new movies
+        const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+
+        moviesToFetch.forEach((movie) => {
+            const fetchPoster = async (code) => {
+                try {
+                    const response = await axiosStuff.getPoster(code);
+                    const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchPoster(movie.imdb_code);
+        });
     };
 
-     console.log('MOVIIIE', movies.map(code => code.imdb_code))
+
+
+    console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -158,7 +177,30 @@ const Homepage = () => {
         }
     };
 
-    const { t } = useTranslation();
+    const [posterUrls, setPosterUrls] = useState({});
+
+    useEffect(() => {
+        const fetchPoster = async (code) => {
+            if (!posterUrls[code]) { // check if poster URL has already been fetched
+                try {
+                    const response = await axiosStuff.getPoster(code);
+                    console.log('Response data:', response);
+                    const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        };
+
+        const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+
+        moviesToFetch.forEach((movie) => {
+            fetchPoster(movie.imdb_code);
+        });
+    }, [filteredMovies, posterUrls]);
+
+    const {t} = useTranslation();
 
     return (
         <div>
@@ -176,7 +218,8 @@ const Homepage = () => {
                                     {/* Sort */}
                                     <Menu as="div" className="relative inline-block mt-2 ml-auto text-left">
                                         <div>
-                                            <Menu.Button className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
+                                            <Menu.Button
+                                                className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
                                                 {t('BestRating.Sort')}
                                                 <ChevronDownIcon
                                                     className="flex-shrink-0 w-5 h-5 mt-1 ml-1 -mr-1 text-red-500 group-hover:text-red-600"
@@ -194,7 +237,8 @@ const Homepage = () => {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Menu.Items
+                                                className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
                                                     <Link
                                                         to="/best-rating"
@@ -249,8 +293,8 @@ const Homepage = () => {
                             </div>
 
                             {/* IMDb Score Slider */}
-                            <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
-                                <Box sx={{ width: 350 }}>
+                            <div className="mb-3" style={{display: "flex", justifyContent: "center"}}>
+                                <Box sx={{width: 350}}>
                                     <h4 className="font-semibold text-gray-200">{t('BestRating.IMDbRating')}( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
@@ -290,8 +334,6 @@ const Homepage = () => {
                             {/* Film grid */}
                             <div
                                 aria-labelledby="films-heading"
-                                // className="overflow-auto"
-                                // id="content"
                                 className="overflow-visible"
                             >
                                 <h2 id="products-heading" className="sr-only">
@@ -304,74 +346,82 @@ const Homepage = () => {
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
-                                        <p style={{ textAlign: 'center' }}>
+                                        <p style={{textAlign: 'center'}}>
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    // style={{ overflow: 'hidden' }}
-                                    // rootMargin="0px 0px 400px 0px"
-                                    scrollableTarget={loadMoreRef.current}
+                                    scrollableTarget={rootRef}
                                 >
-                                    <div ref={rootRef} className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                    <div ref={rootRef}
+                                         className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
-                                                <div className="relative mobile:flex mobile:flex-col mobile:items-center">
-                                                    <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
+                                                <div
+                                                    className="relative mobile:flex mobile:flex-col mobile:items-center">
+                                                    <Link
+                                                        className="flex"
+                                                        key={`${movie.id}`}
+                                                        to={`/film/${movie.id}`}
+                                                    >
                                                         {watched.includes(movie.id) ? (
-                                                        <div>
-                                                            <img
-                                                                className="border-2 border-indigo-600 border-solid rounded filter grayscale"
-                                                                src={movie.medium_cover_image}
-                                                                alt={movie.title}
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src = require('../images/noImage.png');
-                                                                }}
-                                                            />
-                                                            <span
-                                                                className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red">
-                                                                Watched
-                                                            </span>
-                                                        </div>
+                                                            <div>
+                                                                <img
+                                                                    className="border-2 border-indigo-600 border-solid rounded filter grayscale"
+                                                                    src={
+                                                                        posterUrls[movie.imdb_code] ||
+                                                                        require('../images/noImage.png')
+                                                                    }
+                                                                    alt={movie.title}
+                                                                />
+                                                                <span
+                                                                    className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red"
+                                                                >
+                                                            Watched
+                                                        </span>
+                                                            </div>
                                                         ) : (
                                                             <img
-                                                            className="rounded"
-                                                            //src={posterStuff(movie.imdb_code)}
-                                                            src={movie.medium_cover_image}
-                                                            alt={movie.title}
-                                                            //onError={(e) => {
-                                                            //    e.target.onerror = null;
-                                                            //    e.target.src = require('../images/noImage.png');
-                                                            //}}
-                                                        />
+                                                                className="rounded"
+                                                                src={
+                                                                    posterUrls[movie.imdb_code] ||
+                                                                    require('../images/noImage.png')
+                                                                }
+                                                                alt={movie.title}
+                                                            />
                                                         )}
-
-
-                                                        <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
-                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</h4>
-                                                            <p className="text-sm font-semibold text-gray-200">IMDb: {movie.rating} / 10</p>
+                                                        <div
+                                                            className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100"
+                                                            style={{backgroundColor: "rgba(26, 32, 44, 0.8)"}}
+                                                        >
+                                                            <h4 className="mb-2 text-lg font-semibold text-red-500">
+                                                                {movie.title}&nbsp;&nbsp;({movie.year})
+                                                            </h4>
+                                                            <p className="text-sm font-semibold text-gray-200">
+                                                                IMDb: {movie.rating} / 10
+                                                            </p>
                                                         </div>
                                                     </Link>
-                                                    <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
-                                                        <p className="mb-2 font-semibold text-red-500 text-md">{movie.title}&nbsp;&nbsp;({movie.year})</p>
-                                                        <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} / 10</p>
+                                                    <div
+                                                        className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
+                                                        <p className="mb-2 font-semibold text-red-500 text-md">
+                                                            {movie.title}&nbsp;&nbsp;({movie.year})
+                                                        </p>
+                                                        <p className="mb-1 text-sm font-semibold text-red-400">
+                                                            IMDb: {movie.rating} / 10
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-                                <div ref={loadMoreRef} />
+                                <div ref={loadMoreRef}/>
                             </div>
                         </main>
-
                     </div>
-
                 </section>
 
-
-                )}
-
+            )}
         </div>
     )
 }

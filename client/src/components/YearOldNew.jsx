@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';

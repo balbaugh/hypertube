@@ -85,8 +85,6 @@ router.get('/poster/:id', (req, res) => {
     res.send(posterUrl)
   })
   .catch(error => console.error(error));
-
-
 })
 
 module.exports = router
