@@ -1,5 +1,6 @@
 const express = require('express');
 const dbConn = require('../utils/dbConnection');
+const fs = require('fs')
 // const cors = require('cors');
 const app = express();
 app.use(express.json())
@@ -26,6 +27,7 @@ router.get('/movie/:id', (req, res) => {
 	fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${movieId}&with_cast=true`, {
 		credentials: 'include',
 	})
+<<<<<<< HEAD
 		.then((data) => {
 			if (!data.ok) {
 				return res.status(500).send({ error: `Error fetching movie details.` })
@@ -34,6 +36,21 @@ router.get('/movie/:id', (req, res) => {
 				const movie = parsed.data.movie;
 				res.send({ parsed });
 			})
+=======
+	.then((data) => {
+		if (!data.ok) {
+			return res.status(500).send({ error: `Error fetching movie details.`})
+		}
+		data.json().then((parsed) => {
+			//if (!parsed.data.movie.medium_cover_image) {
+			//	parsed.data.movie.medium_cover_image = './images/default_profilepic.jpg'
+			//}
+			//if (fs.existsSync('./images/default_profilepic.jpg')) {
+			//	console.log('JOOO LOYTYY')
+			//}
+			const movie = parsed.data.movie;
+			res.send({ parsed });
+>>>>>>> 86c8fe972a5cbd619864cbd5775295af1539c195
 		})
 })
 
@@ -74,6 +91,7 @@ router.get('/watched', (req, res) => {
 	}
 })
 
+<<<<<<< HEAD
 // original getPoster
 // router.get('/poster/:id', (req, res) => {
 // 	const movieId = req.params.id;
@@ -120,5 +138,19 @@ router.get('/poster/:id', (req, res) => {
 		})
 		.catch(error => console.error(error));
 })
+=======
+//router.get('/poster/:id', (req, res) => {
+//	const movieId = req.params.id;
+
+//	fetch(`https://api.themoviedb.org/3/find/${movieId}?api_key=${apiKey}&language=en-US&external_source=imdb_id`)
+//  .then(response => response.json())
+//  .then(data => {
+//    const movie = data.movie_results[0]; // assuming the first result is the correct movie
+//    const posterUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+//    res.send(posterUrl)
+//  })
+//  .catch(error => console.error(error));
+//})
+>>>>>>> 86c8fe972a5cbd619864cbd5775295af1539c195
 
 module.exports = router
