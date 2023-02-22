@@ -14,7 +14,11 @@ const movieTest = () => {
 
 const toMovie = (id) => {
 	const req = axios.get(`${baseUrl}/movie/${id}`);
-	return req.then((response) => response.data);
+	return req.then((response) => response.data)
+	.catch((error) => {
+		console.log('error fetching movie details', error)
+		throw error;
+	})
 }
 
 const addWatched = (movieId) => {

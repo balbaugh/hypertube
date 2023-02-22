@@ -11,6 +11,11 @@ import Loader from "./Loader";
 
 const backUp = require('../images/noImage.png')
 
+//function isValidUrl(url) {
+//    const urlRegex = /^(http(s)?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$/;
+//    return urlRegex.test(url);
+//  }
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -21,21 +26,21 @@ const FilmDetail = ({ itsMe }) => {
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
     const [playMovie, setPlayMovie] = useState('');
-    // const [open, setOpen] = useState(true)
     const playerRef = useRef(null);
     const [comments, setComments] = useState('');
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
     const navigate = useNavigate();
-    //const [imgSrc, setImgSrc] = useState(backUp);
+    //const [imgSrc, setImgSrc] = useState(movies.medium_cover_image || backUp);
+    //const [imgSrc, setImgSrc] = useState('');
 
-    console.log('playerrf', playerRef)
-    console.log('mee', itsMe.username)
-    console.log('movie', movies)
+    //console.log('playerrf', playerRef)
+    //console.log('mee', itsMe.username)
+    //console.log('movie', movies)
 
     const savedLanguage = localStorage.getItem('language')
-    console.log('aaaa', savedLanguage)
+    //console.log('aaaa', savedLanguage)
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -47,18 +52,20 @@ const FilmDetail = ({ itsMe }) => {
         axiosStuff.toMovie(id)
             .then((response) => {
                 if (response.parsed.data.movie) {
-                    //if (response.parsed.data.movie?.medium_cover_image) {
-                    //    setImgSrc(movies.medium_cover_image)
-                    //}
-                    //console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
+                    if (response.parsed.data.movie.id === 0) {
+                        window.location.replace('/homepage')
+                    }
+                    console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
                     setMovies(response.parsed.data.movie);
+                    //setImgSrc(response.parsed.data.movie.medium_cover_image)
                     setLoading(false);
                 } else {
-                    window.location.replace('/');
+                    window.location.replace('/homepage');
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log('tomovie CATCH ERRROR', error);
+                //setMovies({ ...movies, medium_cover_image: backUp })
             });
 
         axiosStuff.getComments(id)
@@ -86,15 +93,6 @@ const FilmDetail = ({ itsMe }) => {
         // cleanup function to clear interval when component unmounts or id changes
         return () => clearInterval(fetchNewComments);
     }, [id]);
-
-    // useEffect(() => {
-    //     axios.get(`/movies/${id}/comments`).then((response) => {
-    //         setComments(response.data);
-    //     });
-    // }, [id]);
-
-    //console.log('comments', comments)
-    //console.log('users', users)
 
 
     const textInput = React.useRef(null);
@@ -216,12 +214,15 @@ const FilmDetail = ({ itsMe }) => {
                                         src={movies.medium_cover_image}
                                         //src={imgSrc}
                                         alt={movies.title}
-                                        onError={(e) => {
-                                            console.log('error loading', e)
-                                            //e.target.onerror = null;
-                                            e.target.src = backUp;
-                                          }}
-                                        //onError={() => setImgSrc(backUp)}
+                                        onError={({ currentTarget }) => {
+                                            currentTarget.onerror = null;
+                                            currentTarget.src = backUp
+                                        }}
+                                        //onError={(e) => {
+                                        //    console.log('error loading', e)
+                                        //    e.target.onerror = null;
+                                        //    e.target.src = backUp;
+                                        //  }}
                                     />
                                 </div>
                             </div>
