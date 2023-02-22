@@ -70,7 +70,7 @@ const Homepage = () => {
         setIsLoading(false);
 
         // Fetch poster images for new movies
-        //const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+        const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
 
         moviesToFetch.forEach((movie) => {
             const fetchPoster = async (code) => {
@@ -84,13 +84,13 @@ const Homepage = () => {
                 }
             };
 
-        //    fetchPoster(movie.imdb_code);
-        //});
-    });
+            fetchPoster(movie.imdb_code);
+        });
+    };
 
 
 
-    //console.log('MOVIIIE', movies.map(code => code.imdb_code))
+    console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -183,7 +183,7 @@ const Homepage = () => {
         }
     };
 
-    //const [posterUrls, setPosterUrls] = useState({});
+    const [posterUrls, setPosterUrls] = useState({});
 
     useEffect(() => {
         const fetchPoster = async (code) => {
@@ -201,7 +201,7 @@ const Homepage = () => {
             }
         };
 
-    //    const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+        const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
 
         moviesToFetch.forEach((movie) => {
             fetchPoster(movie.imdb_code);
@@ -377,9 +377,8 @@ const Homepage = () => {
                                                                 <img
                                                                     className="border-2 border-indigo-600 border-solid rounded filter grayscale"
                                                                     src={
-                                                                        //posterUrls[movie.imdb_code] ||
-                                                                        //require('../images/noImage.png')
-                                                                        movie.medium_cover_image
+                                                                        posterUrls[movie.imdb_code] ||
+                                                                        require('../images/noImage.png')
                                                                     }
                                                                     alt={movie.title}
                                                                 />
@@ -393,9 +392,8 @@ const Homepage = () => {
                                                             <img
                                                                 className="rounded"
                                                                 src={
-                                                                    //posterUrls[movie.imdb_code] ||
-                                                                    //require('../images/noImage.png')
-                                                                    movie.medium_cover_image
+                                                                    posterUrls[movie.imdb_code] ||
+                                                                    require('../images/noImage.png')
                                                                 }
                                                                 alt={movie.title}
                                                             />
@@ -437,4 +435,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage
+export default Homepage;
