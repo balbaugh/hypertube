@@ -212,7 +212,7 @@ const FilmDetail = ({ itsMe }) => {
                                 ) : null}
                                 {/* </form> */}
                                 {watch ? (
-                                    <div className="mt-9">
+                                    <div className="w-full mt-9 sm:w-auto">
                                         {playMovie ? (
                                             <ReactPlayer
                                                 ref={playerRef}
@@ -222,6 +222,9 @@ const FilmDetail = ({ itsMe }) => {
                                                 onError={onError}
                                                 muted={true}
                                                 config={subsConfig}
+                                                width='100%'
+                                                height='100%'
+                                                className='sm:w-auto sm:h-auto'
                                             />
                                         ) : (<Loader />)}
                                     </div>
@@ -350,7 +353,7 @@ const FilmDetail = ({ itsMe }) => {
 
                                                 {/* COMMENTS PANEL */}
                                                 <CommentElement id={id} itsMe={itsMe} movies={movies}/>
-                                                
+
                                             </>
                                         )}
                                     </Disclosure>
