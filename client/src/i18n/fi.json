@@ -17,15 +17,18 @@
         "YearNewOld": "Vuosi: Uusin-Vanhin",
         "YearOldNew": "Vuosi: Vanhin-Uusin"
     },
+    "CommentElement": {
+        "addComment": "Lisää kommentti...",
+        "comments": "Kommentit",
+        "noComments": "Ei vielä kommentteja...",
+        "post": "Lähetä"
+    },
     "FilmDetail": {
         "filmInformation": "Elokuvan Tiedot",
+        "comments": "Kommentit",
         "reviews": "Arvostelut",
         "details": "Tiedot",
-        "comments": "Kommentit",
-        "addComment": "Lisää kommentti...",
         "stream": "Striimaa",
-        "post": "Lähetä",
-        "noComments": "Ei vielä kommentteja...",
         "summary": "Kuvaus",
         "runtime": "Pituus",
         "minutes": "minuuttia",

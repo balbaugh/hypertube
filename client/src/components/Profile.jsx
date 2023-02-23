@@ -69,7 +69,6 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
     }
 
     const { t } = useTranslation();
-    console.log()
 
     return (
         <div>
