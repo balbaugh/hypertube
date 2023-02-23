@@ -73,11 +73,6 @@ const Registration = () => {
 
 	return (
 		<div>
-			{/* {loading ? (
-                <div className="py-20">
-                    <Loader/>
-                </div>
-            ) : ( */}
 			<section className="flex-grow py-10">
 				<div className="container px-4 py-10 mx-auto">
 					<div className="max-w-lg mx-auto">
@@ -268,7 +263,6 @@ const Registration = () => {
 					</div>
 				</div>
 			</section>
-			{/* )} */}
 		</div>
 	);
 };

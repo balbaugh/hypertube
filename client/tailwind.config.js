@@ -4,7 +4,6 @@ module.exports = {
   content: [
 		"./src/**/*.{js,jsx,ts,tsx}",
 		"./src/*.{js,jsx,ts,tsx}",
-          'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
 	],
   theme: {
     extend: {
@@ -33,7 +32,6 @@ module.exports = {
     mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
   plugins: [
-    require('flowbite/plugin'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],

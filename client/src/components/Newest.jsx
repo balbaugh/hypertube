@@ -14,10 +14,6 @@ import axiosStuff from "../services/axiosStuff";
 
 const short = require('short-uuid');
 
-// function classNames(...classes) {
-//     return classes.filter(Boolean).join(' ')
-// }
-
 function valuetext(value) {
     return `${value}`;
 }
@@ -150,20 +146,18 @@ const Newest = () => {
 
     const handleQueryChange = async (query) => {
         const sanitizedQuery = DOMPurify.sanitize(query); // Sanitize the query using DOMPurify
-        setQuery(sanitizedQuery);
-        if (sanitizedQuery === '') {
-            setSearchResults([]);
-            setHasMore(true); // set hasMore to true when clearing search results
-            setCurrentPage(1);
-            setMovies([]);
-            await loadMoreMovies();
+        const cleanQuery = sanitizedQuery.trim(); // Trim the query
+        if (cleanQuery === '') {
             return;
         }
+        if (/^[a-zA-Z0-9\s.,!?]*$/.test(cleanQuery) == false) {
+            return;
+        }
+        setQuery(cleanQuery);
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${sanitizedQuery}&limit=20&page=1`, {
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${cleanQuery}&limit=20&page=1`, {
             withCredentials: false
         });
-        // I guess it works?? It crashed if there was no results on the query
         if (!response.data.data.movies) {
             window.location.replace('/homepage')
         }
@@ -187,7 +181,8 @@ const Newest = () => {
 
     const handleSearchKeyUp = (event) => {
         if (event.key === 'Enter') {
-            handleQueryChange(query).then(() => {
+            const sanitizedQuery = DOMPurify.sanitize(query); // Sanitize the query using DOMPurify
+            handleQueryChange(sanitizedQuery).then(() => {
                 console.log('search results', searchResults);
             });
         }

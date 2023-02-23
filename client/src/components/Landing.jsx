@@ -17,11 +17,6 @@ const Landing = () => {
 
     return (
         <div>
-            {/* {loading ? (
-                <div className="py-20">
-                    <Loader/>
-                </div>
-            ) : ( */}
                 <section>
                     <div className="h-screen bg-cover bg-center"
                          style={{backgroundImage: `url(${require("../images/landingPosters.png")})`}}
@@ -95,8 +90,6 @@ const Landing = () => {
                     </div>
 
                 </section>
-
-            {/* )} */}
         </div>
     )
 }

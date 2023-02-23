@@ -72,11 +72,6 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
 
     return (
         <div>
-            {/* {loading ? (
-                <div className="py-20">
-                    <Loader/>
-                </div>
-            ) : ( */}
             <section className="flex-grow py-10">
                 <div className="container px-4 py-10 mx-auto">
                     <div className="max-w-lg mx-auto">
@@ -149,18 +144,9 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                                 {t('Profile.change_password')}
                             </button>
                         </Link>
-                        {/*<button*/}
-                        {/*    className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center border-2 border-red-500 rounded text-slate-200"*/}
-                        {/*>*/}
-                        {/*    <label>{t('Profile.profile_picture')}</label>*/}
-                        {/*    <br />*/}
-                        {/*    <input type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>*/}
-                        {/*</button>*/}
-
                     </div>
                 </div>
             </section>
-            {/* )} */}
         </div>
     )
 }

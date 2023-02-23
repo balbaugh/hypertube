@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ReactPlayer from 'react-player'
 import { Disclosure } from '@headlessui/react'
-import { StarIcon } from '@heroicons/react/20/solid'
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import DOMPurify from 'dompurify';
-//import axios from "axios";
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
