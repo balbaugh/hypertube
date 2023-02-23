@@ -155,7 +155,6 @@ const setProfilePic = (Picture) => {
 }
 
 const getPoster = (id) => {
-	console.log('AXIOOOOS', id)
 	const req = axios.get(`${baseUrl}/poster/${id}`);
 	return req.then((response) => response.data);
 }

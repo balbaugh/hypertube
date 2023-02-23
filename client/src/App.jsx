@@ -94,11 +94,9 @@ const App = () => {
 					<Route path="/homepage" element={loggedIn ? <Homepage /> : <Landing />} />
 					<Route path="/changePassword" element={loggedIn ? <ChangePassword /> : <Landing />} />
 					<Route path="/film/:id" element={loggedIn ? <FilmDetail itsMe={itsMe} /> : <Landing />} />
-					<Route path="/registration" element={<Registration />} />
-					<Route path="/login" element={<Login />} />
+					<Route path="/registration" element={!loggedIn ? <Registration /> : <Homepage />} />
+					<Route path="/login" element={!loggedIn ? <Login /> : <Homepage />} />
 					<Route path="/forgot" element={<Forgot />} />
-					{/* <Route path="testmovie" element={<TestMovieThumb />} />
-					<Route path="thetest/:id" element={<TheTest />} /> */}
 					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
 					<Route path="/profile" element={loggedIn ? <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar}/> : <Homepage />} />
 					<Route path="/profile/:id" element={loggedIn ? <UserProfile /> : <Homepage />} />

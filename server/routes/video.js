@@ -70,19 +70,6 @@ const download = async (
 				})
 			}
 		})
-		// tassa kohtaa pitaisi luodaan infoa tekstityksista databasesta.
-		// imdbCode, language, path.
-/*	try {
-		await prisma.subtitles.create({
-			data: {
-				imdb_code: imdbCode,
-				language: subsData.attributes.language,
-				path: dest,
-			},
-		});
-	} catch (error) {
-		console.error(error);
-	}*/
 
 	const file = fs.createWriteStream(finalDest);
 	// const request =
@@ -123,7 +110,7 @@ router.get('/play', (req, res) => {
 	);
 
 	engine.on('ready', () => {
-		sentResponse = false;
+		//sentResponse = false;
 	});
 
 	 engine.on('torrent', () => {
@@ -179,10 +166,6 @@ router.get('/play', (req, res) => {
 	 })
 
 	 engine.on('download', () => {
-		// console.log('pelkka engine', engine.swarm.downloaded)
-		// console.log('filesize', fileSize)
-		// console.log('whatsthis', (engine.swarm.downloaded / fileSize * 100))
-
 		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
 			if (!sentResponse) {
 				// console.log(`alle 5 ${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
@@ -194,10 +177,10 @@ router.get('/play', (req, res) => {
 						if (err2)
 							console.log('stream err', err2)
 						else {
+							sentResponse = true;
 							res.send({ streamIt: true, result: result2.rows[0] });
 						}
 					})
-					sentResponse = true;
 				}
 			}
 			console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
@@ -215,8 +198,9 @@ router.get('/play', (req, res) => {
 						console.log('Downloaded ERRR', err5)
 					else {
 						console.log('updated')
-						sentResponse = false;
-						engine.destroy(() => {});
+						engine.destroy(() => {
+							sentResponse = false;
+						});
 					}
 				})
 		}

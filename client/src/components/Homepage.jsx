@@ -53,7 +53,7 @@ const Homepage = () => {
             })
     }, [])
 
-    console.log('WATHCEEED', watched)
+    //console.log('WATHCEEED', watched)
 
     const loadMoreMovies = async () => {
         console.log('********************')
@@ -61,7 +61,7 @@ const Homepage = () => {
         console.log('********************')
         setIsLoading(true);
         const response = await axios.get(
-            `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`,
+            `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
             { withCredentials: false }
         );
         const newMovies = response.data.data.movies.filter(filterMovies);
@@ -87,10 +87,6 @@ const Homepage = () => {
             fetchPoster(movie.imdb_code);
         });
     };
-
-
-
-    //console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -159,12 +155,18 @@ const Homepage = () => {
             return;
         }
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, {
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=20&page=1`, {
             withCredentials: false
         });
-        setSearchResults(response.data.data.movies);
-        setIsLoading(false);
-        setHasMore(true); // set hasMore to true when updating movies with search results
+        // I guess it works?? It crashed if there was no results on the query
+        if (!response.data.data.movies) {
+            window.location.replace('/homepage')
+        }
+        else {
+            setSearchResults(response.data.data.movies);
+            setIsLoading(false);
+            setHasMore(true); // set hasMore to true when updating movies with search results
+        }
     };
 
     useEffect(() => {
@@ -184,7 +186,6 @@ const Homepage = () => {
             });
         }
     };
-
 
     useEffect(() => {
         const fetchPoster = async (code) => {
@@ -363,7 +364,8 @@ const Homepage = () => {
                                     scrollableTarget={rootRef}
                                 >
                                     <div ref={rootRef}
-                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8"
+                                    >
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
                                                 <div
@@ -382,6 +384,7 @@ const Homepage = () => {
                                                                         require('../images/noImage.png')
                                                                     }
                                                                     alt={movie.title}
+                                                                    loading='lazy'
                                                                 />
                                                                 <span
                                                                     className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red"
@@ -397,6 +400,7 @@ const Homepage = () => {
                                                                     require('../images/noImage.png')
                                                                 }
                                                                 alt={movie.title}
+                                                                loading='lazy'
                                                             />
                                                         )}
                                                         <div

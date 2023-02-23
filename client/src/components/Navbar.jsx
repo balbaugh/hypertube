@@ -27,12 +27,26 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 
 	const { t } = useTranslation();
 
-	const navigation = [
-		{ name: t('Navbar.Home'), href: '/homepage', current: false },
-		{ name: t('Navbar.Register'), href: '/registration', current: false },
-		{ name: t('Navbar.Forgot'), href: '/forgot', current: false },
-		{ name: t('Navbar.About'), href: '/', current: false },
-	];
+	let navigation = [];
+
+	{itsMe.username ? (
+		navigation = [
+			{ name: t('Navbar.Home'), href: '/homepage', current: false },
+			//{ name: t('Navbar.Register'), href: '/registration', current: false },
+			//{ name: t('Navbar.Forgot'), href: '/forgot', current: false },
+			//{ name: t('Navbar.About'), href: '/', current: false },
+		]
+	) : (
+		navigation = [
+			{ name: t('Navbar.Home'), href: '/homepage', current: false },
+			{ name: t('Navbar.Register'), href: '/registration', current: false },
+			{ name: t('Navbar.Forgot'), href: '/forgot', current: false },
+			//{ name: t('Navbar.About'), href: '/', current: false },
+		]
+	)}
+
+
+
 
 	// setItsMe({ ...itsMe, path: selectedAvatar })
 
@@ -370,7 +384,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 										</Menu>
 										<a
 											href="/login"
-											className="inline-flex items-center justify-center px-2 py-1 ml-2 text-base font-sm text-gray-200 border border-transparent rounded-lg shadow-sm bg-lime-600 hover:bg-lime-700"
+											className="inline-flex items-center justify-center px-2 py-1 ml-2 text-base text-gray-200 border border-transparent rounded-lg shadow-sm font-sm bg-lime-600 hover:bg-lime-700"
 										>
 											{t('Navbar.SignIn')}
 										</a>
