@@ -32,9 +32,9 @@ const router = express.Router();
 			return res.status(500).send({ error: `Error fetching movie details.`})
 		}
 		data.json().then((parsed) => {
-			//if (!parsed.data.movie.medium_cover_image) {
-			//	parsed.data.movie.medium_cover_image = './images/default_profilepic.jpg'
-			//}
+			if (parsed.data.movie.medium_cover_image.statusCode === 404) {
+				parsed.data.movie.medium_cover_image = './images/default_profilepic.jpg'
+			}
 			//if (fs.existsSync('./images/default_profilepic.jpg')) {
 			//	console.log('JOOO LOYTYY')
 			//}
@@ -43,6 +43,7 @@ const router = express.Router();
 		})
 	})
  })
+
 
 router.post('/watched', (req, res) => {
 	if (req.session.user) {
