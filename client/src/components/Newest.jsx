@@ -31,6 +31,7 @@ const Newest = () => {
     const [posterUrls, setPosterUrls] = useState({});
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
+    const {t} = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -201,8 +202,6 @@ const Newest = () => {
         });
     }, [filteredMovies]);
 
-    const {t} = useTranslation();
-
     return (
         <div>
             {loading ? (
@@ -353,8 +352,6 @@ const Newest = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    // style={{ overflow: 'hidden' }}
-                                    // rootMargin="0px 0px 400px 0px"
                                     scrollableTarget={loadMoreRef.current}
                                 >
                                     <div ref={rootRef}

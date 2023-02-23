@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import PropTypes from 'prop-types';
 import {Link, useParams} from "react-router-dom";
-// import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import InfoText from './infoText';
 
@@ -68,8 +67,6 @@ function Forgot2({token}) {
         email, username, message, handlePasswordReg,
         handleCPasswordReg, changePasswd
     } = useForgot2(token);
-
-    // const { t } = useTranslation();
 
     return (
         <section className="flex-grow py-10">

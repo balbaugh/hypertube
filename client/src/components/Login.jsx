@@ -13,6 +13,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loginStatus, setLoginsStatus] = useState('');
+    const {t} = useTranslation();
 
     const loginWith42 = () => {
         window.location.assign(
@@ -56,8 +57,6 @@ const Login = () => {
     };
 
     console.log('loginssttats', loginStatus);
-
-    const {t} = useTranslation();
 
     return (
         <div>

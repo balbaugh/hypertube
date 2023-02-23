@@ -39,8 +39,9 @@ function useProfile() {
 
 const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
     const [message, setMessage] = useState(null);
-
     const {username, firstName, lastName, email} = useProfile();
+    const {t} = useTranslation();
+
 
     const setProfilePicture = async (event) => {
         const image = event.target.files[0]
@@ -66,8 +67,6 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
         }
         event.target.value = ''
     }
-
-    const {t} = useTranslation();
 
     return (
         <div>

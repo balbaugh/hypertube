@@ -31,7 +31,6 @@ const YearNewOld = () => {
     const [posterUrls, setPosterUrls] = useState({});
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
-
     const {t} = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work

@@ -4,7 +4,6 @@ import {Disclosure} from '@headlessui/react'
 import DOMPurify from 'dompurify';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
-
 import {useTranslation} from 'react-i18next';
 
 const CommentElement = ({id, itsMe, movies}) => {
@@ -13,6 +12,7 @@ const CommentElement = ({id, itsMe, movies}) => {
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     useEffect(() => {
         axiosStuff.getComments(id)
@@ -85,8 +85,6 @@ const CommentElement = ({id, itsMe, movies}) => {
     const handleNewComment = (event) => {
         setNewComment(event.target.value)
     }
-
-    const {t} = useTranslation();
 
     return (
         <div>{
@@ -168,7 +166,6 @@ const CommentElement = ({id, itsMe, movies}) => {
                                                 className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(comment.text)}}
                                             ></div>
-
                                         </div>
                                     )
                                 })

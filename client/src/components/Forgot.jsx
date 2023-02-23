@@ -7,6 +7,7 @@ import InfoText from "./infoText";
 const Forgot = () => {
     const [message, setMessage] = useState(null);
     const [email, setEmail] = useState('');
+    const {t} = useTranslation();
 
     const handleEmail = (event) => {
         setEmail(event.target.value)
@@ -26,8 +27,6 @@ const Forgot = () => {
             setMessage(null)
         }, 5000)
     }
-
-    const {t} = useTranslation();
 
     return (
         <div>

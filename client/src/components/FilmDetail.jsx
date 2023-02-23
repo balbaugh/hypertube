@@ -30,7 +30,7 @@ const FilmDetail = ({itsMe}) => {
     const playerRef = useRef(null);
     const [subs, setSubs] = useState([]);
     const [posterUrls, setPosterUrls] = useState({});
-
+    const {t} = useTranslation();
     const savedLanguage = localStorage.getItem('language')
 
     const onError = useCallback(() => {
@@ -126,8 +126,6 @@ const FilmDetail = ({itsMe}) => {
 
     if (subsConfig.file.tracks.length)
         console.log('subsconf', subsConfig)
-
-    const {t} = useTranslation();
 
     return (
         <div>
@@ -290,9 +288,7 @@ const FilmDetail = ({itsMe}) => {
                                                                         </div>
                                                                     )}
                                                                 </li>
-
                                                             </ul>
-
                                                             <div className="mt-6 border-t divide-y divide-gray-200"/>
                                                         </Disclosure.Panel>
                                                     </div>

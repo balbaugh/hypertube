@@ -10,6 +10,7 @@ function classNames(...classes) {
 
 const Nav = ({itsMe, setItsMe, selectedAvatar}) => {
     const {i18n} = useTranslation();
+    const {t} = useTranslation();
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -25,7 +26,6 @@ const Nav = ({itsMe, setItsMe, selectedAvatar}) => {
 
     axios.defaults.withCredentials = true; // For the sessions the work
 
-    const {t} = useTranslation();
 
     let navigation = [];
 

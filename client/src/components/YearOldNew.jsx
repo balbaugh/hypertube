@@ -352,8 +352,6 @@ const YearOldNew = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    // style={{ overflow: 'hidden' }}
-                                    // rootMargin="0px 0px 400px 0px"
                                     scrollableTarget={loadMoreRef.current}
                                 >
                                     <div ref={rootRef}

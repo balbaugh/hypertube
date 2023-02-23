@@ -29,9 +29,9 @@ const BestRating = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
     const [posterUrls, setPosterUrls] = useState({});
-
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
+    const {t} = useTranslation();
 
     axios.defaults.withCredentials = true; // For the sessions the work
 
@@ -83,7 +83,6 @@ const BestRating = () => {
                     console.error(error);
                 }
             };
-
             fetchPoster(movie.imdb_code);
         });
     };
@@ -228,8 +227,6 @@ const BestRating = () => {
             fetchPoster(movie.imdb_code);
         });
     }, [filteredMovies]);
-
-    const {t} = useTranslation();
 
     return (
         <div>
@@ -389,8 +386,6 @@ const BestRating = () => {
                             {/* Film grid */}
                             <div
                                 aria-labelledby="films-heading"
-                                // className="overflow-auto"
-                                // id="content"
                                 className="overflow-visible"
                             >
                                 <h2 id="products-heading" className="sr-only">
@@ -407,8 +402,6 @@ const BestRating = () => {
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
-                                    // style={{ overflow: 'hidden' }}
-                                    // rootMargin="0px 0px 400px 0px"
                                     scrollableTarget={loadMoreRef.current}
                                 >
                                     <div
@@ -448,8 +441,7 @@ const BestRating = () => {
                                                                         e.target.src = require('../images/noImage.png');
                                                                     }}
                                                                 />
-                                                                <span
-                                                                    className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red">
+                                                                <span className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-lg font-semibold text-center uppercase bg-black bg-opacity-50 rounded text-red">
 																	Watched
 																</span>
                                                             </div>

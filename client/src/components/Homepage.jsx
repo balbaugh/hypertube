@@ -7,10 +7,8 @@ import DOMPurify from 'dompurify';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {debounce} from 'lodash';
-
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -31,9 +29,9 @@ const Homepage = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
     const [posterUrls, setPosterUrls] = useState({});
-
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
+    const {t} = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -203,8 +201,6 @@ const Homepage = () => {
             fetchPoster(movie.imdb_code);
         });
     }, [filteredMovies]);
-
-    const {t} = useTranslation();
 
     return (
         <div>
