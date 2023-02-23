@@ -305,7 +305,7 @@ const Nav = ({ itsMe, setItsMe, selectedAvatar }) => {
 											className="relative mr-1"
 										>
 											<div>
-												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+												<Menu.Button className="flex text-sm text-gray-400 bg-gray-800 rounded-full hover:text-lime-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
 													<span className="sr-only">
 														Open language menu
 													</span>

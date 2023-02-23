@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player'
 import { Disclosure } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
+import DOMPurify from 'dompurify';
 //import axios from "axios";
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
@@ -61,18 +62,19 @@ const CommentElement = ({ id, itsMe, movies }) => {
             }
             if (text1.length === 0) {
                 return;
-            }
-            else if (newComment.replace(/\s/g, '').length === 0) {
+            } else if (newComment.replace(/\s/g, '').length === 0) {
                 setNewComment('');
-                return
+                return;
             }
+            const sanitizedComment = DOMPurify.sanitize(newComment.trim());
             const comment = {
                 movie_id: movies.id,
                 user_id: itsMe.id,
-                text1: newComment.trim(),
-                text: text1.slice(0, 255)
+                text1: sanitizedComment,
+                text: text1.slice(0, 255),
             };
-            axiosStuff.submitComment(comment)
+            axiosStuff
+                .submitComment(comment)
                 .then((response) => {
                     setComments([...comments, response.data]);
                     setNewComment('');
@@ -153,16 +155,11 @@ const CommentElement = ({ id, itsMe, movies }) => {
                                             className="py-6">
                                             <div
                                                 className="flex items-center">
-                                                {/*<img*/}
-                                                {/*    className="inline-block w-10 h-10 rounded-full"*/}
-                                                {/*    // src={comment.user.profile_pic_path}*/}
-                                                {/*    alt={username}*/}
-                                                {/*/>*/}
                                                 <div className="ml-4">
                                                     <a className="cursor-pointer" onClick={() => navigate(`/profile/${id}`)}>
                                                         <h4
                                                             className="text-sm font-bold text-red-400"
-                                                            dangerouslySetInnerHTML={{ __html: username }}
+                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(username) }}
                                                         >
                                                         </h4>
                                                     </a>
@@ -173,7 +170,7 @@ const CommentElement = ({ id, itsMe, movies }) => {
                                             </div>
                                             <div
                                                 className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
-                                                dangerouslySetInnerHTML={{ __html: comment.text }}
+                                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.text) }}
                                             ></div>
 
                                         </div>

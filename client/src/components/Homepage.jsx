@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Combobox, Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { useTranslation } from 'react-i18next';
+import DOMPurify from 'dompurify';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
@@ -134,7 +135,7 @@ const Homepage = () => {
 
     const filterMovies = (movie) => {
         const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(query.toLowerCase()) || movie.year.toString().includes(query.toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(query.toLowerCase())) || movie.description_full.toString().includes(query.toLowerCase()));
+        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
         return searchFilter && (query.trim() === '' || ratingFilter);
     };
 
@@ -145,8 +146,9 @@ const Homepage = () => {
     }
 
     const handleQueryChange = async (query) => {
-        setQuery(query);
-        if (query === '') {
+        const sanitizedQuery = DOMPurify.sanitize(query); // Sanitize the query using DOMPurify
+        setQuery(sanitizedQuery);
+        if (sanitizedQuery === '') {
             setSearchResults([]);
             setHasMore(true); // set hasMore to true when clearing search results
             setCurrentPage(1);
@@ -155,7 +157,7 @@ const Homepage = () => {
             return;
         }
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=20&page=1`, {
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${sanitizedQuery}&limit=20&page=1`, {
             withCredentials: false
         });
         // I guess it works?? It crashed if there was no results on the query
