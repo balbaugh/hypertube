@@ -85,7 +85,7 @@ function ChangePassword() {
                                 Password
                             </label>
                             <input
-                                className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
                                 type="password"
                                 placeholder="Password..."
                                 id="password"
@@ -101,7 +101,7 @@ function ChangePassword() {
                                 Confirm Password
                             </label>
                             <input
-                                className="text-black inline-block w-full p-4 text-lg font-extrabold leading-6 placeholder-indigo-900 bg-white border-2 border-indigo-900 rounded shadow"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
                                 type="password"
                                 placeholder="Confirm Password..."
                                 id="confirmPassword"
@@ -111,7 +111,7 @@ function ChangePassword() {
                         </div>
                         <button
                             type="submit"
-                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            className="mb-6 inline-block w-full rounded-xl bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                         >
                             Change Password
                         </button>

@@ -51,7 +51,7 @@ const Forgot = () => {
                                 {t('Forgot.emailLabel')}
                             </label>
                             <input
-                                className="text-black inline-block w-full p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                className="text-black inline-block w-full rounded-xl p-4 text-md font-semibold leading-6 placeholder-slate-500 bg-slate-200 rounded focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                 type="email"
                                 placeholder={t('Forgot.emailLabel')}
                                 required
@@ -60,7 +60,7 @@ const Forgot = () => {
                         </div>
                         <button
                             type="submit"
-                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                            className="mb-6 inline-block w-full rounded-xl bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                             onClick={forgotEmail}
                         >
                             {t('Forgot.resetPasswordButton')}

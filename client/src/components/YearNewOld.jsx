@@ -87,7 +87,7 @@ const YearNewOld = () => {
     };
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
-    
+
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);

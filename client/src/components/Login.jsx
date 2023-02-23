@@ -91,7 +91,7 @@ const Login = () => {
                                             <button
                                                 type="button"
                                                 onClick={loginWith42}
-                                                className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+                                                className="inline-flex justify-center w-full rounded-xl px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
                                             >
 												<span className="sr-only">
 													{t('Login.signInWith42')}
@@ -108,7 +108,7 @@ const Login = () => {
                                             <button
                                                 type="button"
                                                 onClick={loginWithGitHub}
-                                                className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+                                                className="inline-flex justify-center w-full rounded-xl px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
                                             >
 												<span className="sr-only">
 													{t('Login.signInWithGitHub')}
@@ -154,7 +154,7 @@ const Login = () => {
                                     {t('Login.username')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="text"
                                     placeholder={t('Login.username')}
                                     required
@@ -169,7 +169,7 @@ const Login = () => {
                                     {t('Login.password')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="password"
                                     placeholder={t('Login.password')}
                                     autoComplete="off"
@@ -190,7 +190,7 @@ const Login = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
+                                className="inline-block w-full rounded-xl px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 text-slate-200"
                             >
                                 {t('Login.signIn')}
                             </button>

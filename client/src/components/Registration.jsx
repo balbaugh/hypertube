@@ -98,7 +98,7 @@ const Registration = () => {
                                             <button
                                                 type="button"
                                                 onClick={loginWith42}
-                                                className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+                                                className="inline-flex justify-center w-full rounded-xl px-4 py-2 text-sm font-medium text-gray-500 bg-white hover:bg-gray-50"
                                             >
                                                 <span className="sr-only">{t('Registration.signInWith42')}</span>
                                                 <img className="w-5 h-5" src={require('../images/42.png')} alt=""/>
@@ -108,7 +108,7 @@ const Registration = () => {
                                             <button
                                                 type="button"
                                                 onClick={loginWithGitHub}
-                                                className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+                                                className="inline-flex justify-center w-full rounded-xl px-4 py-2 text-sm font-medium text-gray-500 bg-white hover:bg-gray-50"
                                             >
                                                 <span className="sr-only">{t('Registration.signInWithGithub')}</span>
                                                 <svg className="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -149,7 +149,7 @@ const Registration = () => {
                                     {t('Registration.username')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="text"
                                     placeholder={t('Registration.username')}
                                     required
@@ -165,7 +165,7 @@ const Registration = () => {
                                     {t('Registration.firstName')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="text"
                                     placeholder={t('Registration.firstName')}
                                     required
@@ -181,7 +181,7 @@ const Registration = () => {
                                     {t('Registration.lastName')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="text"
                                     placeholder={t('Registration.lastName')}
                                     required
@@ -197,7 +197,7 @@ const Registration = () => {
                                     {t('Registration.email')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="email"
                                     placeholder={t('Registration.email')}
                                     required
@@ -213,7 +213,7 @@ const Registration = () => {
                                     {t('Registration.password')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="password"
                                     placeholder={t('Registration.password')}
                                     autoComplete="off"
@@ -230,7 +230,7 @@ const Registration = () => {
                                     {t('Registration.confirmPassword')}
                                 </label>
                                 <input
-                                    className="inline-block w-full p-4 font-semibold leading-6 text-black rounded-lg text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
+                                    className="inline-block w-full rounded-xl p-4 font-semibold leading-6 text-black text-md placeholder-slate-500 bg-slate-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                     type="password"
                                     placeholder={t('Registration.confirmPassword')}
                                     autoComplete="off"
@@ -241,7 +241,7 @@ const Registration = () => {
                             <InfoText message={message}/>
                             <button
                                 type="submit"
-                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded text-slate-200"
+                                className="inline-block w-full rounded-xl px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 text-slate-200"
                             >
                                 {t('Registration.signUpButton')}
                             </button>
