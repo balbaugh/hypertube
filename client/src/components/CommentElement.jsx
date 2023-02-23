@@ -100,7 +100,7 @@ const CommentElement = ({id, itsMe, movies}) => {
                         <div className="flex-1 min-w-0">
                             <form onSubmit={handleCommentSubmit} className="relative" id="myForm">
                                 <div
-                                    className="overflow-hidden border border-red-300 rounded-lg shadow-sm focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500">
+                                    className="overflow-hidden border-2 border-red-500 rounded-lg shadow-sm focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-500">
                                     <label htmlFor="comment" className="sr-only">
                                         {t('CommentElement.addComment')}
                                     </label>
@@ -108,7 +108,7 @@ const CommentElement = ({id, itsMe, movies}) => {
                                         rows={3}
                                         name="comment"
                                         id="myForm"
-                                        className="block w-full py-3 text-gray-700 border-0 resize-none focus:ring-0 sm:text-sm"
+                                        className="block w-full py-3 text-gray-700 bg-gray-300 border-0 resize-none focus:ring-0 sm:text-sm"
                                         placeholder={t('CommentElement.addComment')}
                                         value={newComment}
                                         onChange={handleNewComment}

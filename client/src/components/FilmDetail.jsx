@@ -179,7 +179,7 @@ const FilmDetail = ({itsMe}) => {
                                     <div className="flex mt-3 sm:flex-col1">
                                         <button
                                             type="button"
-                                            className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
+                                            className="flex items-center justify-center flex-1 max-w-full rounded-xl px-3 py-3 mx-2 text-base font-medium text-white bg-lime-600 hover:bg-lime-800 sm:w-full"
                                             onClick={startMovie}
                                         >
                                             {t('FilmDetail.stream')}

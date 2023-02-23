@@ -91,7 +91,7 @@ function ProfileEdit() {
                                 {t('ProfileEdit.username')}
                             </label>
                             <input
-                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                 type="text"
                                 placeholder="Your username here"
                                 id="username"
@@ -108,7 +108,7 @@ function ProfileEdit() {
                                 {t('ProfileEdit.first_name')}
                             </label>
                             <input
-                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                 type="text"
                                 placeholder="Your first name here"
                                 id="firstname"
@@ -125,7 +125,7 @@ function ProfileEdit() {
                                 {t('ProfileEdit.last_name')}
                             </label>
                             <input
-                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                 type="text"
                                 placeholder="Your last name here"
                                 id="lastname"
@@ -142,7 +142,7 @@ function ProfileEdit() {
                                 {t('ProfileEdit.email')}
                             </label>
                             <input
-                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white"
+                                className="text-black inline-block w-full rounded-xl p-4 text-lg font-extrabold leading-6 bg-white focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none"
                                 type="text"
                                 placeholder="Your email here"
                                 id="email"
