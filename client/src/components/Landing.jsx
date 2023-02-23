@@ -53,7 +53,7 @@ const Landing = () => {
                                     <Link to="/registration">
                                         <button
                                             type="button"
-                                            className="mb-6 inline-block w-full rounded bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
+                                            className="mb-6 inline-block w-full rounded-2xl bg-red-500 py-4 px-6 text-center text-lg font-semibold leading-6 text-slate-200"
                                         >
                                             {t('Landing.landing_section_button')}
                                         </button>
