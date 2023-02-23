@@ -17,15 +17,18 @@
         "YearNewOld": "Year: New to Old",
         "YearOldNew": "Year: Old to New"
     },
+    "CommentElement": {
+        "addComment": "Add your comment...",
+        "comments": "Comments",
+        "noComments": "No comments yet",
+        "post": "Post"
+    },
     "FilmDetail": {
         "filmInformation": "Film information",
+        "comments": "Comments",
         "reviews": "Reviews",
         "details": "Details",
-        "comments": "Comments",
-        "addComment": "Add your comment...",
         "stream": "Stream",
-        "post": "Post",
-        "noComments": "No comments yet",
         "summary": "Summary",
         "runtime": "Runtime",
         "minutes": "minutes",
