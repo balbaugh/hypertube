@@ -96,7 +96,7 @@ const App = () => {
 					<Route path="/film/:id" element={loggedIn ? <FilmDetail itsMe={itsMe} /> : <Landing />} />
 					<Route path="/registration" element={!loggedIn ? <Registration /> : <Homepage />} />
 					<Route path="/login" element={!loggedIn ? <Login /> : <Homepage />} />
-					<Route path="/forgot" element={<Forgot />} />
+					<Route path="/forgot" element={!loggedIn ? <Forgot /> : <Homepage />} />
 					<Route path="/popular" element={loggedIn ? <Popular /> : <Landing />} />
 					<Route path="/profile" element={loggedIn ? <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar}/> : <Homepage />} />
 					<Route path="/profile/:id" element={loggedIn ? <UserProfile /> : <Homepage />} />
