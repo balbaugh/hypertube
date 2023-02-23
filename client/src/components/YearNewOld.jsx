@@ -31,7 +31,7 @@ const YearNewOld = () => {
     const [posterUrls, setPosterUrls] = useState({});
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
-    const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
+
     const {t} = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work
@@ -86,6 +86,8 @@ const YearNewOld = () => {
         });
     };
 
+    const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
+    
     useEffect(() => {
         setCurrentPage(1);
         setMovies([]);
