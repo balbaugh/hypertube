@@ -33,6 +33,7 @@ const BestRating = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
+    const [posterUrls, setPosterUrls] = useState({});
 
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
@@ -64,17 +65,36 @@ const BestRating = () => {
     console.log('WATHCEEED', watched)
 
     const loadMoreMovies = async () => {
+        console.log('********************')
+        console.log('EXECUTING LOAD MORE!')
+        console.log('********************')
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=50&page=${currentPage}`, { withCredentials: false }); // 50 movies per page sorted by rating desc
-        const newMovies = response.data.data.movies.filter(filterMovies).map((movie) => {
-            if (movie.medium_cover_image === null) {
-                movie.medium_cover_image = require('../images/noImage.png');
-            }
-            return movie;
-        });
-        setMovies(movies.concat(newMovies));
+        const response = await axios.get(
+            `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
+            { withCredentials: false }
+        );
+        const newMovies = response.data.data.movies.filter(filterMovies);
+        setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
+
+        // Fetch poster images for new movies
+        const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+
+        moviesToFetch.forEach((movie) => {
+            const fetchPoster = async (code) => {
+                try {
+                    const response = await axiosStuff.getPoster(code);
+                    // const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                    const url = response
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchPoster(movie.imdb_code);
+        });
     };
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
@@ -140,10 +160,15 @@ const BestRating = () => {
             return;
         }
         setIsLoading(true);
-        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=50&page=1`, { withCredentials: false });
-        setSearchResults(response.data.data.movies);
-        setIsLoading(false);
-        setHasMore(true); // set hasMore to true when updating movies with search results
+        const response = await axios.get(`https://yts.mx/api/v2/list_movies.json?query_term=${query}&limit=20&page=1`, { withCredentials: false });
+        if (!response.data.data.movies) {
+            window.location.replace('/homepage')
+        }
+        else {
+            setSearchResults(response.data.data.movies);
+            setIsLoading(false);
+            setHasMore(true); // set hasMore to true when updating movies with search results
+        }
     };
 
 
@@ -164,6 +189,29 @@ const BestRating = () => {
             });
         }
     };
+
+    useEffect(() => {
+        const fetchPoster = async (code) => {
+            if (!posterUrls[code]) { // check if poster URL has already been fetched
+                try {
+                    console.log('FETCHING POSTER!!!')
+                    const response = await axiosStuff.getPoster(code);
+                    //console.log('Response data:', response);
+                    // const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                    const url = response
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        };
+
+        const moviesToFetch = filteredMovies.filter((movie) => !posterUrls[movie.imdb_code]);
+
+        moviesToFetch.forEach((movie) => {
+            fetchPoster(movie.imdb_code);
+        });
+    }, [filteredMovies]);
 
     const { t } = useTranslation();
 
@@ -328,7 +376,10 @@ const BestRating = () => {
                                                             <div>
                                                                 <img
                                                                     className="border-2 border-indigo-600 border-solid rounded filter grayscale"
-                                                                    src={movie.medium_cover_image}
+                                                                    src={
+                                                                        posterUrls[movie.imdb_code] ||
+                                                                        require('../images/noImage.png')
+                                                                    }
                                                                     alt={movie.title}
                                                                     onError={(e) => {
                                                                         e.target.onerror = null;
@@ -343,7 +394,10 @@ const BestRating = () => {
                                                         ) : (
                                                             <img
                                                                 className="rounded"
-                                                                src={movie.medium_cover_image}
+                                                                src={
+                                                                    posterUrls[movie.imdb_code] ||
+                                                                    require('../images/noImage.png')
+                                                                }
                                                                 alt={movie.title}
                                                                 onError={(e) => {
                                                                     e.target.onerror = null;
