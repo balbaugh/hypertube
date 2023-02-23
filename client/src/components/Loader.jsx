@@ -1,22 +1,20 @@
-// import { CSSProperties } from 'react';
 import ClipLoader from 'react-spinners/CircleLoader';
 
 const override = {
-	display: 'block',
-	margin: '0 auto',
-	// borderColor: 'red'
+    display: 'block',
+    margin: '0 auto',
 }
 
 const Loader = () => {
-	return (
-		<ClipLoader
-			color='red'
-			size={150}
-			cssOverride={override}
-			aria-label='Loading spinner'
-			data-testid='loader'
-		/>
-	)
+    return (
+        <ClipLoader
+            color='red'
+            size={150}
+            cssOverride={override}
+            aria-label='Loading spinner'
+            data-testid='loader'
+        />
+    )
 
 }
 

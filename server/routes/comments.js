@@ -40,44 +40,47 @@ const dbConn = require('../utils/dbConnection');
 //    });
 // });
 
-router.get('/comments/:movieId', (req,res) => {
+router.get('/comments/:movieId', (req, res) => {
     const movieId = req.params.movieId
     console.log('huu', movieId)
-    dbConn.pool.query(`SELECT * FROM comments WHERE movie_id = $1`,
-    [movieId],
-    (err, result) => {
-        if (err)
-            console.log('get comments err', err)
-        else {
-            res.send(result.rows)
-        }
-    })
+    dbConn.pool.query(`SELECT *
+                       FROM comments
+                       WHERE movie_id = $1`,
+        [movieId],
+        (err, result) => {
+            if (err)
+                console.log('get comments err', err)
+            else {
+                res.send(result.rows)
+            }
+        })
 })
 
 router.post('/comments', (req, res) => {
     const newComment = req.body
     // Insert the new comment into the database
-    dbConn.pool.query(`INSERT INTO comments (movie_id, user_id, text) VALUES ($1, $2, $3)`,
-    [newComment.movie_id, newComment.user_id, newComment.text],
-    (err, result) => {
-        if (err)
-            console.log('adding comment', err)
-        else {
+    dbConn.pool.query(`INSERT INTO comments (movie_id, user_id, text)
+                       VALUES ($1, $2, $3)`,
+        [newComment.movie_id, newComment.user_id, newComment.text],
+        (err, result) => {
+            if (err)
+                console.log('adding comment', err)
+            else {
 
-        }
-    })
+            }
+        })
 });
 
 router.get('/getCommentUser', (req, res) => {
-    dbConn.pool.query(`SELECT * FROM users`,
-    (err, result) => {
-        if (err)
-            console.log('getting users', err)
-        else {
-            res.send(result.rows);
-        }
-    })
+    dbConn.pool.query(`SELECT *
+                       FROM users`,
+        (err, result) => {
+            if (err)
+                console.log('getting users', err)
+            else {
+                res.send(result.rows);
+            }
+        })
 })
-
 
 module.exports = router;

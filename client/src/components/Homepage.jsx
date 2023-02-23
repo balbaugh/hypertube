@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Combobox, Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { useTranslation } from 'react-i18next';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {Combobox, Menu, Transition} from '@headlessui/react'
+import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid'
+import {useTranslation} from 'react-i18next';
 import DOMPurify from 'dompurify';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
@@ -40,8 +40,8 @@ const Homepage = () => {
     useEffect(() => {
         axiosStuff
             .movieTest().then((response) => {
-                console.log('oikee', response)
-            })
+            console.log('oikee', response)
+        })
         setTimeout(() => {
             setLoading(false);
         }, 5000)
@@ -50,11 +50,9 @@ const Homepage = () => {
     useEffect(() => {
         axiosStuff
             .getWatched().then((response) => {
-                setWatched(response.map(all => all.movie_id))
-            })
+            setWatched(response.map(all => all.movie_id))
+        })
     }, [])
-
-    //console.log('WATHCEEED', watched)
 
     const loadMoreMovies = async () => {
         console.log('********************')
@@ -63,7 +61,7 @@ const Homepage = () => {
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
-            { withCredentials: false }
+            {withCredentials: false}
         );
         const newMovies = response.data.data.movies.filter(filterMovies);
         setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
@@ -79,7 +77,7 @@ const Homepage = () => {
                     const response = await axiosStuff.getPoster(code);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
                 } catch (error) {
                     console.error(error);
                 }
@@ -101,7 +99,7 @@ const Homepage = () => {
     useEffect(() => {
         loadMoreMovies().then(r =>
             console.log('movies', movies)
-            );
+        );
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
@@ -127,8 +125,6 @@ const Homepage = () => {
         };
     }, []);
 
-
-
     const handleRatingChange = (event, newValue) => {
         setRatingRange(newValue);
     };
@@ -151,7 +147,7 @@ const Homepage = () => {
         if (cleanQuery === '') {
             return;
         }
-        if (/^[a-zA-Z0-9\s.,!?]*$/.test(cleanQuery) == false) {
+        if (/^[a-zA-Z0-9\s.,!?]*$/.test(cleanQuery) === false) {
             return;
         }
         setQuery(cleanQuery);
@@ -161,8 +157,7 @@ const Homepage = () => {
         });
         if (!response.data.data.movies) {
             window.location.replace('/homepage')
-        }
-        else {
+        } else {
             setSearchResults(response.data.data.movies);
             setIsLoading(false);
             setHasMore(true); // set hasMore to true when updating movies with search results
@@ -188,17 +183,14 @@ const Homepage = () => {
         }
     };
 
-
     useEffect(() => {
         const fetchPoster = async (code) => {
             if (!posterUrls[code]) { // check if poster URL has already been fetched
                 try {
                     console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
-                    //console.log('Response data:', response);
-                    // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
                 } catch (error) {
                     console.error(error);
                 }
@@ -211,15 +203,14 @@ const Homepage = () => {
             fetchPoster(movie.imdb_code);
         });
     }, [filteredMovies]);
-    // }, [filteredMovies, posterUrls]);
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div>
             {loading ? (
                 <div className="py-20">
-                    <Loader />
+                    <Loader/>
                 </div>
             ) : (
                 <section>
@@ -306,8 +297,8 @@ const Homepage = () => {
                             </div>
 
                             {/* IMDb Score Slider */}
-                            <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
-                                <Box sx={{ width: 350 }}>
+                            <div className="mb-3" style={{display: "flex", justifyContent: "center"}}>
+                                <Box sx={{width: 350}}>
                                     <h4 className="font-semibold text-gray-200">{t('BestRating.IMDbRating')}( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
@@ -359,14 +350,14 @@ const Homepage = () => {
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
-                                        <p style={{ textAlign: 'center' }}>
+                                        <p style={{textAlign: 'center'}}>
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
                                     scrollableTarget={rootRef}
                                 >
                                     <div ref={rootRef}
-                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8"
+                                         className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8"
                                     >
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
@@ -407,7 +398,7 @@ const Homepage = () => {
                                                         )}
                                                         <div
                                                             className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100"
-                                                            style={{ backgroundColor: "rgba(26, 32, 44, 0.8)" }}
+                                                            style={{backgroundColor: "rgba(26, 32, 44, 0.8)"}}
                                                         >
                                                             <h4 className="mb-2 text-lg font-semibold text-red-500">
                                                                 {movie.title}&nbsp;&nbsp;({movie.year})
@@ -431,12 +422,11 @@ const Homepage = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-                                <div ref={loadMoreRef} />
+                                <div ref={loadMoreRef}/>
                             </div>
                         </main>
                     </div>
                 </section>
-
             )}
         </div>
     )

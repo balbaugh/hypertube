@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {useTranslation} from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
 import InfoText from "./infoText";
-// import Loader from "./Loader";
 
 //const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
 //const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
@@ -38,10 +37,10 @@ function useProfile() {
     }
 }
 
-const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
+const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
     const [message, setMessage] = useState(null);
 
-    const { username, firstName, lastName, email } = useProfile();
+    const {username, firstName, lastName, email} = useProfile();
 
     const setProfilePicture = async (event) => {
         const image = event.target.files[0]
@@ -56,7 +55,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                         setMessage('Profile picture successfully changed!')
                         console.log('response.path:', response.path)
                         setSelectedAvatar(response.path)
-                        setItsMe({ path: response.path, ...itsMe })
+                        setItsMe({path: response.path, ...itsMe})
                     } else {
                         setMessage(response.message);
                     }
@@ -68,7 +67,7 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
         event.target.value = ''
     }
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div>
@@ -77,17 +76,17 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                     <div className="max-w-lg mx-auto">
                         <div className="mb-8 text-center">
                             <Link className="inline-block mx-auto mb-6" to="/">
-                                <img src={require("../images/hypertubeText.png")} alt="" />
+                                <img src={require("../images/hypertubeText.png")} alt=""/>
                             </Link>
                             <h2 className="mb-2 text-3xl font-extrabold text-slate-300 hover:text-red-500 md:text-4xl">
                                 {t('Profile.your_profile')}
                             </h2>
                             <div className="inline-block mx-auto mt-6 mb-6 w-60 h-60">
-                                <img className="rounded rounded-full" src={selectedAvatar} alt="" />
+                                <img className="rounded rounded-full" src={selectedAvatar} alt=""/>
                             </div>
                         </div>
                         {/* OAUTH STUFF */}
-                        <InfoText message={message} />
+                        <InfoText message={message}/>
                         <div className="pt-2 mb-6">
                             <div className="block mb-2">
                                 <p className="block mb-2 text-xl font-semibold text-red-500">{t('Profile.username')}:</p>
@@ -117,17 +116,20 @@ const Profile = ({ itsMe, setItsMe, selectedAvatar, setSelectedAvatar }) => {
                             </div>
                         </div>
                         <div className="rounded-md">
-                            <label className="block pb-1 text-lg font-semibold text-red-500">{t('Profile.profile_picture')}:</label>
+                            <label
+                                className="block pb-1 text-lg font-semibold text-red-500">{t('Profile.profile_picture')}:</label>
                             <div className="pb-6 mt-1">
                                 <button
                                     type="button"
                                     className="inline-block w-full py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
-                                    <input className="rounded" type="file" name="file" id="set_profilepic" accept="image/jpeg, image/png, image/jpg" onChange={setProfilePicture}></input>
+                                    <input className="rounded" type="file" name="file" id="set_profilepic"
+                                           accept="image/jpeg, image/png, image/jpg"
+                                           onChange={setProfilePicture}></input>
                                 </button>
                             </div>
                         </div>
-                        <div className="mb-6 border-t divide-y divide-gray-200" />
+                        <div className="mb-6 border-t divide-y divide-gray-200"/>
                         <Link to="/profileEdit">
                             <button
                                 type="button"

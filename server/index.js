@@ -10,9 +10,9 @@ const session = require('express-session');
 const app = express();
 app.use(express.json());
 app.use(cors({
-	origin: ['http://localhost:3000'],
-	methods: ['GET', 'POST', 'PUT', 'DELETE'],
-	credentials: true
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 
 const bcrypt = require('bcryptjs');
@@ -24,34 +24,32 @@ app.use('/images', express.static('./images'))
 app.use(express.static('subtitles'));
 
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
-	key: 'userID',
-	secret: 'BIGSECRET',
-	resave: false,
-	saveUninitialized: false,
-	cookie: {
-		expires: 1000 * 60 * 60 * 24,
-		sameSite: 'Lax',
-		//sameSite: 'none',
-		//secure: true
-	}
+    key: 'userID',
+    secret: 'BIGSECRET',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 1000 * 60 * 60 * 24,
+        sameSite: 'Lax',
+        //sameSite: 'none',
+        //secure: true
+    }
 }))
 
 const dbConn = require('./utils/dbConnection');
-const { connectDB } = dbConn;
+const {connectDB} = dbConn;
 connectDB();
 
 const middleware = require('./utils/middleware');
 app.use(middleware.requestLogger);
 app.use(middleware.morganLogger);
 
-
-
 // const filePath = path.join(process.cwd(), 'subtitles', code, filename)
 
 app.get('/', (req, res) => {
-	res.sendStatus(200).end()
+    res.sendStatus(200).end()
 });
 
 // const getCommentsFromDatabase = (movieId, connection) => {
@@ -65,7 +63,6 @@ app.get('/', (req, res) => {
 // 		});
 // 	});
 // };
-
 
 const movies = require('./routes/movie');
 app.use(movies);
@@ -88,5 +85,5 @@ app.use(commentsRouter);
 app.use(middleware.unknowEndpoint);
 
 app.listen(config.PORT, () => {
-	console.log(`Server on port ${config.PORT}`)
+    console.log(`Server on port ${config.PORT}`)
 })

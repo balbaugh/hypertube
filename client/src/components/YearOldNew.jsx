@@ -1,14 +1,14 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Combobox, Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { useTranslation } from 'react-i18next';
+import React, {Fragment, useEffect, useRef, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {Combobox, Menu, Transition} from '@headlessui/react';
+import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid';
+import {useTranslation} from 'react-i18next';
 import DOMPurify from 'dompurify';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -29,10 +29,9 @@ const YearOldNew = () => {
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
     const [posterUrls, setPosterUrls] = useState({});
-
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
-
+    const {t} = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -41,10 +40,6 @@ const YearOldNew = () => {
             .movieTest().then((response) => {
             console.log('oikee', response)
         })
-        // axiosStuff
-        //    .test().then((response1) => {
-        //    console.log('testi', response1)
-        // })
         setTimeout(() => {
             setLoading(false);
         }, 5000)
@@ -57,8 +52,6 @@ const YearOldNew = () => {
         })
     }, [])
 
-    console.log('WATHCEEED', watched)
-
     const loadMoreMovies = async () => {
         console.log('********************')
         console.log('EXECUTING LOAD MORE!')
@@ -66,7 +59,7 @@ const YearOldNew = () => {
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=20&page=${currentPage}`,
-            { withCredentials: false }
+            {withCredentials: false}
         );
         const newMovies = response.data.data.movies.filter(filterMovies);
         setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
@@ -82,7 +75,7 @@ const YearOldNew = () => {
                     const response = await axiosStuff.getPoster(code);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
                 } catch (error) {
                     console.error(error);
                 }
@@ -150,7 +143,7 @@ const YearOldNew = () => {
         if (cleanQuery === '') {
             return;
         }
-        if (/^[a-zA-Z0-9\s.,!?]*$/.test(cleanQuery) == false) {
+        if (/^[a-zA-Z0-9\s.,!?]*$/.test(cleanQuery) === false) {
             return;
         }
         setQuery(cleanQuery);
@@ -160,14 +153,12 @@ const YearOldNew = () => {
         });
         if (!response.data.data.movies) {
             window.location.replace('/homepage')
-        }
-        else {
+        } else {
             setSearchResults(response.data.data.movies);
             setIsLoading(false);
             setHasMore(true); // set hasMore to true when updating movies with search results
         }
     };
-
 
     useEffect(() => {
         if (query === '') {
@@ -197,7 +188,7 @@ const YearOldNew = () => {
                     //console.log('Response data:', response);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
                 } catch (error) {
                     console.error(error);
                 }
@@ -210,8 +201,6 @@ const YearOldNew = () => {
             fetchPoster(movie.imdb_code);
         });
     }, [filteredMovies]);
-
-    const { t } = useTranslation();
 
     return (
         <div>
@@ -229,7 +218,8 @@ const YearOldNew = () => {
                                     {/* Sort */}
                                     <Menu as="div" className="relative inline-block mt-2 ml-auto text-left">
                                         <div>
-                                            <Menu.Button className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
+                                            <Menu.Button
+                                                className="inline-flex justify-center text-lg font-semibold text-gray-200 group hover:text-red-600">
                                                 {t('BestRating.Sort')}
                                                 <ChevronDownIcon
                                                     className="flex-shrink-0 w-5 h-5 mt-1 ml-1 -mr-1 text-red-500 group-hover:text-red-600"
@@ -247,7 +237,8 @@ const YearOldNew = () => {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Menu.Items
+                                                className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <div className="py-1">
                                                     <Link
                                                         to="/best-rating"
@@ -302,8 +293,8 @@ const YearOldNew = () => {
                             </div>
 
                             {/* IMDb Score Slider */}
-                            <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
-                                <Box sx={{ width: 350 }}>
+                            <div className="mb-3" style={{display: "flex", justifyContent: "center"}}>
+                                <Box sx={{width: 350}}>
                                     <h4 className="font-semibold text-gray-200">{t('BestRating.IMDbRating')}( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
@@ -357,7 +348,7 @@ const YearOldNew = () => {
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
-                                        <p style={{ textAlign: 'center' }}>
+                                        <p style={{textAlign: 'center'}}>
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
@@ -365,10 +356,12 @@ const YearOldNew = () => {
                                     // rootMargin="0px 0px 400px 0px"
                                     scrollableTarget={loadMoreRef.current}
                                 >
-                                    <div ref={rootRef} className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
+                                    <div ref={rootRef}
+                                         className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8">
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
-                                                <div className="relative mobile:flex mobile:flex-col mobile:items-center">
+                                                <div
+                                                    className="relative mobile:flex mobile:flex-col mobile:items-center">
                                                     <Link className="flex" key={`${movie.id}`} to={`/film/${movie.id}`}>
                                                         {watched.includes(movie.id) ? (
                                                             <div>
@@ -405,28 +398,32 @@ const YearOldNew = () => {
                                                         )}
 
 
-                                                        <div className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100" style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
+                                                        <div
+                                                            className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100"
+                                                            style={{backgroundColor: 'rgba(26, 32, 44, 0.8)'}}>
                                                             <h4 className="mb-2 text-lg font-semibold text-red-500">{movie.title}&nbsp;&nbsp;({movie.year})</h4>
-                                                            <p className="text-sm font-semibold text-gray-200">IMDb: {movie.rating} / 10</p>
+                                                            <p className="text-sm font-semibold text-gray-200">IMDb: {movie.rating} /
+                                                                10</p>
                                                         </div>
                                                     </Link>
-                                                    <div className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
+                                                    <div
+                                                        className="mt-2 text-sm font-semibold text-center text-gray-200 desktop:hidden laptop:hidden mobile:block mobile:mt-4">
                                                         <p className="mb-2 font-semibold text-red-500 text-md">{movie.title}&nbsp;&nbsp;({movie.year})</p>
-                                                        <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} / 10</p>
+                                                        <p className="mb-1 text-sm font-semibold text-red-400">IMDb: {movie.rating} /
+                                                            10</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-                                <div ref={loadMoreRef} />
+                                <div ref={loadMoreRef}/>
                             </div>
                         </main>
 
                     </div>
 
                 </section>
-
 
             )}
 

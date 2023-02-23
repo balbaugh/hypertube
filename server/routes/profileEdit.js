@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({storage: storage})
 
 router.get('/profileInfo', (req, res) => {
     console.log('req.session.user', req.session.user)
@@ -38,8 +38,7 @@ router.get('/profileInfo', (req, res) => {
                     res.send(result.rows[0]);
                 }
             })
-    }
-    else {
+    } else {
         res.redirect('/');
     }
 })
@@ -63,8 +62,7 @@ router.get('/profileInfo/:id', (req, res) => {
                     res.send(result.rows[0]);
                 }
             })
-    }
-    else {
+    } else {
         res.redirect('/');
     }
 })
@@ -78,7 +76,7 @@ router.put('/profileEdit', (req, res) => {
         const id = req.session.user.id
 
         if (username.length < 4 || username.length > 20)
-            return res.send({ message: `Username must be between 4 - 20 characters.` })
+            return res.send({message: `Username must be between 4 - 20 characters.`})
         if (!username.match(/^[a-zA-Z0-9_.!#@-]+$/))
             return res.send({
                 message: `Username can only have letters (a-z or A-Z),
@@ -87,15 +85,15 @@ router.put('/profileEdit', (req, res) => {
             })
         // name checks
         if (!firstname.match(/^[a-zA-Z_.-]+$/))
-            return res.send({ message: 'Firstname can only have letters (a-z or A-Z) and some special characters (_.-)' })
+            return res.send({message: 'Firstname can only have letters (a-z or A-Z) and some special characters (_.-)'})
         if (firstname.length < 2 || firstname.length > 20)
-            return res.send({ message: `Firstname must be between 1 - 20 characters.` })
+            return res.send({message: `Firstname must be between 1 - 20 characters.`})
         if (!lastname.match(/^[a-zA-Z_.-]+$/))
-            return res.send({ message: 'Lastname can only have letters (a-z or A-Z) and some special characters (_.-)' })
+            return res.send({message: 'Lastname can only have letters (a-z or A-Z) and some special characters (_.-)'})
         if (lastname.length < 2 || lastname.length > 20)
-            return res.send({ message: `Lastname must be between 4 - 20 characters.` })
+            return res.send({message: `Lastname must be between 4 - 20 characters.`})
         if (email.length > 40 || !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))
-            return res.send({ message: `Please enter a valid e-mail address.` })
+            return res.send({message: `Please enter a valid e-mail address.`})
 
         // AND OTHER CHECKS!!!
         dbConn.pool.query('SELECT id, email, username, firstname, lastname, status FROM users WHERE username = $1 AND id != $2',
@@ -104,18 +102,16 @@ router.put('/profileEdit', (req, res) => {
                 if (err)
                     console.error('update', err);
                 if (result.rowCount > 0 && result.rows[0].username !== req.session.user.username) {
-                    return res.send({ message: `Username already exists. Please choose another one!` })
-                }
-                else {
+                    return res.send({message: `Username already exists. Please choose another one!`})
+                } else {
                     dbConn.pool.query('SELECT id, email, username, firstname, lastname, status FROM users WHERE email = $1 AND id != $2',
                         [email, id],
                         (err1, result1) => {
                             if (err1)
                                 console.error('update', err);
                             if (result1.rowCount > 0 && result1.rows[0].username !== req.session.user.username) {
-                                return res.send({ message: `Email is already taken. Please choose another one!` })
-                            }
-                            else {
+                                return res.send({message: `Email is already taken. Please choose another one!`})
+                            } else {
                                 dbConn.pool.query(`UPDATE users
                                                     SET username = $1, firstname = $2, lastname = $3, email = $4
                                                     WHERE id = $5`,
@@ -124,7 +120,7 @@ router.put('/profileEdit', (req, res) => {
                                         if (err2)
                                             console.error('UPDATE PROFILE error:', err)
                                         else {
-                                            res.send({ message: 'Profile successfully updated!' })
+                                            res.send({message: 'Profile successfully updated!'})
                                         }
                                     })
                             }
@@ -164,10 +160,10 @@ router.post('/setprofilepic', upload.single('file'), async (request, response) =
             sql = `UPDATE profile_pics SET path = $1 WHERE user_id = $2;`
             await dbConn.pool.query(sql, [picture, session.id])
             console.log('Sending true from /setprofilepic!')
-            response.send({ success: true, path: picture })
+            response.send({success: true, path: picture})
         } catch (error) {
             console.error(error)
-            response.send({ message: `Something went wrong when trying to upload the image.` })
+            response.send({message: `Something went wrong when trying to upload the image.`})
         }
     }
 })

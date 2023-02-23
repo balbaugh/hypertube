@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Disclosure } from '@headlessui/react'
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {Disclosure} from '@headlessui/react'
 import DOMPurify from 'dompurify';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-const CommentElement = ({ id, itsMe, movies }) => {
+const CommentElement = ({id, itsMe, movies}) => {
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState('');
     const [newComment, setNewComment] = useState('');
@@ -26,20 +26,19 @@ const CommentElement = ({ id, itsMe, movies }) => {
                         setLoading(false);
                     })
             }).catch((error) => {
-                console.log('tomovie CATCH ERRROR', error);
-                //setMovies({ ...movies, medium_cover_image: backUp })
-            });
+            console.log('tomovie CATCH ERRROR', error);
+        });
 
         const fetchNewComments = setInterval(() => {
             axiosStuff.getComments(id)
                 .then((response) => {
                     setComments(response);
                 }).then(() => {
-                    axiosStuff.getCommentUser()
-                        .then((response1) => {
-                            setUsers(response1)
-                        })
-                })
+                axiosStuff.getCommentUser()
+                    .then((response1) => {
+                        setUsers(response1)
+                    })
+            })
         }, 3000);
 
         // cleanup function to clear interval when component unmounts or id changes
@@ -87,14 +86,14 @@ const CommentElement = ({ id, itsMe, movies }) => {
         setNewComment(event.target.value)
     }
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div>{
             loading ? (
-                <div className="py-20" >
-                    <Loader />
-                </div >
+                <div className="py-20">
+                    <Loader/>
+                </div>
             ) : (
                 <Disclosure.Panel as="div" className="pb-6 prose-sm prose">
                     <div className="flex items-start pt-8 pb-6 space-x-4">
@@ -119,7 +118,7 @@ const CommentElement = ({ id, itsMe, movies }) => {
                                     <div className="py-2" aria-hidden="true">
                                         {/* Matches height of button in toolbar (1px border + 36px content height) */}
                                         <div className="py-px">
-                                            <div className="h-9" />
+                                            <div className="h-9"/>
                                         </div>
                                     </div>
                                 </div>
@@ -148,14 +147,15 @@ const CommentElement = ({ id, itsMe, movies }) => {
                                     const id = user.id
                                     return (
                                         <div key={comment.id}
-                                            className="py-6">
+                                             className="py-6">
                                             <div
                                                 className="flex items-center">
                                                 <div className="ml-4">
-                                                    <a className="cursor-pointer" onClick={() => navigate(`/profile/${id}`)}>
+                                                    <a className="cursor-pointer"
+                                                       onClick={() => navigate(`/profile/${id}`)}>
                                                         <h4
                                                             className="text-sm font-bold text-red-400"
-                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(username) }}
+                                                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(username)}}
                                                         >
                                                         </h4>
                                                     </a>
@@ -166,7 +166,7 @@ const CommentElement = ({ id, itsMe, movies }) => {
                                             </div>
                                             <div
                                                 className="mt-4 ml-8 space-y-6 text-base italic text-gray-300"
-                                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.text) }}
+                                                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(comment.text)}}
                                             ></div>
 
                                         </div>
@@ -186,7 +186,7 @@ const CommentElement = ({ id, itsMe, movies }) => {
                             )}
                         </div>
                     </div>
-                    <div className="mt-4 border-t divide-y divide-gray-200" />
+                    <div className="mt-4 border-t divide-y divide-gray-200"/>
                 </Disclosure.Panel>
             )}
         </div>

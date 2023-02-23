@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 export const Footer = () => {
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div className="zinc-800 style={{ height: '80px' }}">

@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {useParams} from "react-router-dom";
 import ReactPlayer from 'react-player'
-import { Disclosure } from '@headlessui/react'
-import { StarIcon } from '@heroicons/react/20/solid'
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
-import { useTranslation } from 'react-i18next';
-//import axios from "axios";
+import {Disclosure} from '@headlessui/react'
+import {StarIcon} from '@heroicons/react/20/solid'
+import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
+import {useTranslation} from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 import CommentElement from './CommentElement';
@@ -17,18 +16,13 @@ const imageError = (e) => {
     e.target.src = backUp;
 }
 
-//function isValidUrl(url) {
-//    const urlRegex = /^(http(s)?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=]+$/;
-//    return urlRegex.test(url);
-//  }
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 // itsMe is exported into CommentElement but not used here otherwise.
-const FilmDetail = ({ itsMe }) => {
-    const { id } = useParams();
+const FilmDetail = ({itsMe}) => {
+    const {id} = useParams();
     const [movies, setMovies] = useState(id);
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
@@ -38,7 +32,6 @@ const FilmDetail = ({ itsMe }) => {
     const [posterUrls, setPosterUrls] = useState({});
 
     const savedLanguage = localStorage.getItem('language')
-    //console.log('aaaa', savedLanguage)
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -51,10 +44,9 @@ const FilmDetail = ({ itsMe }) => {
             try {
                 console.log('FETCHING POSTER!!!')
                 const response = await axiosStuff.getPoster(code);
-                //console.log('Response data:', response);
                 // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                 const url = response
-                setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+                setPosterUrls((prevState) => ({...prevState, [code]: url}));
             } catch (error) {
                 console.error(error);
             }
@@ -68,12 +60,8 @@ const FilmDetail = ({ itsMe }) => {
                     if (response.parsed.data.movie.id === 0) {
                         window.location.replace('/homepage')
                     }
-                    //console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
                     setMovies(response.parsed.data.movie);
                     fetchPoster(response.parsed.data.movie.imdb_code);
-
-                    //setImgSrc(backUp)
-                    //setImgSrc(response.parsed.data.movie.medium_cover_image)
                     setLoading(false);
                 } else {
                     window.location.replace('/homepage');
@@ -81,11 +69,8 @@ const FilmDetail = ({ itsMe }) => {
             })
             .catch((error) => {
                 console.log('tomovie CATCH ERRROR', error);
-                //setMovies({ ...movies, medium_cover_image: backUp })
             });
     }, [id]);
-
-    console.log('POOOSTER', posterUrls)
 
     const startMovie = () => {
         const movieHash = movies.torrents[0].hash;
@@ -96,18 +81,13 @@ const FilmDetail = ({ itsMe }) => {
         const movieId = movies.id
 
         axiosStuff
-        .addWatched({ movieId })
-        // setOpen(!open)
+            .addWatched({movieId})
         setWatch(true);
         axiosStuff
-            .subtitles({ imdbCode })
-        // .then((response) => {
-        //    console.log('subs', response)
-        //    setSubs(response)
-        // })
+            .subtitles({imdbCode})
         setTimeout(() => {
             console.log('TAMA', imdbCode)
-            axiosStuff.getSubs({ imdbCode })
+            axiosStuff.getSubs({imdbCode})
                 .then((response2) => {
                     console.log('subs', response2)
                     setSubs(response2)
@@ -115,7 +95,7 @@ const FilmDetail = ({ itsMe }) => {
         }, 1000)
 
         axiosStuff
-            .play({ title, magnetUrl, imdbCode })
+            .play({title, magnetUrl, imdbCode})
             .then((response) => {
                 console.log('hii', response)
                 if (response.downloaded) {
@@ -147,13 +127,13 @@ const FilmDetail = ({ itsMe }) => {
     if (subsConfig.file.tracks.length)
         console.log('subsconf', subsConfig)
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <div>
             {loading ? (
                 <div className="py-20">
-                    <Loader />
+                    <Loader/>
                 </div>
             ) : (
                 <div className="">
@@ -163,23 +143,20 @@ const FilmDetail = ({ itsMe }) => {
                             <div className="m-auto text-center">
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
-                                        src={
-                                            posterUrls[movies.imdb_code] ||
-                                            require('../images/noImage.png')
-                                        }
-                                        alt={movies.title}
+                                         src={
+                                             posterUrls[movies.imdb_code] ||
+                                             require('../images/noImage.png')
+                                         }
+                                         alt={movies.title}
                                     />
                                 </div>
                             </div>
 
                             {/* Film info */}
                             <div className="px-4 mt-10 sm:mt-16 sm:px-0 lg:mt-0">
-
-
                                 <div className="mt-3">
                                     <h2 className="sr-only">{t('FilmDetail.filmInformation')}</h2>
                                     <p className="text-3xl font-bold text-gray-200">{movies.title}&nbsp;&nbsp;({movies.year})</p>
-                                    {/*<p className="text-2xl text-gray-200">({movies.year})</p>*/}
                                 </div>
 
                                 {/* Reviews */}
@@ -204,7 +181,6 @@ const FilmDetail = ({ itsMe }) => {
                                             type="button"
                                             className="flex items-center justify-center flex-1 max-w-full px-3 py-3 mx-2 text-base font-medium text-white rounded-md bg-lime-600 hover:bg-lime-800 sm:w-full"
                                             onClick={startMovie}
-                                        // onClick={() => setOpen(!open)}
                                         >
                                             {t('FilmDetail.stream')}
                                         </button>
@@ -226,7 +202,7 @@ const FilmDetail = ({ itsMe }) => {
                                                 height='100%'
                                                 className='sm:w-auto sm:h-auto'
                                             />
-                                        ) : (<Loader />)}
+                                        ) : (<Loader/>)}
                                     </div>
                                 ) : null}
 
@@ -239,7 +215,7 @@ const FilmDetail = ({ itsMe }) => {
                                     <div className="border-t divide-y divide-gray-200">
 
                                         <Disclosure as="div">
-                                            {({ open }) => (
+                                            {({open}) => (
                                                 <>
                                                     <h3>
                                                         <Disclosure.Button
@@ -272,7 +248,7 @@ const FilmDetail = ({ itsMe }) => {
                                                                     <h2 className="text-xl text-red-500">{t('FilmDetail.summary')}:</h2>
                                                                     <div
                                                                         className="space-y-6 text-base"
-                                                                        dangerouslySetInnerHTML={{ __html: movies.description_full }}
+                                                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -317,7 +293,7 @@ const FilmDetail = ({ itsMe }) => {
 
                                                             </ul>
 
-                                                            <div className="mt-6 border-t divide-y divide-gray-200" />
+                                                            <div className="mt-6 border-t divide-y divide-gray-200"/>
                                                         </Disclosure.Panel>
                                                     </div>
                                                 </>
@@ -325,7 +301,7 @@ const FilmDetail = ({ itsMe }) => {
                                         </Disclosure>
                                     </div>
                                     <Disclosure as="div">
-                                        {({ open }) => (
+                                        {({open}) => (
                                             <>
                                                 <h3>
                                                     <Disclosure.Button
@@ -353,7 +329,6 @@ const FilmDetail = ({ itsMe }) => {
 
                                                 {/* COMMENTS PANEL */}
                                                 <CommentElement id={id} itsMe={itsMe} movies={movies}/>
-
                                             </>
                                         )}
                                     </Disclosure>
