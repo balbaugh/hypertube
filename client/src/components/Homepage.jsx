@@ -29,7 +29,7 @@ const Homepage = () => {
     const [query, setQuery] = useState('');
     const [ratingRange, setRatingRange] = useState([0, 10]);
     const [watched, setWatched] = useState([]);
-    const [foto, setfoto] = useState('')
+    const [posterUrls, setPosterUrls] = useState({});
 
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
@@ -90,7 +90,7 @@ const Homepage = () => {
 
 
 
-    console.log('MOVIIIE', movies.map(code => code.imdb_code))
+    //console.log('MOVIIIE', movies.map(code => code.imdb_code))
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -102,7 +102,9 @@ const Homepage = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies().then(r => console.log('movies', movies));
+        loadMoreMovies().then(r =>
+            console.log('movies', movies)
+            );
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
@@ -128,7 +130,7 @@ const Homepage = () => {
         };
     }, []);
 
-    
+
 
     const handleRatingChange = (event, newValue) => {
         setRatingRange(newValue);
@@ -183,7 +185,6 @@ const Homepage = () => {
         }
     };
 
-    const [posterUrls, setPosterUrls] = useState({});
 
     useEffect(() => {
         const fetchPoster = async (code) => {
@@ -191,7 +192,7 @@ const Homepage = () => {
                 try {
                     console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
-                    console.log('Response data:', response);
+                    //console.log('Response data:', response);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
                     setPosterUrls((prevState) => ({ ...prevState, [code]: url }));

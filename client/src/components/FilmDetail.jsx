@@ -36,13 +36,8 @@ const FilmDetail = ({ itsMe }) => {
     const [newComment, setNewComment] = useState('');
     const [users, setUsers] = useState([])
     const [subs, setSubs] = useState([]);
+    const [posterUrls, setPosterUrls] = useState({});
     const navigate = useNavigate();
-    //const [imgSrc, setImgSrc] = useState(movies.medium_cover_image || backUp);
-    //const [imgSrc, setImgSrc] = useState('');
-
-    //console.log('playerrf', playerRef)
-    //console.log('mee', itsMe.username)
-    //console.log('movie', movies)
 
     const savedLanguage = localStorage.getItem('language')
     //console.log('aaaa', savedLanguage)
@@ -53,6 +48,21 @@ const FilmDetail = ({ itsMe }) => {
         }
     }, [playerRef.current])
 
+    const fetchPoster = async (code) => {
+        if (!posterUrls[code]) { // check if poster URL has already been fetched
+            try {
+                console.log('FETCHING POSTER!!!')
+                const response = await axiosStuff.getPoster(code);
+                //console.log('Response data:', response);
+                // const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                const url = response
+                setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
     useEffect(() => {
         axiosStuff.toMovie(id)
             .then((response) => {
@@ -60,8 +70,10 @@ const FilmDetail = ({ itsMe }) => {
                     if (response.parsed.data.movie.id === 0) {
                         window.location.replace('/homepage')
                     }
-                    console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
+                    //console.log('MOOOVIIIEEE', response.parsed.data.movie.medium_cover_image)
                     setMovies(response.parsed.data.movie);
+                    fetchPoster(response.parsed.data.movie.imdb_code);
+
                     //setImgSrc(backUp)
                     //setImgSrc(response.parsed.data.movie.medium_cover_image)
                     setLoading(false);
@@ -99,6 +111,8 @@ const FilmDetail = ({ itsMe }) => {
         // cleanup function to clear interval when component unmounts or id changes
         return () => clearInterval(fetchNewComments);
     }, [id]);
+
+    console.log('POOOSTER', posterUrls)
 
 
     const textInput = React.useRef(null);
@@ -217,15 +231,11 @@ const FilmDetail = ({ itsMe }) => {
                             <div className="m-auto text-center">
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
-                                        src={movies.medium_cover_image}
-                                        //src={movies.medium_cover_image ? movies.medium_cover_image : backUp}
+                                        src={
+                                            posterUrls[movies.imdb_code] ||
+                                            require('../images/noImage.png')
+                                        }
                                         alt={movies.title}
-                                        onError={imageError}
-                                        //onError={(e) => {
-                                        //    console.log('error loading', e)
-                                        //    e.target.onerror = null;
-                                        //    e.target.src = backUp;
-                                        //  }}
                                     />
                                 </div>
                             </div>

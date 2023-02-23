@@ -44,10 +44,6 @@ const subtitles = (code) => {
 	});
 	return req.then((response) => response.data);
  }
-//const getSubs = (code) => {
-//	const req = axios.get(`${baseUrl}/subtitles/${code}`)
-//	return req.then((response) => response.data)
-//}
 
 const play = (magnet) => {
 	const req = axios.get(`${baseUrl}/play`, {
@@ -159,6 +155,7 @@ const setProfilePic = (Picture) => {
 }
 
 const getPoster = (id) => {
+	console.log('AXIOOOOS', id)
 	const req = axios.get(`${baseUrl}/poster/${id}`);
 	return req.then((response) => response.data);
 }
