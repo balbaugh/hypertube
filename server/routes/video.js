@@ -11,7 +11,6 @@ let filePath = '';
 let fileSize = '';
 let title = '';
 let imdbCode = '';
-let sentResponse = false;
 
 let langObj = {
 	en: 0,
@@ -83,6 +82,7 @@ const download = async (
 
 router.get('/play', (req, res) => {
 	const link = req.query.magnet;
+	let sentResponse = false;
 
 	imdbCode = link.imdbCode
 
@@ -141,9 +141,11 @@ router.get('/play', (req, res) => {
 										console.log('date update err', err3)
 									}
 								})
-								sentResponse = true
-								// return res.send(result.rows[0])
-								return res.send({ downloaded: true, result })
+								if (!sentResponse) {
+									sentResponse = true
+									// return res.send(result.rows[0])
+									return res.send({ downloaded: true, result })
+								}
 							}
 						}
 						else {
@@ -183,7 +185,9 @@ router.get('/play', (req, res) => {
 					})
 				}
 			}
-			console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+			if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 <= 100) {
+				console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+			}
 		}
 	 });
 
