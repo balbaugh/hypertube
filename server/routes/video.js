@@ -11,7 +11,6 @@ let filePath = '';
 let fileSize = '';
 let title = '';
 let imdbCode = '';
-let sentResponse = false;
 
 let langObj = {
 	en: 0,
@@ -83,6 +82,7 @@ const download = async (
 
 router.get('/play', (req, res) => {
 	const link = req.query.magnet;
+	let sentResponse = false;
 
 	imdbCode = link.imdbCode
 
@@ -141,9 +141,11 @@ router.get('/play', (req, res) => {
 										console.log('date update err', err3)
 									}
 								})
-								sentResponse = true
-								// return res.send(result.rows[0])
-								return res.send({ downloaded: true, result })
+								if (!sentResponse) {
+									sentResponse = true
+									// return res.send(result.rows[0])
+									return res.send({ downloaded: true, result })
+								}
 							}
 						}
 						else {
@@ -183,12 +185,13 @@ router.get('/play', (req, res) => {
 					})
 				}
 			}
-			console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+			if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 <= 100) {
+				console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2),'%')
+			}
 		}
 	 });
 
 	engine.on('idle', () => {
-		console.log('after idle')
 
 		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
 				dbConn.pool.query(`UPDATE movies SET downloaded = $1 WHERE movie_path = $2`,
@@ -197,7 +200,7 @@ router.get('/play', (req, res) => {
 					if (err5)
 						console.log('Downloaded ERRR', err5)
 					else {
-						console.log('updated')
+						console.log(`${link.title} downloaded.`)
 						engine.destroy(() => {
 							sentResponse = false;
 						});
