@@ -188,7 +188,6 @@ router.get('/play', (req, res) => {
 	 });
 
 	engine.on('idle', () => {
-		console.log('after idle')
 
 		if (fs.existsSync(`./downloads/${imdbCode}/${link.title}/${filePath}`)) {
 				dbConn.pool.query(`UPDATE movies SET downloaded = $1 WHERE movie_path = $2`,
@@ -197,7 +196,7 @@ router.get('/play', (req, res) => {
 					if (err5)
 						console.log('Downloaded ERRR', err5)
 					else {
-						console.log('updated')
+						console.log(`${link.title} downloaded.`)
 						engine.destroy(() => {
 							sentResponse = false;
 						});
