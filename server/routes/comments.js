@@ -42,7 +42,7 @@ const dbConn = require('../utils/dbConnection');
 
 router.get('/comments/:movieId', (req, res) => {
     const movieId = req.params.movieId
-    console.log('huu', movieId)
+    //console.log('huu', movieId)
     dbConn.pool.query(`SELECT *
                        FROM comments
                        WHERE movie_id = $1`,

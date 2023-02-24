@@ -43,8 +43,8 @@ const {connectDB} = dbConn;
 connectDB();
 
 const middleware = require('./utils/middleware');
-app.use(middleware.requestLogger);
-app.use(middleware.morganLogger);
+//app.use(middleware.requestLogger);
+//app.use(middleware.morganLogger);
 
 // const filePath = path.join(process.cwd(), 'subtitles', code, filename)
 

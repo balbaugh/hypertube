@@ -78,6 +78,9 @@ router.get('/watched', (req, res) => {
                 }
             })
     }
+    else {
+        res.redirect('/')
+    }
 })
 
 // original getPoster

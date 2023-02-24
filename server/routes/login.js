@@ -108,6 +108,7 @@ router.get('/42', (req, res) => {
         body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
     })
         .then((response) => {
+            console.log('THIS', response.statusText)
             return response.json()
         })
         .then((data) => {
@@ -118,6 +119,7 @@ router.get('/42', (req, res) => {
                 }
             })
                 .then((response) => {
+                    console.log('THIS2', response)
                     return response.json()
                 })
                 .then((data) => {

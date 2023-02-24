@@ -11,6 +11,8 @@ let filePath = '';
 let fileSize = '';
 let title = '';
 let imdbCode = '';
+let startReady = '';
+let startStream = '';
 
 let langObj = {
     en: 0,
@@ -48,9 +50,9 @@ const download = async (
     const fileName = path.basename(dest);
     const finalDest = path.join(`./subtitles/${imdbCode}`, fileName)
 
-    console.log('PATH', dest)
-    console.log('PATH', finalDest)
-    console.log('PATH', subsData.attributes.language)
+    //console.log('PATH', dest)
+    //console.log('PATH', finalDest)
+    //console.log('PATH', subsData.attributes.language)
 
     dbConn.pool.query(`SELECT *
                        FROM subtitles
@@ -84,14 +86,16 @@ const download = async (
 };
 
 router.get('/play', (req, res) => {
+	console.log('PLAYALUSSA', startReady)
     const link = req.query.magnet;
+		if (link) {
     let sentResponse = false;
 
     imdbCode = link.imdbCode
 
-    console.log('link', link)
-    console.log('magnet', link.magnetUrl)
-    console.log('title', link.title)
+    //console.log('link', link)
+    //console.log('magnet', link.magnetUrl)
+    //console.log('title', link.title)
 
     const torrentStreamOptions = {
         trackers: [
@@ -113,14 +117,16 @@ router.get('/play', (req, res) => {
     );
 
     engine.on('ready', () => {
-        //sentResponse = false;
+        sentResponse = false;
+				startReady = false;
+				startStream = false;
     });
 
     engine.on('torrent', () => {
         engine.files.forEach((file) => {
-            console.log('filename', file.name)
-            console.log('filepath', file.path)
-            console.log('filelength', file.length)
+            //console.log('filename', file.name)
+            //console.log('filepath', file.path)
+            //console.log('filelength', file.length)
 
             if (file.name.endsWith('.mkv')) {
 
@@ -150,8 +156,8 @@ router.get('/play', (req, res) => {
                                     })
                                 if (!sentResponse) {
                                     sentResponse = true
-                                    // return res.send(result.rows[0])
-                                    return res.send({downloaded: true, result})
+                                    startReady = true
+                                    return res.send({downloaded: true, result: result.rows[0]})
                                 }
                             }
                         } else {
@@ -187,8 +193,9 @@ router.get('/play', (req, res) => {
                             if (err2)
                                 console.log('stream err', err2)
                             else {
-                                sentResponse = true;
-                                res.send({streamIt: true, result: result2.rows[0]});
+															startStream = true;
+															sentResponse = true;
+                              res.send({streamIt: true, result: result2.rows[0]});
                             }
                         })
                 }
@@ -218,28 +225,40 @@ router.get('/play', (req, res) => {
                 })
         }
     })
+	}
+	else {
+		res.redirect('/')
+	}
 })
 
 router.get(`/ready`, (req, res) => {
-    const file = `./downloads/${imdbCode}/${title}/${filePath}`
-    const stream = fs.createReadStream(file);
+	console.log('READYSSA', startReady)
+	if (startReady) {
+		const file = `./downloads/${imdbCode}/${title}/${filePath}`
+		const stream = fs.createReadStream(file);
 
-    const start = 0;
-    const end = fileSize - 1;
-    const chunkSize = end - start + 1;
+		const start = 0;
+		const end = fileSize - 1;
+		const chunkSize = end - start + 1;
 
-    const headers = {
-        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': chunkSize,
-        'Content-Type': 'video/mp4',
-    }
-    res.writeHead(200, headers)
-    stream.pipe(res)
+		const headers = {
+				'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+				'Accept-Ranges': 'bytes',
+				'Content-Length': chunkSize,
+				'Content-Type': 'video/mp4',
+		}
+		res.writeHead(200, headers)
+		stream.pipe(res)
+	}
+	else {
+		res.redirect('/');
+	}
+
 });
 
 router.get(`/stream`, (req, res) => {
-    const file = `./downloads/${imdbCode}/${title}/${filePath}`;
+	if (startStream) {
+		const file = `./downloads/${imdbCode}/${title}/${filePath}`;
     const fsize = fileSize
     const fsize1 = fs.statSync(file).size
 
@@ -271,6 +290,10 @@ router.get(`/stream`, (req, res) => {
 
     res.writeHead(206, headers);
     stream.pipe(res);
+	}
+	else {
+		res.redirect('/');
+	}
 });
 
 // SUBTITLES
@@ -344,7 +367,7 @@ router.get('/getSubs', (req, res) => {
             if (err)
                 console.log('getSubs err', err)
             else {
-                console.log('hohoo', result.rows)
+                //console.log('hohoo', result.rows)
                 res.send(result.rows);
             }
         })
@@ -352,8 +375,8 @@ router.get('/getSubs', (req, res) => {
 
 router.get('/subtitles/:code/:filename', (req, res) => {
     const {code, filename} = req.params;
-    console.log('HIHIHIHIHIHI', code)
-    console.log('HIHIHIHIHIHI2', filename)
+    //console.log('HIHIHIHIHIHI', code)
+    //console.log('HIHIHIHIHIHI2', filename)
 
 // const filePath = `subtitles/${code}/${filename}`;
     const filePath = path.join(process.cwd(), 'subtitles', code, filename)
