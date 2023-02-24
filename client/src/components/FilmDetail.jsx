@@ -9,13 +9,6 @@ import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 import CommentElement from './CommentElement';
 
-const backUp = require('../images/noImage.png');
-const imageError = (e) => {
-    console.log('Image failed to load:', e.target.src);
-
-    e.target.src = backUp;
-}
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }

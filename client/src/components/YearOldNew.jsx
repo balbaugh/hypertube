@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useRef, useState} from 'react';
+import React, {Fragment, useEffect, useRef, useState, useCallback} from 'react';
 import {Link} from 'react-router-dom';
 import {Combobox, Menu, Transition} from '@headlessui/react';
 import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid';
@@ -22,7 +22,7 @@ const YearOldNew = () => {
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);
     const [searchResults, setSearchResults] = useState([]);
     const [query, setQuery] = useState('');
@@ -35,15 +35,15 @@ const YearOldNew = () => {
 
     axios.defaults.withCredentials = true // For the sessions the work
 
-    useEffect(() => {
-        axiosStuff
-            .movieTest().then((response) => {
-            console.log('oikee', response)
-        })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    //useEffect(() => {
+    //    axiosStuff
+    //        .movieTest().then((response) => {
+    //        console.log('oikee', response)
+    //    })
+    //    setTimeout(() => {
+    //        setLoading(false);
+    //    }, 5000)
+    //}, [])
 
     useEffect(() => {
         axiosStuff
@@ -52,10 +52,10 @@ const YearOldNew = () => {
         })
     }, [])
 
-    const loadMoreMovies = async () => {
-        console.log('********************')
-        console.log('EXECUTING LOAD MORE!')
-        console.log('********************')
+    const loadMoreMovies = useCallback(async () => {
+        //console.log('********************')
+        //console.log('EXECUTING LOAD MORE!')
+        //console.log('********************')
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=20&page=${currentPage}`,
@@ -80,10 +80,9 @@ const YearOldNew = () => {
                     console.error(error);
                 }
             };
-
             fetchPoster(movie.imdb_code);
         });
-    };
+    }, []);
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -95,7 +94,8 @@ const YearOldNew = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies().then(r => console.log('movies', movies));
+        loadMoreMovies()
+        //.then(r => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
@@ -183,7 +183,7 @@ const YearOldNew = () => {
         const fetchPoster = async (code) => {
             if (!posterUrls[code]) { // check if poster URL has already been fetched
                 try {
-                    console.log('FETCHING POSTER!!!')
+                    //console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
                     //console.log('Response data:', response);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
@@ -200,7 +200,9 @@ const YearOldNew = () => {
         moviesToFetch.forEach((movie) => {
             fetchPoster(movie.imdb_code);
         });
-    }, [filteredMovies]);
+    }, [filteredMovies, posterUrls]);
+
+    console.log('UUS', movies.length)
 
     return (
         <div>
@@ -343,7 +345,8 @@ const YearOldNew = () => {
                                 </h2>
 
                                 <InfiniteScroll
-                                    dataLength={filteredMovies.length}
+                                    dataLength={movies.length}
+                                    //dataLength={filteredMovies.length}
                                     next={loadMoreMovies}
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}

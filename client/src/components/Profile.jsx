@@ -81,7 +81,7 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
                                 {t('Profile.your_profile')}
                             </h2>
                             <div className="inline-block mx-auto mt-6 mb-6 w-60 h-60">
-                                <img className="rounded rounded-full" src={selectedAvatar} alt=""/>
+                                <img className="rounded-full  //rounded" src={selectedAvatar} alt=""/>
                             </div>
                         </div>
                         {/* OAUTH STUFF */}
@@ -120,7 +120,9 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
                             <div className="pb-6 mt-1">
                                 <button
                                     type="button"
-                                    className="inline-block w-full rounded-xl py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                    className="inline-block w-full py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300
+                                    //rounded-md
+                                    shadow-sm rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                 >
                                     <input className="rounded" type="file" name="file" id="set_profilepic"
                                            accept="image/jpeg, image/png, image/jpg"
@@ -132,7 +134,7 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
                         <Link to="/profileEdit">
                             <button
                                 type="button"
-                                className="inline-block w-full rounded-xl px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 text-slate-200"
+                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded-xl text-slate-200"
                             >
                                 {t('Profile.edit_profile')}
                             </button>
@@ -140,7 +142,7 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
                         <Link to="/changePassword">
                             <button
                                 type="button"
-                                className="inline-block w-full rounded-xl px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 text-slate-200"
+                                className="inline-block w-full px-6 py-4 mb-6 text-lg font-semibold leading-6 text-center bg-red-500 rounded-xl text-slate-200"
                             >
                                 {t('Profile.change_password')}
                             </button>
