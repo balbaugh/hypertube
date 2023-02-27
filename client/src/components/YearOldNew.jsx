@@ -35,15 +35,15 @@ const YearOldNew = () => {
 
     axios.defaults.withCredentials = true // For the sessions the work
 
-    //useEffect(() => {
-    //    axiosStuff
-    //        .movieTest().then((response) => {
-    //        console.log('oikee', response)
-    //    })
-    //    setTimeout(() => {
-    //        setLoading(false);
-    //    }, 5000)
-    //}, [])
+    // useEffect(() => {
+    //     axiosStuff
+    //         .movieTest().then((response) => {
+    //         console.log('oikee', response)
+    //     })
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
 
     useEffect(() => {
         axiosStuff
@@ -52,16 +52,12 @@ const YearOldNew = () => {
         })
     }, [])
 
-    const filterMovies = useCallback((movie) => {
-        const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
-        return searchFilter && (query.trim() === '' || ratingFilter);
-    }, [query, ratingRange]);
+    console.log('WATHCEEED', watched)
 
-    const loadMoreMovies = useCallback(async () => {
-        //console.log('********************')
-        //console.log('EXECUTING LOAD MORE!')
-        //console.log('********************')
+    const loadMoreMovies = async () => {
+        console.log('********************')
+        console.log('EXECUTING LOAD MORE!')
+        console.log('********************')
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=asc&limit=20&page=${currentPage}`,
@@ -86,9 +82,10 @@ const YearOldNew = () => {
                     console.error(error);
                 }
             };
+
             fetchPoster(movie.imdb_code);
         });
-    }, [currentPage, filterMovies, posterUrls]);
+    };
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -99,21 +96,15 @@ const YearOldNew = () => {
         setLoading(false)
     }, [ratingRange]);
 
-    const loadMoreMoviesRef = useRef(loadMoreMovies);
-    const throttledRef = useRef(throttledLoadMoreMovies)
-
     useEffect(() => {
-        loadMoreMoviesRef.current()
-        //loadMoreMovies()
-        //.then(r => console.log('movies', movies));
+        loadMoreMovies().then(r => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
             if (target.isIntersecting) {
                 if (!isLoading) {
                     if (hasMore) {
-                        //throttledLoadMoreMovies();
-                        throttledRef.current();
+                        throttledLoadMoreMovies();
                     }
                 }
             }
@@ -130,17 +121,17 @@ const YearOldNew = () => {
                 observer.unobserve(loadMoreNode);
             }
         };
-    }, [hasMore, isLoading]);
+    }, []);
 
     const handleRatingChange = (event, newValue) => {
         setRatingRange(newValue);
     };
 
-    //const filterMovies = (movie) => {
-    //    const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-    //    const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
-    //    return searchFilter && (query.trim() === '' || ratingFilter);
-    //};
+    const filterMovies = (movie) => {
+        const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
+        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
+        return searchFilter && (query.trim() === '' || ratingFilter);
+    };
 
     const filteredMovies = query.trim() === '' ? movies : movies.filter(filterMovies);
 
@@ -194,10 +185,8 @@ const YearOldNew = () => {
         const fetchPoster = async (code) => {
             if (!posterUrls[code]) { // check if poster URL has already been fetched
                 try {
-                    //console.log('FETCHING POSTER!!!')
+                    console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
-                    //console.log('Response data:', response);
-                    // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
                     setPosterUrls((prevState) => ({...prevState, [code]: url}));
                 } catch (error) {
@@ -211,9 +200,7 @@ const YearOldNew = () => {
         moviesToFetch.forEach((movie) => {
             fetchPoster(movie.imdb_code);
         });
-    }, [filteredMovies, posterUrls]);
-
-    console.log('UUS', movies.length)
+    }, [filteredMovies]);
 
     return (
         <div>

@@ -35,27 +35,29 @@ const Homepage = () => {
 
     axios.defaults.withCredentials = true // For the sessions the work
 
-    //useEffect(() => {
-    //    axiosStuff
-    //        .movieTest().then((response) => {
-    //        //console.log('oikee', response)
-    //    })
-    //    setTimeout(() => {
-    //        setLoading(false);
-    //    }, 5000)
-    //}, [])
+    // useEffect(() => {
+    //     axiosStuff
+    //         .movieTest().then((response) => {
+    //         console.log('oikee', response)
+    //     })
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000)
+    // }, [])
 
     useEffect(() => {
         axiosStuff
             .getWatched().then((response) => {
-            setWatched(response?.map(all => all.movie_id))
+            setWatched(response.map(all => all.movie_id))
         })
     }, [])
 
+    console.log('WATHCEEED', watched)
+
     const loadMoreMovies = async () => {
-        //console.log('********************')
-        //console.log('EXECUTING LOAD MORE!')
-        //console.log('********************')
+        console.log('********************')
+        console.log('EXECUTING LOAD MORE!')
+        console.log('********************')
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
@@ -65,7 +67,6 @@ const Homepage = () => {
         setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
-
 
         // Fetch poster images for new movies
         const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
@@ -81,6 +82,7 @@ const Homepage = () => {
                     console.error(error);
                 }
             };
+
             fetchPoster(movie.imdb_code);
         });
     };
@@ -95,10 +97,7 @@ const Homepage = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies()
-        //.then(r =>
-        //    console.log('movies', movies)
-        //);
+        loadMoreMovies().then(r => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
@@ -186,7 +185,7 @@ const Homepage = () => {
         const fetchPoster = async (code) => {
             if (!posterUrls[code]) { // check if poster URL has already been fetched
                 try {
-                    //console.log('FETCHING POSTER!!!')
+                    console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
                     const url = response
                     setPosterUrls((prevState) => ({...prevState, [code]: url}));
@@ -201,7 +200,9 @@ const Homepage = () => {
         moviesToFetch.forEach((movie) => {
             fetchPoster(movie.imdb_code);
         });
-    }, [filteredMovies, posterUrls]);
+    }, [filteredMovies]);
+
+
 
     return (
         <div>

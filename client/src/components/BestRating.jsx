@@ -35,14 +35,14 @@ const BestRating = () => {
 
     axios.defaults.withCredentials = true; // For the sessions the work
 
-    useEffect(() => {
-        axiosStuff.movieTest().then((response) => {
-            console.log('oikee', response);
-        });
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000);
-    }, []);
+    // useEffect(() => {
+    //     axiosStuff.movieTest().then((response) => {
+    //         console.log('oikee', response);
+    //     });
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 5000);
+    // }, []);
 
     useEffect(() => {
         axiosStuff.getWatched().then((response) => {
