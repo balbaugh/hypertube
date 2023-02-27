@@ -22,26 +22,27 @@ const Nav = ({itsMe, setItsMe, selectedAvatar}) => {
         if (savedLanguage) {
             i18n.changeLanguage(savedLanguage);
         }
-    }, [selectedAvatar]);
+    }, [selectedAvatar, i18n]);
 
     axios.defaults.withCredentials = true; // For the sessions the work
 
 
     let navigation = [];
 
-    {
-        itsMe.username ? (
+
+        if (itsMe.username)  {
             navigation = [
                 {name: t('Navbar.Home'), href: '/homepage', current: false},
             ]
-        ) : (
+        }
+        else {
             navigation = [
                 {name: t('Navbar.Home'), href: '/homepage', current: false},
                 {name: t('Navbar.Register'), href: '/registration', current: false},
                 {name: t('Navbar.Forgot'), href: '/forgot', current: false},
             ]
-        )
-    }
+        }
+
 
     console.log('ITSMEEE.path', itsMe.path);
     console.log('ITSMEEE.username', itsMe.username)

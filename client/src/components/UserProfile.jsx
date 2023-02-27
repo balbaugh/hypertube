@@ -3,7 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import {useTranslation} from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import axios from 'axios';
-import InfoText from "./infoText";
+//import InfoText from "./infoText";
 
 //const GITHUB_CLIENT_ID = 'dc9f41e6c78388a47b7c';
 //const UID_42 = 'u-s4t2ud-faaf276d86ee3fc2e9ce4eb0498f051d356bf43b5c85848feb0eddd31f9a18e0';
@@ -30,15 +30,15 @@ function useProfile() {
                 setLastName(response.lastname)
                 setProfilePic(response.path)
             })
-    }, [])
+    }, [params.id])
 
     return {
         userId, username, firstName, lastName, profilePic
     }
 }
 
-const UserProfile = ({}) => {
-    const [message, setMessage] = useState(null);
+const UserProfile = () => {
+    //const [message, setMessage] = useState(null);
     const {username, firstName, lastName, profilePic} = useProfile();
     const {t} = useTranslation();
 
@@ -56,7 +56,7 @@ const UserProfile = ({}) => {
                             </div>
                         </div>
                         {/* OAUTH STUFF */}
-                        <InfoText message={message}/>
+                        {/*<InfoText message={message}/>*/}
                         <div className="pt-2 mb-6">
                             <div className="block mb-2">
                                 <p className="block mb-2 text-xl font-semibold text-red-500">{t('UserProfile.username')}:</p>

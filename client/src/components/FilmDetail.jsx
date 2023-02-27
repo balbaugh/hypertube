@@ -30,23 +30,26 @@ const FilmDetail = ({itsMe}) => {
         if (playerRef.current !== null) {
             playerRef.current.seekTo(0, 'seconds');
         }
-    }, [playerRef.current])
+    }, [])
+//}, [playerRef.current])
 
-    const fetchPoster = async (code) => {
-        if (!posterUrls[code]) { // check if poster URL has already been fetched
-            try {
-                console.log('FETCHING POSTER!!!')
-                const response = await axiosStuff.getPoster(code);
-                // const url = `https://image.tmdb.org/t/p/w500/${response}`;
-                const url = response
-                setPosterUrls((prevState) => ({...prevState, [code]: url}));
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    };
+
 
     useEffect(() => {
+        const fetchPoster = async (code) => {
+            if (!posterUrls[code]) { // check if poster URL has already been fetched
+                try {
+                    console.log('FETCHING POSTER!!!')
+                    const response = await axiosStuff.getPoster(code);
+                    // const url = `https://image.tmdb.org/t/p/w500/${response}`;
+                    const url = response
+                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        };
+
         axiosStuff.toMovie(id)
             .then((response) => {
                 if (response.parsed.data.movie) {
@@ -63,7 +66,7 @@ const FilmDetail = ({itsMe}) => {
             .catch((error) => {
                 console.log('tomovie CATCH ERRROR', error);
             });
-    }, [id]);
+    }, [id, posterUrls]);
 
     const startMovie = () => {
         const movieHash = movies.torrents[0].hash;
@@ -82,7 +85,7 @@ const FilmDetail = ({itsMe}) => {
             console.log('TAMA', imdbCode)
             axiosStuff.getSubs({imdbCode})
                 .then((response2) => {
-                    console.log('subs', response2)
+                    //console.log('subs', response2)
                     setSubs(response2)
                 })
         }, 1000)
@@ -117,8 +120,8 @@ const FilmDetail = ({itsMe}) => {
         }
     }
 
-    if (subsConfig.file.tracks.length)
-        console.log('subsconf', subsConfig)
+    //if (subsConfig.file.tracks.length)
+    //    console.log('subsconf', subsConfig)
 
     return (
         <div>

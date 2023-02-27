@@ -72,8 +72,8 @@ router.get('/42', (req, res) => {
             var randomUsername = crypto.randomBytes(20).toString('hex')
             var sql = 'SELECT * FROM users WHERE username = $1;'
             const result = await dbConn.pool.query(sql, [randomUsername])
-            console.log('randomUsername:', randomUsername)
-            console.log('result.rows:', result.rows)
+            //console.log('randomUsername:', randomUsername)
+            //console.log('result.rows:', result.rows)
             if (result.rows.length < 1) {
                 console.log('No duplicates found for the newly generated random username in getlogin.')
                 break
@@ -108,7 +108,7 @@ router.get('/42', (req, res) => {
         body: `grant_type=authorization_code&client_id=${config.UID_42}&client_secret=${config.SECRET_42}&code=${code}&redirect_uri=http://localhost:3000/homepage`
     })
         .then((response) => {
-            console.log('THIS', response.statusText)
+            //console.log('THIS', response.statusText)
             return response.json()
         })
         .then((data) => {
@@ -119,11 +119,11 @@ router.get('/42', (req, res) => {
                 }
             })
                 .then((response) => {
-                    console.log('THIS2', response)
+                    //console.log('THIS2', response)
                     return response.json()
                 })
                 .then((data) => {
-                    console.log('42 login data in server/index:', data)
+                    //console.log('42 login data in server/index:', data)
                     checkDelete()
 
                     if (data?.login) {
@@ -898,8 +898,8 @@ router.put('/changePw', (req, res) => {
     const cPw = req.body.confPasswd;
     const username = req.body.user;
 
-    console.log('req.session.user', req.session.user)
-    console.log('req.session.user.id', req.session.user.id)
+    //console.log('req.session.user', req.session.user)
+    //console.log('req.session.user.id', req.session.user.id)
 
 
     if (req.session.user) {

@@ -149,14 +149,14 @@ const CommentElement = ({id, itsMe, movies}) => {
                                             <div
                                                 className="flex items-center">
                                                 <div className="ml-4">
-                                                    <a className="cursor-pointer"
+                                                    <button className="cursor-pointer"
                                                        onClick={() => navigate(`/profile/${id}`)}>
                                                         <h4
                                                             className="text-sm font-bold text-red-400"
                                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(username)}}
                                                         >
                                                         </h4>
-                                                    </a>
+                                                    </button>
                                                     <p className="text-sm text-gray-400">
                                                         {comment.created_at.substring(0, 10)} {comment.created_at.substring(11, 19)}
                                                     </p>

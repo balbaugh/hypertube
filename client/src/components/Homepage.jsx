@@ -66,6 +66,7 @@ const Homepage = () => {
         setCurrentPage(currentPage + 1);
         setIsLoading(false);
 
+
         // Fetch poster images for new movies
         const moviesToFetch = newMovies.filter((movie) => !posterUrls[movie.imdb_code]);
 
