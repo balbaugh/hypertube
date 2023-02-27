@@ -201,7 +201,7 @@ const Homepage = () => {
         moviesToFetch.forEach((movie) => {
             fetchPoster(movie.imdb_code);
         });
-    }, [filteredMovies]);
+    }, [filteredMovies, posterUrls]);
 
     return (
         <div>

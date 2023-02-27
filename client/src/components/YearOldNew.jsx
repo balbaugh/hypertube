@@ -52,6 +52,12 @@ const YearOldNew = () => {
         })
     }, [])
 
+    const filterMovies = useCallback((movie) => {
+        const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
+        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
+        return searchFilter && (query.trim() === '' || ratingFilter);
+    }, [query, ratingRange]);
+
     const loadMoreMovies = useCallback(async () => {
         //console.log('********************')
         //console.log('EXECUTING LOAD MORE!')
@@ -82,7 +88,7 @@ const YearOldNew = () => {
             };
             fetchPoster(movie.imdb_code);
         });
-    }, []);
+    }, [currentPage, filterMovies, posterUrls]);
 
     const throttledLoadMoreMovies = debounce(loadMoreMovies, 1000);
 
@@ -93,8 +99,12 @@ const YearOldNew = () => {
         setLoading(false)
     }, [ratingRange]);
 
+    const loadMoreMoviesRef = useRef(loadMoreMovies);
+    const throttledRef = useRef(throttledLoadMoreMovies)
+
     useEffect(() => {
-        loadMoreMovies()
+        loadMoreMoviesRef.current()
+        //loadMoreMovies()
         //.then(r => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
@@ -102,7 +112,8 @@ const YearOldNew = () => {
             if (target.isIntersecting) {
                 if (!isLoading) {
                     if (hasMore) {
-                        throttledLoadMoreMovies();
+                        //throttledLoadMoreMovies();
+                        throttledRef.current();
                     }
                 }
             }
@@ -119,17 +130,17 @@ const YearOldNew = () => {
                 observer.unobserve(loadMoreNode);
             }
         };
-    }, []);
+    }, [hasMore, isLoading]);
 
     const handleRatingChange = (event, newValue) => {
         setRatingRange(newValue);
     };
 
-    const filterMovies = (movie) => {
-        const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
-        const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
-        return searchFilter && (query.trim() === '' || ratingFilter);
-    };
+    //const filterMovies = (movie) => {
+    //    const ratingFilter = movie.rating >= ratingRange[0] && movie.rating <= ratingRange[1];
+    //    const searchFilter = query.trim() === '' || (movie.title.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.year.toString().includes(DOMPurify.sanitize(query).toLowerCase()) || movie.genres.some(genre => genre.toLowerCase().includes(DOMPurify.sanitize(query).toLowerCase())) || movie.description_full.toString().includes(DOMPurify.sanitize(query).toLowerCase()));
+    //    return searchFilter && (query.trim() === '' || ratingFilter);
+    //};
 
     const filteredMovies = query.trim() === '' ? movies : movies.filter(filterMovies);
 
@@ -348,7 +359,7 @@ const YearOldNew = () => {
                                     dataLength={movies.length}
                                     //dataLength={filteredMovies.length}
                                     next={loadMoreMovies}
-                                    hasMore={hasMore}
+                                    hasMore={true}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
                                         <p style={{textAlign: 'center'}}>

@@ -94,7 +94,7 @@ const App = () => {
                         <Route path="/profile" element={loggedIn ?
                             <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar}
                                      setSelectedAvatar={setSelectedAvatar}/> : <Homepage/>}/>
-                        <Route path="/profile/:id" element={loggedIn ? <UserProfile/> : <Landing/>}/>   
+                        <Route path="/profile/:id" element={loggedIn ? <UserProfile/> : <Landing/>}/>
                         <Route path="/profileEdit" element={loggedIn ? <ProfileEdit/> : <Landing/>}/>
                         <Route path="/best-rating" element={loggedIn ? <BestRating/> : <Landing/>}/>
                         <Route path="/newest" element={loggedIn ? <Newest/> : <Landing/>}/>

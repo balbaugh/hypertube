@@ -35,15 +35,15 @@ const YearNewOld = () => {
 
     axios.defaults.withCredentials = true // For the sessions the work
 
-    useEffect(() => {
-        axiosStuff
-            .movieTest().then((response) => {
-            console.log('oikee', response)
-        })
-        setTimeout(() => {
-            setLoading(false);
-        }, 5000)
-    }, [])
+    //useEffect(() => {
+    //    axiosStuff
+    //        .movieTest().then((response) => {
+    //        console.log('oikee', response)
+    //    })
+    //    setTimeout(() => {
+    //        setLoading(false);
+    //    }, 5000)
+    //}, [])
 
     useEffect(() => {
         axiosStuff
@@ -53,9 +53,9 @@ const YearNewOld = () => {
     }, [])
 
     const loadMoreMovies = async () => {
-        console.log('********************')
-        console.log('EXECUTING LOAD MORE!')
-        console.log('********************')
+        //console.log('********************')
+        //console.log('EXECUTING LOAD MORE!')
+        //console.log('********************')
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=year&order_by=desc&limit=20&page=${currentPage}`,
@@ -95,7 +95,8 @@ const YearNewOld = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies().then(r => console.log('movies', movies));
+        loadMoreMovies()
+        //.then(r => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver((entries) => {
             const target = entries[0];
