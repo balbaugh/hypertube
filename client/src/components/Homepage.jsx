@@ -48,7 +48,7 @@ const Homepage = () => {
     useEffect(() => {
         axiosStuff
             .getWatched().then((response) => {
-            setWatched(response.map(all => all.movie_id))
+            setWatched(response?.map(all => all.movie_id))
         })
     }, [])
 

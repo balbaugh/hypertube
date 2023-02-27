@@ -127,15 +127,16 @@ router.put('/profileEdit', (req, res) => {
                         })
                 }
             })
-    } else
-        res.redirect('/');
+    } else {
+        res.send({ message: 'You are no longer logged in. Please log in to edit your profile.' })
+    }
 })
 
 router.post('/setprofilepic', upload.single('file'), async (request, response) => {
     const session = request.session.user
     console.log('request.session.user', request.session.user)
     const picture = 'http://localhost:3001/images/' + request.file.filename
-    if (session.id) {
+    if (session && session.id) {
         if (request.file.size > 5242880) {
             return response.send('The maximum size for uploaded images is 5 megabytes.')
         }
@@ -165,6 +166,8 @@ router.post('/setprofilepic', upload.single('file'), async (request, response) =
             console.error(error)
             response.send({message: `Something went wrong when trying to upload the image.`})
         }
+    } else {
+        response.send({ message: 'You are no longer logged in. Please log in to change your profile picture.' })
     }
 })
 

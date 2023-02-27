@@ -60,7 +60,7 @@ router.get('/42', (req, res) => {
     const retrieveId = async (randomUsername) => {
         try {
             var sql = "SELECT id FROM users WHERE username = $1;"
-            var {rows} = await dbConn.pool.query(sql, [randomUsername])
+            var { rows } = await dbConn.pool.query(sql, [randomUsername])
             return (rows[0].id)
         } catch (error) {
             console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -154,7 +154,7 @@ router.get('/42', (req, res) => {
                             const retrieveIdBy42Id = async (fortytwo_id) => {
                                 try {
                                     var sql = "SELECT id FROM users WHERE fortytwo_id = $1;"
-                                    var {rows} = await dbConn.pool.query(sql, [fortytwo_id])
+                                    var { rows } = await dbConn.pool.query(sql, [fortytwo_id])
                                     return (rows[0].id)
                                 } catch (error) {
                                     console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -202,8 +202,8 @@ router.get('/42', (req, res) => {
                                                                             }
                                                                         })
                                                                 }).catch((error) => {
-                                                                return (error)
-                                                            })
+                                                                    return (error)
+                                                                })
                                                         }
                                                     })
                                             })
@@ -235,8 +235,8 @@ router.get('/42', (req, res) => {
                                                                         result
                                                                     })
                                                                 }).catch(error => {
-                                                                console.error(error)
-                                                            })
+                                                                    console.error(error)
+                                                                })
                                                         } catch (error) {
                                                             console.error(error)
                                                         }
@@ -252,8 +252,8 @@ router.get('/42', (req, res) => {
                                             })
                                     }
                                 }).catch(error => {
-                                console.error(error)
-                            })
+                                    console.error(error)
+                                })
                         } else {
                             console.log('We\'re accessing the Github OAuth API.')
 
@@ -275,7 +275,7 @@ router.get('/42', (req, res) => {
                             const retrieveIdByGithubId = async (github_id) => {
                                 try {
                                     var sql = "SELECT id FROM users WHERE github_id = $1;"
-                                    var {rows} = await dbConn.pool.query(sql, [github_id])
+                                    var { rows } = await dbConn.pool.query(sql, [github_id])
                                     return (rows[0].id)
                                 } catch (error) {
                                     console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -323,8 +323,8 @@ router.get('/42', (req, res) => {
                                                                             }
                                                                         })
                                                                 }).catch((error) => {
-                                                                return (error)
-                                                            })
+                                                                    return (error)
+                                                                })
                                                         }
                                                     })
                                             })
@@ -356,8 +356,8 @@ router.get('/42', (req, res) => {
                                                                         result
                                                                     })
                                                                 }).catch(error => {
-                                                                console.error(error)
-                                                            })
+                                                                    console.error(error)
+                                                                })
                                                         } catch (error) {
                                                             console.error(error)
                                                         }
@@ -373,14 +373,14 @@ router.get('/42', (req, res) => {
                                             })
                                     }
                                 }).catch(error => {
-                                console.error(error)
-                            })
+                                    console.error(error)
+                                })
 
                         }
                     }
                 }).catch(error => {
-                console.error(error)
-            })
+                    console.error(error)
+                })
         })
 })
 
@@ -391,7 +391,7 @@ router.get('/github', (req, res) => {
     const retrieveId = async (randomUsername) => {
         try {
             var sql = "SELECT id FROM users WHERE username = $1;"
-            var {rows} = await dbConn.pool.query(sql, [randomUsername])
+            var { rows } = await dbConn.pool.query(sql, [randomUsername])
             return (rows[0].id)
         } catch (error) {
             console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -481,7 +481,7 @@ router.get('/github', (req, res) => {
                             const retrieveIdBy42Id = async (fortytwo_id) => {
                                 try {
                                     var sql = "SELECT id FROM users WHERE fortytwo_id = $1;"
-                                    var {rows} = await dbConn.pool.query(sql, [fortytwo_id])
+                                    var { rows } = await dbConn.pool.query(sql, [fortytwo_id])
                                     return (rows[0].id)
                                 } catch (error) {
                                     console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -529,8 +529,8 @@ router.get('/github', (req, res) => {
                                                                             }
                                                                         })
                                                                 }).catch((error) => {
-                                                                return (error)
-                                                            })
+                                                                    return (error)
+                                                                })
                                                         }
                                                     })
                                             })
@@ -562,8 +562,8 @@ router.get('/github', (req, res) => {
                                                                         result
                                                                     })
                                                                 }).catch(error => {
-                                                                console.error(error)
-                                                            })
+                                                                    console.error(error)
+                                                                })
                                                         } catch (error) {
                                                             console.error(error)
                                                         }
@@ -579,8 +579,8 @@ router.get('/github', (req, res) => {
                                             })
                                     }
                                 }).catch(error => {
-                                console.error(error)
-                            })
+                                    console.error(error)
+                                })
                         } else {
                             console.log('We\'re accessing the Github OAuth API.')
 
@@ -602,7 +602,7 @@ router.get('/github', (req, res) => {
                             const retrieveIdByGithubId = async (github_id) => {
                                 try {
                                     var sql = "SELECT id FROM users WHERE github_id = $1;"
-                                    var {rows} = await dbConn.pool.query(sql, [github_id])
+                                    var { rows } = await dbConn.pool.query(sql, [github_id])
                                     return (rows[0].id)
                                 } catch (error) {
                                     console.error("Something went wrong when trying to retrieve user ID:", error)
@@ -650,8 +650,8 @@ router.get('/github', (req, res) => {
                                                                             }
                                                                         })
                                                                 }).catch((error) => {
-                                                                return (error)
-                                                            })
+                                                                    return (error)
+                                                                })
                                                         }
                                                     })
                                             })
@@ -683,8 +683,8 @@ router.get('/github', (req, res) => {
                                                                         result
                                                                     })
                                                                 }).catch(error => {
-                                                                console.error(error)
-                                                            })
+                                                                    console.error(error)
+                                                                })
                                                         } catch (error) {
                                                             console.error(error)
                                                         }
@@ -700,14 +700,14 @@ router.get('/github', (req, res) => {
                                             })
                                     }
                                 }).catch(error => {
-                                console.error(error)
-                            })
+                                    console.error(error)
+                                })
 
                         }
                     }
                 }).catch(error => {
-                console.error(error)
-            })
+                    console.error(error)
+                })
         })
 })
 
@@ -726,11 +726,11 @@ router.get('/login', (req, res) => {
                     console.error('req.user.session', err);
                 } else {
                     checkDelete();
-                    res.send({loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result});
+                    res.send({ loggedIn: true, user: req.session.user, avatar: result.rows[0]['path'], result });
                 }
             })
     } else
-        res.send({loggedIn: false});
+        res.send({ loggedIn: false });
 })
 
 router.post('/login', (req, res) => {
@@ -738,14 +738,14 @@ router.post('/login', (req, res) => {
     const password = req.body.password;
 
     if (username.length < 4 || username.length > 20)
-        return res.send({message: `Username must be between 4 - 20 characters.`})
+        return res.send({ message: `Username must be between 4 - 20 characters.` })
     if (!username.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Username can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
+        return res.send({ message: 'Username can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
     //password checks
     if (password.length < 8 || password.length > 20)
-        return res.send({message: `Password must be between 8 - 20 characters.`})
+        return res.send({ message: `Password must be between 8 - 20 characters.` })
     if (!password.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
+        return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 
     dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, password, path
                        FROM users
@@ -761,29 +761,29 @@ router.post('/login', (req, res) => {
                 bcrypt.compare(password, result.rows[0].password, (error, response) => {
                     if (response) {
                         if (result.rows[0].status === 0) {
-                            return res.send({message: 'Verify your email thanks.'});
+                            return res.send({ message: 'Verify your email thanks.' });
                         }
                         req.session.user = result.rows[0];
-                        res.send({result, message: `Logged in as '${username}' `});
+                        res.send({ result, message: `Logged in as '${username}' ` });
                     } else
-                        return res.send({message: `Wrong username / password combo.`});
+                        return res.send({ message: `Wrong username / password combo.` });
                 })
             } else {
-                return res.send({message: 'User doesn\'t exist.'});
+                return res.send({ message: 'User doesn\'t exist.' });
             }
         })
 })
 
 router.get('/logout', (req, res) => {
-        req.session.destroy((err, result) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500);
-            } else {
-                res.sendStatus(200)
-            }
-        })
-    }
+    req.session.destroy((err, result) => {
+        if (err) {
+            console.error(err);
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(200)
+        }
+    })
+}
 )
 
 router.post('/forgot', (req, res) => {
@@ -826,9 +826,9 @@ router.post('/forgot', (req, res) => {
                     }
 
                     sendVerif();
-                    res.send({result, message: `Link sent to '${email}'.`})
+                    res.send({ result, message: `Link sent to '${email}'.` })
                 } else {
-                    res.send({result, message: `no such email.`})
+                    res.send({ result, message: `no such email.` })
                 }
             }
         })
@@ -855,13 +855,13 @@ router.put('/newPw', (req, res) => {
     const username = req.body.user;
 
     if (pw.length < 8 || pw.length > 20)
-        return res.send({message: `Password must be between 8 - 20 characters.`})
+        return res.send({ message: `Password must be between 8 - 20 characters.` })
     if (!pw.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
+        return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
     if (cPw.length < 8 || cPw.length > 20)
-        return res.send({message: `Password must be between 8 - 20 characters.`})
+        return res.send({ message: `Password must be between 8 - 20 characters.` })
     if (!cPw.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
+        return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
     if (!pw.match(/(?=^.{8,20}$)(?=.*\d)(?=.*[_.!#@-]+)(?=.*[A-Z])(?=.*[a-z]).*$/)) {
         return res.send({
             message: `Please enter a password with a length between 8 and 30 characters,
@@ -872,7 +872,7 @@ router.put('/newPw', (req, res) => {
         })
     }
     if (pw !== cPw)
-        return (res.send({message: 'Passwords don\'t match.'}))
+        return (res.send({ message: 'Passwords don\'t match.' }))
 
     bcrypt.hash(pw, 10, (err, hash) => {
         if (err)
@@ -886,7 +886,7 @@ router.put('/newPw', (req, res) => {
                     if (err1)
                         console.log('update pw err', err1);
                     else {
-                        res.send({result1, message: `Password changed!`})
+                        res.send({ result1, message: `Password changed!` })
                     }
                 })
         }
@@ -898,43 +898,51 @@ router.put('/changePw', (req, res) => {
     const cPw = req.body.confPasswd;
     const username = req.body.user;
 
-    if (pw.length < 8 || pw.length > 20)
-        return res.send({message: `Password must be between 8 - 20 characters.`})
-    if (!pw.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
-    if (cPw.length < 8 || cPw.length > 20)
-        return res.send({message: `Password must be between 8 - 20 characters.`})
-    if (!cPw.match(/^[a-zA-Z0-9_.!@-]+$/))
-        return res.send({message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)'})
-    if (!pw.match(/(?=^.{8,20}$)(?=.*\d)(?=.*[_.!#@-]+)(?=.*[A-Z])(?=.*[a-z]).*$/)) {
-        return res.send({
-            message: `Please enter a password with a length between 8 and 30 characters,
+    console.log('req.session.user', req.session.user)
+    console.log('req.session.user.id', req.session.user.id)
+
+
+    if (req.session.user) {
+        if (pw.length < 8 || pw.length > 20)
+            return res.send({ message: `Password must be between 8 - 20 characters.` })
+        if (!pw.match(/^[a-zA-Z0-9_.!@-]+$/))
+            return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
+        if (cPw.length < 8 || cPw.length > 20)
+            return res.send({ message: `Password must be between 8 - 20 characters.` })
+        if (!cPw.match(/^[a-zA-Z0-9_.!@-]+$/))
+            return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
+        if (!pw.match(/(?=^.{8,20}$)(?=.*\d)(?=.*[_.!#@-]+)(?=.*[A-Z])(?=.*[a-z]).*$/)) {
+            return res.send({
+                message: `Please enter a password with a length between 8 and 30 characters,
 						at least one lowercase alphabetical character (a to z),
 						at least one uppercase alphabetical character (A to Z),
 						at least one numeric character (0 to 9),
 						and at least one special character (_.!#@-)`
-        })
-    }
-    if (pw !== cPw)
-        return (res.send({message: 'Passwords don\'t match.'}))
-
-    bcrypt.hash(pw, 10, (err, hash) => {
-        if (err)
-            console.log('update pw hash error', err);
-        else {
-            dbConn.pool.query(`UPDATE users
-                               SET password = $1
-                               WHERE username = $2`,
-                [hash, username],
-                (err1, result1) => {
-                    if (err1)
-                        console.log('update pw err', err1);
-                    else {
-                        res.send({result1, message: `Password was successfully changed!`})
-                    }
-                })
+            })
         }
-    })
+        if (pw !== cPw)
+            return (res.send({ message: 'Passwords don\'t match.' }))
+
+        bcrypt.hash(pw, 10, (err, hash) => {
+            if (err)
+                console.log('update pw hash error', err);
+            else {
+                dbConn.pool.query(`UPDATE users
+                               SET password = $1
+                               WHERE id = $2`,
+                    [hash, req.session.user.id],
+                    (err1, result1) => {
+                        if (err1)
+                            console.log('update pw err', err1);
+                        else {
+                            res.send({ result1, message: `Password was successfully changed!` })
+                        }
+                    })
+            }
+        })
+    } else {
+        res.send({ message: 'You are no longer logged in. Please log in to change your password.' })
+    }
 })
 
 module.exports = router

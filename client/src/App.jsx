@@ -94,7 +94,7 @@ const App = () => {
                         <Route path="/profile" element={loggedIn ?
                             <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar}
                                      setSelectedAvatar={setSelectedAvatar}/> : <Homepage/>}/>
-                        <Route path="/profile/:id" element={loggedIn ? <UserProfile/> : <Homepage/>}/>
+                        <Route path="/profile/:id" element={loggedIn ? <UserProfile/> : <Landing/>}/>   
                         <Route path="/profileEdit" element={loggedIn ? <ProfileEdit/> : <Landing/>}/>
                         <Route path="/best-rating" element={loggedIn ? <BestRating/> : <Landing/>}/>
                         <Route path="/newest" element={loggedIn ? <Newest/> : <Landing/>}/>
@@ -102,6 +102,7 @@ const App = () => {
                         <Route path="/year-old-new" element={loggedIn ? <YearOldNew/> : <Landing/>}/>
                         <Route path="/logout" element={<Logout loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>}/>
                         <Route path="/get/:token" element={<Forgot2/>}/>
+                        <Route path="*" element={<Landing/>}/>
                     </Routes>
                     <Footer/>
                 </Router>
