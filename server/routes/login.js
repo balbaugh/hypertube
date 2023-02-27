@@ -47,9 +47,10 @@ const checkDelete = () => {
         dbConn.pool.query('DELETE FROM movies WHERE id = ANY($1::int[])', [oldMovieIds], (err, result) => {
             if (err) {
                 console.error('Error deleting old movies from the database', err);
-            } else {
-                console.log(`Deleted ${result.rowCount} old movies from the database`);
             }
+            //else {
+            //    console.log(`Deleted ${result.rowCount} old movies from the database`);
+            //}
         });
     });
 }

@@ -13,14 +13,14 @@ const apiKey = '776a942cc891b770f717d032030c2e8d'
 
 const router = express.Router();
 
-router.get('/movies', (req, res) => {
-    fetch('https://yts.mx/api/v2/list_movies.json')
-        .then((data) => {
-            data.json().then((parsed) => {
-                res.send({parsed})
-            })
-        })
-})
+//router.get('/movies', (req, res) => {
+//    fetch('https://yts.mx/api/v2/list_movies.json')
+//        .then((data) => {
+//            data.json().then((parsed) => {
+//                res.send({parsed})
+//            })
+//        })
+//})
 
 router.get('/movie/:id', (req, res) => {
     const movieId = Number(req.params.id);
@@ -32,7 +32,7 @@ router.get('/movie/:id', (req, res) => {
                 return res.status(500).send({error: `Error fetching movie details.`})
             }
             data.json().then((parsed) => {
-                const movie = parsed.data.movie;
+                //const movie = parsed.data.movie;
                 res.send({parsed});
             })
         })
@@ -53,7 +53,7 @@ router.post('/watched', (req, res) => {
                     dbConn.pool.query(`INSERT INTO watched (user_id, movie_id)
                                        VALUES ($1, $2)`,
                         [req.session.user.id, movieToWatched],
-                        (err2, result2) => {
+                        (err2) => {
                             if (err2)
                                 console.log('error adding watched movie')
                         })
@@ -107,15 +107,15 @@ router.get('/poster/:id', (req, res) => {
             // console.log('Data for movie:', data)
             try {
                 if (data.movie_results.length === 0 || data === null || data.movie_results === null) {
-                    console.log('movie_results array was empty.')
+                    //console.log('movie_results array was empty.')
                     const posterUrl = "http://localhost:3001/images/noImage.png"
                     res.send(posterUrl)
                 } else {
                     const movie = data.movie_results[0]; // assuming the first result is the correct movie
                     // console.log('movie now:', movie)
                     if (movie === null || movie.poster_path === null) {
-                        console.log('NULLLL!!!!!!!!!!!!!!!!!!!!!!!!!')
-                        console.log('movie now:', movie)
+                        //console.log('NULLLL!!!!!!!!!!!!!!!!!!!!!!!!!')
+                        //console.log('movie now:', movie)
                         const posterUrl = "http://localhost:3001/images/noImage.png"
                         res.send(posterUrl)
                     } else {
