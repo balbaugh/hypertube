@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 router.get('/profileInfo', (req, res) => {
-    console.log('req.session.user', req.session.user)
+    // console.log('req.session.user', req.session.user)
     if (req.session.user) {
         dbConn.pool.query(`SELECT users.id, email, username, firstname, lastname, status, path FROM users
 							INNER JOIN profile_pics
@@ -34,7 +34,7 @@ router.get('/profileInfo', (req, res) => {
                 if (err)
                     console.log('edit', err);
                 else {
-                    console.log('Data brought from profileEdit:', result.rows[0])
+                    // console.log('Data brought from profileEdit:', result.rows[0])
                     res.send(result.rows[0]);
                 }
             })
@@ -45,9 +45,9 @@ router.get('/profileInfo', (req, res) => {
 
 router.get('/profileInfo/:id', (req, res) => {
     const target_id = req.params.id
-    console.log('req.body', req.params)
-    console.log('req.body.id', req.params.id)
-    console.log('req.session.user', req.session.user)
+    // console.log('req.body', req.params)
+    // console.log('req.body.id', req.params.id)
+    // console.log('req.session.user', req.session.user)
     if (req.session.user) {
         dbConn.pool.query(`SELECT users.id, username, firstname, lastname, path FROM users
 							INNER JOIN profile_pics
@@ -58,7 +58,7 @@ router.get('/profileInfo/:id', (req, res) => {
                 if (err)
                     console.error('edit', err);
                 else {
-                    console.log('Data brought from profileInfo/:id:', result.rows[0])
+                    // console.log('Data brought from profileInfo/:id:', result.rows[0])
                     res.send(result.rows[0]);
                 }
             })
@@ -134,7 +134,7 @@ router.put('/profileEdit', (req, res) => {
 
 router.post('/setprofilepic', upload.single('file'), async (request, response) => {
     const session = request.session.user
-    console.log('request.session.user', request.session.user)
+    // console.log('request.session.user', request.session.user)
     const picture = 'http://localhost:3001/images/' + request.file.filename
     if (session && session.id) {
         if (request.file.size > 5242880) {
@@ -160,7 +160,7 @@ router.post('/setprofilepic', upload.single('file'), async (request, response) =
             // We set the profile picture
             sql = `UPDATE profile_pics SET path = $1 WHERE user_id = $2;`
             await dbConn.pool.query(sql, [picture, session.id])
-            console.log('Sending true from /setprofilepic!')
+            // console.log('Sending true from /setprofilepic!')
             response.send({success: true, path: picture})
         } catch (error) {
             console.error(error)

@@ -79,7 +79,6 @@ const App = () => {
     return (
         <I18nextProvider i18n={i18n}>
             <div className="min-h-screen text-slate-300 wrapper bg-gradient-to-t from-zinc-800 to-zinc-900">
-
                 <Router>
                     <Nav itsMe={itsMe} setItsMe={setItsMe} selectedAvatar={selectedAvatar}/>
                     <Routes>

@@ -179,7 +179,7 @@ router.get('/42', (req, res) => {
                                                         else {
                                                             retrieveId(randomUsername)
                                                                 .then((id) => {
-                                                                    console.log('rows[0].id', id)
+                                                                    // console.log('rows[0].id', id)
                                                                     sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
                                                                     dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
                                                                         (err, result) => {
@@ -221,7 +221,7 @@ router.get('/42', (req, res) => {
                                                     console.error('req.user.session', err);
                                                 } else {
                                                     req.session.user = result.rows[0]
-                                                    console.log('Logging in as an existing 42 user. result.rows[0]:', result.rows[0])
+                                                    // console.log('Logging in as an existing 42 user. result.rows[0]:', result.rows[0])
                                                     if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
                                                         // If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
                                                         try {
@@ -259,16 +259,16 @@ router.get('/42', (req, res) => {
                             console.log('We\'re accessing the Github OAuth API.')
 
                             const github_id = data.id;
-                            console.log('data.id', data.id)
+                            // console.log('data.id', data.id)
 
                             const checkIfGithubUserExists = async (github_id) => {
                                 var sql = 'SELECT * FROM users WHERE github_id = $1;'
                                 var result = await dbConn.pool.query(sql, [github_id])
                                 if (result.rows.length < 1) {
-                                    console.log('OAuth user is not in the users table yet.')
+                                    // console.log('OAuth user is not in the users table yet.')
                                     return false
                                 } else {
-                                    console.log('OAuth user already exists in the users table.')
+                                    // console.log('OAuth user already exists in the users table.')
                                     return true
                                 }
                             }
@@ -300,7 +300,7 @@ router.get('/42', (req, res) => {
                                                         else {
                                                             retrieveId(randomUsername)
                                                                 .then((id) => {
-                                                                    console.log('rows[0].id', id)
+                                                                    // console.log('rows[0].id', id)
                                                                     sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
                                                                     dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
                                                                         (err, result) => {
@@ -342,7 +342,7 @@ router.get('/42', (req, res) => {
                                                     console.error('req.user.session', err);
                                                 } else {
                                                     req.session.user = result.rows[0]
-                                                    console.log('Logging in as an existing Github user. result.rows[0]:', result.rows[0])
+                                                    // console.log('Logging in as an existing Github user. result.rows[0]:', result.rows[0])
                                                     if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
                                                         // If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
                                                         try {
@@ -388,7 +388,7 @@ router.get('/42', (req, res) => {
 router.get('/github', (req, res) => {
     const code = req.query.codeParam;
 
-    console.log('Made it here')
+    // console.log('Made it here')
     const retrieveId = async (randomUsername) => {
         try {
             var sql = "SELECT id FROM users WHERE username = $1;"
@@ -404,14 +404,13 @@ router.get('/github', (req, res) => {
             var randomUsername = crypto.randomBytes(20).toString('hex')
             var sql = 'SELECT * FROM users WHERE username = $1;'
             const result = await dbConn.pool.query(sql, [randomUsername])
-            console.log('randomUsername:', randomUsername)
-            console.log('result.rows:', result.rows)
+            // console.log('randomUsername:', randomUsername)
+            // console.log('result.rows:', result.rows)
             if (result.rows.length < 1) {
-                console.log('No duplicates found for the newly generated random username in getlogin.')
+                // console.log('No duplicates found for the newly generated random username in getlogin.')
                 break
             } else {
                 console.log('Found a duplicate for the newly generated random username in getlogin. Proceeding to generate a new random username.')
-
             }
         }
         return randomUsername
@@ -451,13 +450,13 @@ router.get('/github', (req, res) => {
                     return response.json()
                 })
                 .then((data) => {
-                    console.log('github login data in server/index:', data)
+                    // console.log('github login data in server/index:', data)
                     checkDelete()
 
                     if (data?.login) {
-                        console.log('req.session.user.login in get github:', data.login)
-                        console.log('req.session.user.id in get github:', data.id)
-                        console.log('req.session.user.url in get github:', data.url)
+                        // console.log('req.session.user.login in get github:', data.login)
+                        // console.log('req.session.user.id in get github:', data.id)
+                        // console.log('req.session.user.url in get github:', data.url)
 
                         const urlAsString = JSON.stringify(data.url);
                         // We're checking if the user is logging in via the 42 OAuth or the GitHub OAuth.
@@ -465,16 +464,16 @@ router.get('/github', (req, res) => {
                             console.log('String contained substring \'api.intra.42\'. Seems we\'re accessing the 42 OAuth API.')
 
                             const fortytwo_id = data.id
-                            console.log('data.id', data.id)
+                            // console.log('data.id', data.id)
 
                             const checkIf42UserExists = async (fortytwo_id) => {
                                 const sql = 'SELECT * FROM users WHERE fortytwo_id = $1;'
                                 const result = await dbConn.pool.query(sql, [fortytwo_id])
                                 if (result.rows.length < 1) {
-                                    console.log('OAuth user is not yet in the users table.')
+                                    // console.log('OAuth user is not yet in the users table.')
                                     return false
                                 } else {
-                                    console.log('OAuth user already exists in the users table.')
+                                    // console.log('OAuth user already exists in the users table.')
                                     return true
                                 }
                             }
@@ -506,7 +505,7 @@ router.get('/github', (req, res) => {
                                                         else {
                                                             retrieveId(randomUsername)
                                                                 .then((id) => {
-                                                                    console.log('rows[0].id', id)
+                                                                    // console.log('rows[0].id', id)
                                                                     sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
                                                                     dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
                                                                         (err, result) => {
@@ -548,7 +547,7 @@ router.get('/github', (req, res) => {
                                                     console.error('req.user.session', err);
                                                 } else {
                                                     req.session.user = result.rows[0]
-                                                    console.log('Logging in as an existing 42 user. result.rows[0][path]', result.rows[0])
+                                                    // console.log('Logging in as an existing 42 user. result.rows[0][path]', result.rows[0])
                                                     if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
                                                         // If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
                                                         try {
@@ -586,7 +585,7 @@ router.get('/github', (req, res) => {
                             console.log('We\'re accessing the Github OAuth API.')
 
                             const github_id = data.id;
-                            console.log('data.id', data.id)
+                            // console.log('data.id', data.id)
 
                             const checkIfGithubUserExists = async (github_id) => {
                                 var sql = 'SELECT * FROM users WHERE github_id = $1;'
@@ -627,7 +626,7 @@ router.get('/github', (req, res) => {
                                                         else {
                                                             retrieveId(randomUsername)
                                                                 .then((id) => {
-                                                                    console.log('rows[0].id', id)
+                                                                    // console.log('rows[0].id', id)
                                                                     sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
                                                                     dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"],
                                                                         (err, result) => {
@@ -669,7 +668,7 @@ router.get('/github', (req, res) => {
                                                     console.error('req.user.session', err);
                                                 } else {
                                                     req.session.user = result.rows[0]
-                                                    console.log('Logging in as an existing Github user. result.rows[0]', result.rows[0])
+                                                    // console.log('Logging in as an existing Github user. result.rows[0]', result.rows[0])
                                                     if (result.rows[0]['path'] === undefined || result.rows[0]['path'] == null) {
                                                         // If the user is missing a profile picture because someone deleted it in the database, let's assign them the default one again.
                                                         try {
@@ -774,7 +773,7 @@ router.post('/login', (req, res) => {
                                     if (err2)
                                         console.error('Login session retrieval error:', err2);
                                     req.session.user = result.rows[0];
-                                    console.log('result in postlogin:', req.session.user)
+                                    // console.log('result in postlogin:', req.session.user)
                                     res.send({ result, message: `Logged in as '${username}'` });
                                 })
                         }

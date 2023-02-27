@@ -237,7 +237,7 @@ router.get('/play', (req, res) => {
 })
 
 router.get(`/ready`, (req, res) => {
-	console.log('READYSSA', startReady)
+	// console.log('READYSSA', startReady)
 	if (startReady) {
 		const file = `./downloads/${imdbCode}/${title}/${filePath}`
 		const stream = fs.createReadStream(file);
@@ -365,7 +365,7 @@ router.get('/subtitles', (req, res) => {
 
 router.get('/getSubs', (req, res) => {
     const code = req.query.code;
-    console.log('HALOOO', code.imdbCode)
+    // console.log('HALOOO', code.imdbCode)
     dbConn.pool.query('SELECT * FROM subtitles WHERE imdb_code = $1',
         [code.imdbCode],
         (err, result) => {
@@ -385,7 +385,7 @@ router.get('/subtitles/:code/:filename', (req, res) => {
 
 // const filePath = `subtitles/${code}/${filename}`;
     const filePath = path.join(process.cwd(), 'subtitles', code, filename)
-    console.log('FILEPAAAHT', filePath)
+    // console.log('FILEPAAAHT', filePath)
 
     res.sendFile(filePath);
 })

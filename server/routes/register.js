@@ -57,7 +57,7 @@ router.post('/register', (req, res) => {
     if (email.length > 40)
         return res.send({message: `Max 40 characters on email.`})
 
-    console.log('config:', config)
+    // console.log('config:', config)
 
     const sendVerifyCode = () => {
         const theMail = {
@@ -118,7 +118,7 @@ router.post('/register', (req, res) => {
                                     retrieveId(username)
                                         .then((id) => {
                                             try {
-                                                console.log('rows[0].id', id)
+                                                // console.log('rows[0].id', id)
                                                 sql = "INSERT INTO profile_pics (user_id, path) VALUES ($1, $2)"
                                                 dbConn.pool.query(sql, [id, "http://localhost:3001/images/default_profilepic.jpg"])
                                                 // /default_profilepic.jpg
