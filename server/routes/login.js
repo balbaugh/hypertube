@@ -749,25 +749,39 @@ router.post('/login', (req, res) => {
         return res.send({ message: 'Password can only have letters (a-z or A-Z), numbers (0-9) and some special characters (_.!#@-)' })
 
     dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, password, path
-                       FROM users
-                                INNER JOIN profile_pics
-                                           ON users.id = profile_pics.user_id
-                       WHERE username = $1;`,
+                        FROM users
+                        INNER JOIN profile_pics
+                        ON users.id = profile_pics.user_id
+                        WHERE username = $1;`,
         [username],
         (err, result) => {
             if (err)
-                console.log('Login', err);
+                console.error('Login', err);
             // console.log('result.rows[0] in postlogin:', result.rows[0])
             if (result.rowCount === 1) {
                 bcrypt.compare(password, result.rows[0].password, (error, response) => {
                     if (response) {
                         if (result.rows[0].status === 0) {
                             return res.send({ message: 'Verify your email thanks.' });
+                        } else {
+                            dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, path
+                                                FROM users
+                                                INNER JOIN profile_pics
+                                                ON users.id = profile_pics.user_id
+                                                WHERE username = $1;`,
+                                [username],
+                                (err2, result) => {
+                                    if (err2)
+                                        console.error('Login session retrieval error:', err2);
+                                    req.session.user = result.rows[0];
+                                    console.log('result in postlogin:', req.session.user)
+                                    res.send({ result, message: `Logged in as '${username}'` });
+                                })
                         }
-                        req.session.user = result.rows[0];
-                        res.send({ result, message: `Logged in as '${username}' ` });
-                    } else
-                        return res.send({ message: `Wrong username / password combo.` });
+                    } else {
+                        console.error(error)
+                        return res.send({ message: `Wrong username / password combo.` })
+                    }
                 })
             } else {
                 return res.send({ message: 'User doesn\'t exist.' });
@@ -850,6 +864,7 @@ router.get('/get/:token', (req, res) => {
         })
 })
 
+// newPw
 router.put('/newPw', (req, res) => {
     const pw = req.body.password;
     const cPw = req.body.confPasswd;
@@ -894,14 +909,10 @@ router.put('/newPw', (req, res) => {
     })
 })
 
+// changePw 
 router.put('/changePw', (req, res) => {
     const pw = req.body.password;
     const cPw = req.body.confPasswd;
-    const username = req.body.user;
-
-    //console.log('req.session.user', req.session.user)
-    //console.log('req.session.user.id', req.session.user.id)
-
 
     if (req.session.user) {
         if (pw.length < 8 || pw.length > 20)

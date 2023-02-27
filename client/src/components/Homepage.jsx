@@ -202,8 +202,6 @@ const Homepage = () => {
         });
     }, [filteredMovies]);
 
-
-
     return (
         <div>
             {loading ? (

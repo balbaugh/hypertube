@@ -200,7 +200,12 @@ router.get('/play', (req, res) => {
                         })
                 }
             }
+
             if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 <= 100) {
+                // console.log('imdbCode', imdbCode)
+                // console.log('link.title', link.title)
+                // console.log('filePath', filePath)
+                // console.log('fileSize', fileSize)
                 console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2), '%')
             }
         }

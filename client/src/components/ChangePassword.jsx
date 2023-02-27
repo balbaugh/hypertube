@@ -68,12 +68,6 @@ function ChangePassword() {
                         <h2 className="mb-2 text-3xl font-extrabold md:text-4xl">
                             Change your password
                         </h2>
-                        <p className="text-lg font-extrabold leading-7 text-red-500">
-                            Username: {username}
-                        </p>
-                        <p className="text-lg font-extrabold leading-7 text-red-500">
-                            Email: {email}
-                        </p>
                     </div>
                     <InfoText message={message}/>
                     <form onSubmit={submitChangePassword}>
