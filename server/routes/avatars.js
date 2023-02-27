@@ -141,7 +141,7 @@ router.put('/images/user/:userId/:id', (req, res) => {
 // IMAGE UPLOAD
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log(req.session);
+        // console.log(req.session);
         const user = req.session.user;
         const userDir = path.join(__dirname, 'public', 'upload', `${user.id}`);
         if (!fs.existsSync(userDir)) {
@@ -150,7 +150,7 @@ const storage = multer.diskStorage({
         cb(null, userDir);
     },
     filename: (req, file, cb) => {
-        console.log(req.session);
+        // console.log(req.session);
         const {user} = req.session;
         const date = new Date().toISOString().split('T')[0];
         const match = date.match(/(\d{4})-(\d{2})-(\d{2})/);
@@ -158,7 +158,7 @@ const storage = multer.diskStorage({
         const month = match[2];
         const day = match[3];
         const formattedDate = `${day}-${month}-${year}`;
-        console.log(formattedDate); // Outputs something like "02-01-2022"
+        // console.log(formattedDate); // Outputs something like "02-01-2022"
         const uniqueString = crypto.randomBytes(2).toString('hex');
 
         cb(

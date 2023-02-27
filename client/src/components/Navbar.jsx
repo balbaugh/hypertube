@@ -44,9 +44,9 @@ const Nav = ({itsMe, setItsMe, selectedAvatar}) => {
         }
 
 
-    console.log('ITSMEEE.path', itsMe.path);
-    console.log('ITSMEEE.username', itsMe.username)
-    console.log('ITSMEE.login', itsMe.login)
+    // console.log('ITSMEEE.path', itsMe.path);
+    // console.log('ITSMEEE.username', itsMe.username)
+    // console.log('ITSMEE.login', itsMe.login)
 
     return (
         <Disclosure as="nav" className="">

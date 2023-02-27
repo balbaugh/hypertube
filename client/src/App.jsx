@@ -34,10 +34,10 @@ const App = () => {
 
     useEffect(() => {
         axiosStuff.getCookie().then((response) => {
-            console.log('response.loggedIn', response.loggedIn)
+            // console.log('response.loggedIn', response.loggedIn)
             if (response.loggedIn === true) {
                 setLoggedIn(true);
-                console.log('response.user in App.js, data from get login:', response.user)
+                // console.log('response.user in App.js, data from get login:', response.user)
                 setItsMe(response.user);
                 setSelectedAvatar(response.avatar)
             }
@@ -48,15 +48,15 @@ const App = () => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const codeParam = urlParams.get('code');
-        console.log('codeParam:', codeParam);
-        if (codeParam !== null)
-            console.log('codeParam.length:', codeParam.length)
+        // console.log('codeParam:', codeParam);
+        // if (codeParam !== null)
+        //     console.log('codeParam.length:', codeParam.length)
 
         if (codeParam && codeParam.length < 30) {
             axiosStuff
                 .getGitProfile(codeParam)
                 .then((response) => {
-                    console.log('github response in App:', response)
+                    // console.log('github response in App:', response)
                     setLoggedIn(true);
                     setSelectedAvatar(response.avatar)
                     setItsMe(response.user)
@@ -65,7 +65,7 @@ const App = () => {
             axiosStuff
                 .get42Profile(codeParam)
                 .then((response) => {
-                    console.log('42 response in App:', response)
+                    // console.log('42 response in App:', response)
                     setLoggedIn(true);
                     setSelectedAvatar(response.avatar)
                     setItsMe(response.user)
@@ -73,8 +73,8 @@ const App = () => {
         }
     }, [])
 
-    console.log('itsmee', itsMe)
-    console.log('selectedAvatar', selectedAvatar)
+    // console.log('itsmee', itsMe)
+    // console.log('selectedAvatar', selectedAvatar)
 
     return (
         <I18nextProvider i18n={i18n}>

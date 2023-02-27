@@ -51,9 +51,9 @@ const BestRating = () => {
     }, []);
 
     const loadMoreMovies = async () => {
-        console.log('********************');
-        console.log('EXECUTING LOAD MORE!');
-        console.log('********************');
+        // console.log('********************');
+        // console.log('EXECUTING LOAD MORE!');
+        // console.log('********************');
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
@@ -206,7 +206,7 @@ const BestRating = () => {
             if (!posterUrls[code]) {
                 // check if poster URL has already been fetched
                 try {
-                    console.log('FETCHING POSTER!!!');
+                    // console.log('FETCHING POSTER!!!');
                     const response = await axiosStuff.getPoster(code);
                     const url = response;
                     setPosterUrls((prevState) => ({

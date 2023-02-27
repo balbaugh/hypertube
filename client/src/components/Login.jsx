@@ -56,7 +56,7 @@ const Login = () => {
         event.target.reset();
     };
 
-    console.log('loginssttats', loginStatus);
+    // console.log('loginssttats', loginStatus);
 
     return (
         <div>

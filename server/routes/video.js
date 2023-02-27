@@ -86,7 +86,7 @@ const download = async (
 };
 
 router.get('/play', (req, res) => {
-	console.log('PLAYALUSSA', startReady)
+	// console.log('PLAYALUSSA', startReady)
     const link = req.query.magnet;
 		if (link) {
     let sentResponse = false;
@@ -175,7 +175,7 @@ router.get('/play', (req, res) => {
                 fileSize = file.length;
                 title = link.title;
             }
-            console.log('TAA', filePath)
+            // console.log('TAA', filePath)
         });
     })
 

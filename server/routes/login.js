@@ -29,8 +29,8 @@ const checkDelete = () => {
             const pathElements = moviePath.split('/');
             const movieDir = `${pathElements[0]}/${pathElements[1]}`
             // const encoded = encodeURIComponent(moviePath)
-            console.log('MOVIIIEEE PATTHH', moviePath)
-            console.log('MOVIIEEEE DIR', movieDir)
+            // console.log('MOVIIIEEE PATTHH', moviePath)
+            // console.log('MOVIIEEEE DIR', movieDir)
 
             fs.rm(movieDir, {
                 recursive: true

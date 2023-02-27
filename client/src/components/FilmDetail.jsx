@@ -39,7 +39,7 @@ const FilmDetail = ({itsMe}) => {
         const fetchPoster = async (code) => {
             if (!posterUrls[code]) { // check if poster URL has already been fetched
                 try {
-                    console.log('FETCHING POSTER!!!')
+                    // console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
@@ -82,7 +82,7 @@ const FilmDetail = ({itsMe}) => {
         axiosStuff
             .subtitles({imdbCode})
         setTimeout(() => {
-            console.log('TAMA', imdbCode)
+            // console.log('TAMA', imdbCode)
             axiosStuff.getSubs({imdbCode})
                 .then((response2) => {
                     //console.log('subs', response2)
@@ -93,7 +93,7 @@ const FilmDetail = ({itsMe}) => {
         axiosStuff
             .play({title, magnetUrl, imdbCode})
             .then((response) => {
-                console.log('hii', response)
+                // console.log('hii', response)
                 if (response.downloaded) {
                     setPlayMovie(`http://localhost:3001/ready`)
                 } else {
@@ -102,8 +102,8 @@ const FilmDetail = ({itsMe}) => {
             })
     }
 
-    if (playMovie)
-        console.log('backrespoPLAYMOVIE', playMovie)
+    // if (playMovie)
+    //     console.log('backrespoPLAYMOVIE', playMovie)
 
     const subsConfig = {
         file: {

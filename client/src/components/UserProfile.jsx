@@ -20,7 +20,7 @@ function useProfile() {
 
     // Get profile infos
     useEffect(() => {
-        console.log('params.id:', params.id)
+        // console.log('params.id:', params.id)
         axiosStuff
             .getUserProfileInfo(params.id)
             .then((response) => {

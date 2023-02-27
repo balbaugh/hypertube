@@ -54,7 +54,7 @@ const Profile = ({itsMe, setItsMe, selectedAvatar, setSelectedAvatar}) => {
                 .then((response) => {
                     if (response.success === true) {
                         setMessage('Profile picture successfully changed!')
-                        console.log('response.path:', response.path)
+                        // console.log('response.path:', response.path)
                         setSelectedAvatar(response.path)
                         setItsMe({path: response.path, ...itsMe})
                     } else {
