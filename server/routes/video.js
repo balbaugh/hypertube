@@ -302,7 +302,7 @@ router.get(`/stream`, (req, res) => {
 	}
 });
 
-// SUBTITLES
+// SUBTITLES /subtitles
 router.get('/subtitles', (req, res) => {
     const imdb = req.query.code
 
@@ -356,6 +356,8 @@ router.get('/subtitles', (req, res) => {
                                     imdb.imdbCode,
                                     subtitle
                                 );
+                                console.log('Finished get /subtitles')
+                                return res.send({ success: true })
                             })
                             .catch((err) => console.error(err));
                     }
