@@ -81,6 +81,9 @@ const FilmDetail = ({itsMe}) => {
         setWatch(true);
         axiosStuff
             .subtitles({imdbCode})
+            .then((response5) => {
+                console.log('MINAA', response5)
+            })
         setTimeout(() => {
             // console.log('TAMA', imdbCode)
             axiosStuff.getSubs({imdbCode})

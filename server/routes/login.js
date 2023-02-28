@@ -10,8 +10,6 @@ const fs = require('fs');
 
 const dbConn = require('../utils/dbConnection');
 
-console.log('DBCONNN', dbConn)
-
 const checkDelete = () => {
     dbConn.pool.query('SELECT * FROM movies', (err, result) => {
         if (err) {
@@ -123,7 +121,7 @@ router.get('/42', (req, res) => {
                 }
             })
                 .then((response9) => {
-                    //console.log('THIS2', response)
+                    //console.log('THIS2', response9)
                     return response9.json()
                 })
                 .then((data) => {

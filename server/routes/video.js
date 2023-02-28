@@ -65,12 +65,12 @@ const download = async (
                 dbConn.pool.query(`INSERT INTO subtitles (imdb_code, language, path)
                                    VALUES ($1, $2, $3)`,
                     [imdbCode, subsData.attributes.language, finalDest],
-                    (err1, result1) => {
+                    (err1) => {
                         if (err1)
                             console.log('subs insert', err)
-                        else {
-                            // console.log('subs inserted', result1)
-                        }
+                        //else {
+                        //    // console.log('subs inserted', result1)
+                        //}
                     })
             }
         })
