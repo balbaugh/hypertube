@@ -29,34 +29,43 @@ router.get('/movie/:id', (req, res) => {
     })
         .then((data) => {
             if (!data.ok) {
-                return res.status(500).send({error: `Error fetching movie details.`})
+                return res.status(500).send({ error: `Error fetching movie details.` })
             }
             data.json().then((parsed) => {
                 //const movie = parsed.data.movie;
-                res.send({parsed});
+                res.send({ parsed });
             })
         })
 })
 
-router.post('/watched', (req, res) => {
+// addWatched
+router.post('/watched', async (req, res) => {
+    console.log('req.body.movieId:', req.body.movieId)
     if (req.session.user) {
         const movieToWatched = req.body.movieId;
-        dbConn.pool.query(`SELECT *
-                           FROM watched
-                           WHERE user_id = $1
-                             AND movie_id = $2`,
+        await dbConn.pool.query(`SELECT *
+                                FROM watched
+                                WHERE user_id = $1
+                                AND movie_id = $2`,
             [req.session.user.id, movieToWatched],
             (err, result) => {
                 if (err)
                     console.log('getting watched err', err)
                 else if (result.rowCount === 0) {
                     dbConn.pool.query(`INSERT INTO watched (user_id, movie_id)
-                                       VALUES ($1, $2)`,
+                                        VALUES ($1, $2)`,
                         [req.session.user.id, movieToWatched],
                         (err2) => {
                             if (err2)
                                 console.log('error adding watched movie')
+                            else {
+                                console.log('Added to watched list.')
+                                return res.send({ success: true })
+                            }
                         })
+                } else {
+                    console.log('Was already in watched list.')
+                    return res.send({ success: false })
                 }
             })
     } else {

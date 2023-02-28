@@ -10,7 +10,7 @@ const fs = require('fs');
 
 const dbConn = require('../utils/dbConnection');
 
-console.log('DBCONNN', dbConn)
+// console.log('DBCONNN', dbConn)
 
 const checkDelete = () => {
     dbConn.pool.query('SELECT * FROM movies', (err, result) => {
