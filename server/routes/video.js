@@ -165,9 +165,10 @@ router.get('/play', (req, res) => {
                                         INSERT INTO movies (movie_path, size, downloaded, date)
                                         VALUES ($1, $2, $3, NOW())`,
                                 [`${imdbCode}/${file.path}`, file.length, 0],
-                                (err1, result) => {
+                                (err1) => {
                                     if (err1)
                                         console.log('insert movie ERRR', err1);
+
                                 })
                         }
                     })
@@ -316,7 +317,7 @@ router.get('/subtitles', (req, res) => {
         }
     }
     fetch(`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${newImdb}`, subOptions)
-        .then((response) => response.json())
+        .then((response1) => response1.json())
         .then(subtitles => {
             //console.log('Subtitles', subtitles.data.filter(sub => sub.attributes.language === 'en'))
             const filterSubs = subtitles.data.filter(sub => {
@@ -347,10 +348,10 @@ router.get('/subtitles', (req, res) => {
                             'https://api.opensubtitles.com/api/v1/download',
                             optionsDownload
                         )
-                            .then((response) => response.json())
-                            .then((response) => {
+                            .then((response2) => response2.json())
+                            .then((response3) => {
                                 download(
-                                    response.link,
+                                    response3.link,
                                     `./subtitles/${imdb.imdbCode}/${imdb.imdbCode}-${subtitle.id}.vtt`,
                                     imdb.imdbCode,
                                     subtitle

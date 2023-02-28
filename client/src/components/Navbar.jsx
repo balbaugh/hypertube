@@ -24,6 +24,9 @@ const Nav = ({itsMe, setItsMe, selectedAvatar}) => {
         }
     }, [selectedAvatar, i18n]);
 
+    if (itsMe.id) {
+        console.log('ITSMEE', itsMe)
+    }
     axios.defaults.withCredentials = true; // For the sessions the work
 
 
