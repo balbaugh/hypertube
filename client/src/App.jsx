@@ -92,7 +92,7 @@ const App = () => {
                         <Route path="/popular" element={loggedIn ? <Popular/> : <Landing/>}/>
                         <Route path="/profile" element={loggedIn ?
                             <Profile setItsMe={setItsMe} itsMe={itsMe} selectedAvatar={selectedAvatar}
-                                     setSelectedAvatar={setSelectedAvatar}/> : <Homepage/>}/>
+                                     setSelectedAvatar={setSelectedAvatar}/> : <Landing/>}/>
                         <Route path="/profile/:id" element={loggedIn ? <UserProfile/> : <Landing/>}/>
                         <Route path="/profileEdit" element={loggedIn ? <ProfileEdit/> : <Landing/>}/>
                         <Route path="/best-rating" element={loggedIn ? <BestRating/> : <Landing/>}/>
