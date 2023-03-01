@@ -82,7 +82,7 @@ const FilmDetail = ({itsMe}) => {
         axiosStuff
             .subtitles({imdbCode})
             .then((response5) => {
-                console.log('MINAA', response5)
+                //console.log('MINAA', response5)
             })
         setTimeout(() => {
             // console.log('TAMA', imdbCode)
@@ -105,9 +105,6 @@ const FilmDetail = ({itsMe}) => {
             })
     }
 
-    // if (playMovie)
-    //     console.log('backrespoPLAYMOVIE', playMovie)
-
     const subsConfig = {
         file: {
             attributes: {
@@ -122,9 +119,6 @@ const FilmDetail = ({itsMe}) => {
                 }))
         }
     }
-
-    //if (subsConfig.file.tracks.length)
-    //    console.log('subsconf', subsConfig)
 
     return (
         <div>

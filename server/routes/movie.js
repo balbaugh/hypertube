@@ -4,23 +4,10 @@ const fs = require('fs')
 // const cors = require('cors');
 const app = express();
 app.use(express.json())
-// app.use(cors({
-//	origin: ['http://localhost:3000'],
-//	methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//	credentials: true
-// }));
+
 const apiKey = '776a942cc891b770f717d032030c2e8d'
 
 const router = express.Router();
-
-//router.get('/movies', (req, res) => {
-//    fetch('https://yts.mx/api/v2/list_movies.json')
-//        .then((data) => {
-//            data.json().then((parsed) => {
-//                res.send({parsed})
-//            })
-//        })
-//})
 
 router.get('/movie/:id', (req, res) => {
     const movieId = Number(req.params.id);
@@ -40,7 +27,7 @@ router.get('/movie/:id', (req, res) => {
 
 // addWatched
 router.post('/watched', async (req, res) => {
-    console.log('req.body.movieId:', req.body.movieId)
+    //console.log('req.body.movieId:', req.body.movieId)
     if (req.session.user) {
         const movieToWatched = req.body.movieId;
         await dbConn.pool.query(`SELECT *
@@ -59,12 +46,12 @@ router.post('/watched', async (req, res) => {
                             if (err2)
                                 console.log('error adding watched movie')
                             else {
-                                console.log('Added to watched list.')
+                                //console.log('Added to watched list.')
                                 return res.send({ success: true })
                             }
                         })
                 } else {
-                    console.log('Was already in watched list.')
+                    //console.log('Was already in watched list.')
                     return res.send({ success: false })
                 }
             })

@@ -203,10 +203,6 @@ router.get('/play', (req, res) => {
             }
 
             if (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100 <= 100) {
-                // console.log('imdbCode', imdbCode)
-                // console.log('link.title', link.title)
-                // console.log('filePath', filePath)
-                // console.log('fileSize', fileSize)
                 console.log(`${link.title}`, (fs.statSync(`./downloads/${imdbCode}/${link.title}/${filePath}`).size / fileSize * 100).toFixed(2), '%')
             }
         }
@@ -265,37 +261,35 @@ router.get(`/ready`, (req, res) => {
 router.get(`/stream`, (req, res) => {
 	if (startStream) {
 		const file = `./downloads/${imdbCode}/${title}/${filePath}`;
-    const fsize = fileSize
-    const fsize1 = fs.statSync(file).size
+        const fsize = fileSize
+        const fsize1 = fs.statSync(file).size
 
-    console.log('fsize1', fsize1)
-    console.log('req range : ', req.headers.range);
-    const range = req.headers.range || `bytes=0-${fsize - 1}`;
-    const parts = range.replace(/bytes=/, "").split("-");
-    console.log('PARTS', parts);
-    const chunksize = 30e6;
-    // const start = parseInt(parts[0], 10);
-    start = 0;
-    // const end =  Math.min(start + chunksize, fsize - 1);
-    const end = fsize1 - 1
-    // const end = (parts[1] ? parseInt(parts[1], 10) : fsize -1)
-    const contentLength = end - start + 1;
+        //console.log('fsize1', fsize1)
+        //console.log('req range : ', req.headers.range);
+        const range = req.headers.range || `bytes=0-${fsize - 1}`;
+        const parts = range.replace(/bytes=/, "").split("-");
+        //console.log('PARTS', parts);
+        const chunksize = 30e6;
+        // const start = parseInt(parts[0], 10);
+        start = 0;
+        // const end =  Math.min(start + chunksize, fsize - 1);
+        const end = fsize1 - 1
+        // const end = (parts[1] ? parseInt(parts[1], 10) : fsize -1)
+        const contentLength = end - start + 1;
 
-    if (end >= fsize) {
-        res.status(416).send('Requested range not satisfiable');
-        return;
-    }
-
-    const stream = fs.createReadStream(file, {start, end});
-    const headers = {
-        "Content-Range": `bytes ${start}-${end}/${fsize}`,
-        "Accept-Ranges": "bytes",
-        "Content-Length": contentLength,
-        "Content-Type": "video/mp4"
-    };
-
-    res.writeHead(206, headers);
-    stream.pipe(res);
+        if (end >= fsize) {
+            res.status(416).send('Requested range not satisfiable');
+            return;
+        }
+        const stream = fs.createReadStream(file, {start, end});
+        const headers = {
+            "Content-Range": `bytes ${start}-${end}/${fsize}`,
+            "Accept-Ranges": "bytes",
+            "Content-Length": contentLength,
+            "Content-Type": "video/mp4"
+        };
+        res.writeHead(206, headers);
+        stream.pipe(res);
 	}
 	else {
 		res.redirect('/');
@@ -305,34 +299,34 @@ router.get(`/stream`, (req, res) => {
 // SUBTITLES /subtitles
 router.get('/subtitles', (req, res) => {
     const imdb = req.query.code
+    if (imdb) {
+        const regex = /\D/g;
+        let newImdb = Number(imdb.imdbCode.replace(regex, ''));
 
-    const regex = /\D/g;
-    let newImdb = Number(imdb.imdbCode.replace(regex, ''));
-
-    const subOptions = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Api-Key': `${config.OPENSUB_API}`
+        const subOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Api-Key': `${config.OPENSUB_API}`
+            }
         }
-    }
-    fetch(`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${newImdb}`, subOptions)
+        fetch(`https://api.opensubtitles.com/api/v1/subtitles?imdb_id=${newImdb}`, subOptions)
         .then((response1) => response1.json())
         .then(subtitles => {
             //console.log('Subtitles', subtitles.data.filter(sub => sub.attributes.language === 'en'))
             const filterSubs = subtitles.data.filter(sub => {
                 if (
                     (sub.attributes.language === 'en' ||
-                        sub.attributes.language === 'fi') &&
+                    sub.attributes.language === 'fi') &&
                     langParser(sub.attributes.language) === true
-                ) {
-                    return sub;
-                }
-            })
-            langObj = resetLangObj();
-            //res.json(filterSubs)
-            if (filterSubs !== null) {
-                filterSubs.forEach(subtitle => {
+                    ) {
+                        return sub;
+                    }
+                })
+                langObj = resetLangObj();
+                //res.json(filterSubs)
+                if (filterSubs !== null) {
+                    filterSubs.forEach(subtitle => {
 
                         const optionsDownload = {
                             method: 'POST',
@@ -341,13 +335,13 @@ router.get('/subtitles', (req, res) => {
                                 'Api-Key': `${config.OPENSUB_API}`
                             },
                             body: `{"file_id":${subtitle.attributes.files[0].file_id},
-						"sub_format": "webvtt"}`,
+                            "sub_format": "webvtt"}`,
                         };
 
                         fetch(
                             'https://api.opensubtitles.com/api/v1/download',
                             optionsDownload
-                        )
+                            )
                             .then((response2) => response2.json())
                             .then((response3) => {
                                 download(
@@ -355,21 +349,25 @@ router.get('/subtitles', (req, res) => {
                                     `./subtitles/${imdb.imdbCode}/${imdb.imdbCode}-${subtitle.id}.vtt`,
                                     imdb.imdbCode,
                                     subtitle
-                                );
-                                console.log('Finished get /subtitles')
-                                return res.send({ success: true })
-                            })
-                            .catch((err) => console.error(err));
-                    }
-                );
-            }
-        })
-})
+                                    );
+                                    //console.log('Finished get /subtitles')
+                                })
+                                .catch((err) => console.error(err));
+                            });
+                            return res.send({ success: true })
+                        }
+                    })
+                }
+                else {
+                    res.redirect('/');
+         }
+     })
 
 router.get('/getSubs', (req, res) => {
     const code = req.query.code;
     // console.log('HALOOO', code.imdbCode)
-    dbConn.pool.query('SELECT * FROM subtitles WHERE imdb_code = $1',
+    if (code) {
+        dbConn.pool.query('SELECT * FROM subtitles WHERE imdb_code = $1',
         [code.imdbCode],
         (err, result) => {
             if (err)
@@ -379,18 +377,21 @@ router.get('/getSubs', (req, res) => {
                 res.send(result.rows);
             }
         })
+    }
+    else {
+        res.redirect('/');
+    }
 })
 
 router.get('/subtitles/:code/:filename', (req, res) => {
     const {code, filename} = req.params;
-    //console.log('HIHIHIHIHIHI', code)
-    //console.log('HIHIHIHIHIHI2', filename)
 
-// const filePath = `subtitles/${code}/${filename}`;
     const filePath = path.join(process.cwd(), 'subtitles', code, filename)
     // console.log('FILEPAAAHT', filePath)
-
-    res.sendFile(filePath);
+    if (fs.existsSync(filePath))
+        res.sendFile(filePath);
+    else
+        res.redirect('/');
 })
 
 module.exports = router;
