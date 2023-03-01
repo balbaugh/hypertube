@@ -70,6 +70,9 @@ const App = () => {
                     setSelectedAvatar(response.avatar)
                     setItsMe(response.user)
                 })
+								.then(() => {
+									window.location.replace('/homepage')
+								})
         }
     }, [])
 

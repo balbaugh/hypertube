@@ -102,7 +102,8 @@ const BestRating = () => {
     }, [ratingRange]);
 
     useEffect(() => {
-        loadMoreMovies().then((r) => console.log('movies', movies));
+        loadMoreMovies()
+				// .then((r) => console.log('movies', movies));
         const loadMoreNode = loadMoreRef.current;
         const observer = new IntersectionObserver(
             (entries) => {

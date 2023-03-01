@@ -51,7 +51,7 @@ const CommentElement = ({id, itsMe, movies}) => {
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
         if (itsMe.username) {
-            console.log('newComment:', newComment)
+            // console.log('newComment:', newComment)
             let text1 = newComment.trim();
             if (text1.length > 255) {
                 text1 = text1.slice(0, 255);
