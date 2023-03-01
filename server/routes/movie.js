@@ -30,6 +30,7 @@ router.post('/watched', async (req, res) => {
     //console.log('req.body.movieId:', req.body.movieId)
     if (req.session.user) {
         const movieToWatched = req.body.movieId;
+
         await dbConn.pool.query(`SELECT *
                                 FROM watched
                                 WHERE user_id = $1
@@ -60,6 +61,7 @@ router.post('/watched', async (req, res) => {
     }
 })
 
+//getWatched
 router.get('/watched', (req, res) => {
     if (req.session.user) {
         dbConn.pool.query(`SELECT *
@@ -75,7 +77,7 @@ router.get('/watched', (req, res) => {
             })
     }
     else {
-        res.redirect('/')
+        res.send(false)
     }
 })
 

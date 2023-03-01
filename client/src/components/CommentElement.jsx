@@ -51,6 +51,7 @@ const CommentElement = ({id, itsMe, movies}) => {
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
         if (itsMe.username) {
+            console.log('newComment:', newComment)
             let text1 = newComment.trim();
             if (text1.length > 255) {
                 text1 = text1.slice(0, 255);
@@ -71,8 +72,10 @@ const CommentElement = ({id, itsMe, movies}) => {
             axiosStuff
                 .submitComment(comment)
                 .then((response) => {
-                    setComments([...comments, response.data]);
-                    setNewComment('');
+                    // console.log('response:', response)
+                    // console.log('response.data', response.value)
+                    // setComments([...comments, response.data]);
+                    // setNewComment('');
                 })
                 .catch((error) => {
                     console.log(error);

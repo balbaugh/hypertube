@@ -45,10 +45,15 @@ const BestRating = () => {
     // }, []);
 
     useEffect(() => {
-        axiosStuff.getWatched().then((response) => {
-            setWatched(response.map((all) => all.movie_id));
-        });
-    }, []);
+        axiosStuff.getWatched()
+            .then((response) => {
+                // console.log('response', response)
+                if (response !== false)
+                    setWatched(response.map(all => all.movie_id))
+            }).catch(error => {
+                // console.log('Caught an error')
+            })
+    }, [])
 
     const loadMoreMovies = async () => {
         // console.log('********************');

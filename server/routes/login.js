@@ -720,10 +720,10 @@ router.get('/login', (req, res) => {
 
     if (req.session.user) {
         dbConn.pool.query(`SELECT users.id, status, username, firstname, lastname, path
-                           FROM users
-                                    INNER JOIN profile_pics
-                                               ON users.id = profile_pics.user_id
-                           WHERE users.id = $1;`,
+                            FROM users
+                            INNER JOIN profile_pics
+                            ON users.id = profile_pics.user_id
+                            WHERE users.id = $1;`,
             [req.session.user.id],
             (err, result) => {
                 if (err) {

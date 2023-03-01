@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player'
 import { Disclosure } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
@@ -25,6 +25,7 @@ const FilmDetail = ({ itsMe }) => {
     const [posterUrls, setPosterUrls] = useState({});
     const { t } = useTranslation();
     const savedLanguage = localStorage.getItem('language')
+    const navigate = useNavigate()
 
     const onError = useCallback(() => {
         if (playerRef.current !== null) {
@@ -33,7 +34,12 @@ const FilmDetail = ({ itsMe }) => {
     }, [])
     //}, [playerRef.current])
 
-
+    axiosStuff.getCookie()
+    .then((response) => {
+        if (response.loggedIn === false) {
+            navigate('/landing')
+        } 
+    })
 
     useEffect(() => {
         const fetchPoster = async (code) => {
@@ -66,7 +72,6 @@ const FilmDetail = ({ itsMe }) => {
             .catch((error) => {
                 console.log('tomovie CATCH ERRROR', error);
             });
-        console.log('repeat')
     }, [id, posterUrls]);
 
     const startMovie = () => {

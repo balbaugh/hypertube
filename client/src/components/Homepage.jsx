@@ -1,14 +1,14 @@
-import React, {Fragment, useEffect, useRef, useState} from 'react';
-import {Link} from 'react-router-dom';
-import {Combobox, Menu, Transition} from '@headlessui/react'
-import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/react/20/solid'
-import {useTranslation} from 'react-i18next';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Combobox, Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { useTranslation } from 'react-i18next';
 import DOMPurify from 'dompurify';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 import Loader from "./Loader";
 import axiosStuff from "../services/axiosStuff";
 
@@ -31,7 +31,7 @@ const Homepage = () => {
     const [posterUrls, setPosterUrls] = useState({});
     const loadMoreRef = useRef();
     const rootRef = useRef(null);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     axios.defaults.withCredentials = true // For the sessions the work
 
@@ -46,10 +46,14 @@ const Homepage = () => {
     // }, [])
 
     useEffect(() => {
-        axiosStuff
-            .getWatched().then((response) => {
-            setWatched(response.map(all => all.movie_id))
-        })
+        axiosStuff.getWatched()
+            .then((response) => {
+                // console.log('response', response)
+                if (response !== false)
+                    setWatched(response.map(all => all.movie_id))
+            }).catch(error => {
+                // console.log('Caught an error')
+            })
     }, [])
 
     // console.log('WATHCEEED', watched)
@@ -61,7 +65,7 @@ const Homepage = () => {
         setIsLoading(true);
         const response = await axios.get(
             `https://yts.mx/api/v2/list_movies.json?sort_by=rating&limit=20&page=${currentPage}`,
-            {withCredentials: false}
+            { withCredentials: false }
         );
         const newMovies = response.data.data.movies.filter(filterMovies);
         setMovies((prevMovies) => prevMovies.concat(newMovies)); // <-- Update movies state
@@ -77,7 +81,7 @@ const Homepage = () => {
                     const response = await axiosStuff.getPoster(code);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
                 } catch (error) {
                     console.error(error);
                 }
@@ -189,9 +193,9 @@ const Homepage = () => {
                     // console.log('FETCHING POSTER!!!')
                     const response = await axiosStuff.getPoster(code);
                     const url = response
-                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
                 } catch (error) {
-                    console.error(error);
+                    console.log('Caught an error:', error);
                 }
             }
         };
@@ -207,7 +211,7 @@ const Homepage = () => {
         <div>
             {loading ? (
                 <div className="py-20">
-                    <Loader/>
+                    <Loader />
                 </div>
             ) : (
                 <section>
@@ -294,8 +298,8 @@ const Homepage = () => {
                             </div>
 
                             {/* IMDb Score Slider */}
-                            <div className="mb-3" style={{display: "flex", justifyContent: "center"}}>
-                                <Box sx={{width: 350}}>
+                            <div className="mb-3" style={{ display: "flex", justifyContent: "center" }}>
+                                <Box sx={{ width: 350 }}>
                                     <h4 className="font-semibold text-gray-200">{t('BestRating.IMDbRating')}( {ratingRange[0]} - {ratingRange[1]} )</h4>
                                     <Slider
                                         defaultValue={[0, 10]}
@@ -347,14 +351,14 @@ const Homepage = () => {
                                     hasMore={hasMore}
                                     loader={<h4>{t('BestRating.Loading')}</h4>}
                                     endMessage={
-                                        <p style={{textAlign: 'center'}}>
+                                        <p style={{ textAlign: 'center' }}>
                                             <b>{t('BestRating.SeenItAll')}</b>
                                         </p>
                                     }
                                     scrollableTarget={rootRef}
                                 >
                                     <div ref={rootRef}
-                                         className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8"
+                                        className="container grid px-4 mx-auto mt-12 mb-16 overflow-hidden mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 desktop:grid-cols-5 justify-items-center gap-11 sm:px-6 sm:mt-16 sm:mb-24 lg:px-8"
                                     >
                                         {filteredMovies.map((movie) => (
                                             <div key={`${short.generate()}`}>
@@ -395,7 +399,7 @@ const Homepage = () => {
                                                         )}
                                                         <div
                                                             className="absolute top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full text-center bg-gray-900 opacity-0 hover:opacity-100"
-                                                            style={{backgroundColor: "rgba(26, 32, 44, 0.8)"}}
+                                                            style={{ backgroundColor: "rgba(26, 32, 44, 0.8)" }}
                                                         >
                                                             <h4 className="mb-2 text-lg font-semibold text-red-500">
                                                                 {movie.title}&nbsp;&nbsp;({movie.year})
@@ -419,7 +423,7 @@ const Homepage = () => {
                                         ))}
                                     </div>
                                 </InfiniteScroll>
-                                <div ref={loadMoreRef}/>
+                                <div ref={loadMoreRef} />
                             </div>
                         </main>
                     </div>

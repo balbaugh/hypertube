@@ -56,19 +56,28 @@ router.get('/comments/:movieId', (req, res) => {
         })
 })
 
+// submitComment
 router.post('/comments', (req, res) => {
-    const newComment = req.body
-    // Insert the new comment into the database
-    dbConn.pool.query(`INSERT INTO comments (movie_id, user_id, text)
-                       VALUES ($1, $2, $3)`,
-        [newComment.movie_id, newComment.user_id, newComment.text],
-        (err, result) => {
-            if (err)
-                console.log('adding comment', err)
-            else {
-
-            }
-        })
+    console.log('req.session.user', req.session.user)
+    if (req.session.user) {
+        const newComment = req.body
+        // Insert the new comment into the database
+        dbConn.pool.query(`INSERT INTO comments (movie_id, user_id, text)
+                           VALUES ($1, $2, $3)`,
+            [newComment.movie_id, req.session.user.id, newComment.text],
+            (err, result) => {
+                if (err) {
+                    console.log('adding comment', err)
+                    return res.send({ value: false })
+                } else {
+                    console.log('Comment added successfully!')
+                    return res.send({ value: true })
+                }
+            })
+    } else {
+        console.log("The user was not logged in. The comment was not added.")
+        return res.send({ value: false })
+    }
 });
 
 router.get('/getCommentUser', (req, res) => {
