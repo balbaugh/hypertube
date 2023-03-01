@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import ReactPlayer from 'react-player'
-import {Disclosure} from '@headlessui/react'
-import {StarIcon} from '@heroicons/react/20/solid'
-import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
-import {useTranslation} from 'react-i18next';
+import { Disclosure } from '@headlessui/react'
+import { StarIcon } from '@heroicons/react/20/solid'
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { useTranslation } from 'react-i18next';
 import axiosStuff from "../services/axiosStuff";
 import Loader from "./Loader";
 import CommentElement from './CommentElement';
@@ -14,8 +14,8 @@ function classNames(...classes) {
 }
 
 // itsMe is exported into CommentElement but not used here otherwise.
-const FilmDetail = ({itsMe}) => {
-    const {id} = useParams();
+const FilmDetail = ({ itsMe }) => {
+    const { id } = useParams();
     const [movies, setMovies] = useState(id);
     const [loading, setLoading] = useState(true);
     const [watch, setWatch] = useState(false);
@@ -23,7 +23,7 @@ const FilmDetail = ({itsMe}) => {
     const playerRef = useRef(null);
     const [subs, setSubs] = useState([]);
     const [posterUrls, setPosterUrls] = useState({});
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const savedLanguage = localStorage.getItem('language')
 
     const onError = useCallback(() => {
@@ -31,7 +31,7 @@ const FilmDetail = ({itsMe}) => {
             playerRef.current.seekTo(0, 'seconds');
         }
     }, [])
-//}, [playerRef.current])
+    //}, [playerRef.current])
 
 
 
@@ -43,7 +43,7 @@ const FilmDetail = ({itsMe}) => {
                     const response = await axiosStuff.getPoster(code);
                     // const url = `https://image.tmdb.org/t/p/w500/${response}`;
                     const url = response
-                    setPosterUrls((prevState) => ({...prevState, [code]: url}));
+                    setPosterUrls((prevState) => ({ ...prevState, [code]: url }));
                 } catch (error) {
                     console.error(error);
                 }
@@ -66,6 +66,7 @@ const FilmDetail = ({itsMe}) => {
             .catch((error) => {
                 console.log('tomovie CATCH ERRROR', error);
             });
+        console.log('repeat')
     }, [id, posterUrls]);
 
     const startMovie = () => {
@@ -77,24 +78,28 @@ const FilmDetail = ({itsMe}) => {
         const movieId = movies.id
 
         axiosStuff
-            .addWatched({movieId})
+            .addWatched({ movieId })
         setWatch(true);
         axiosStuff
-            .subtitles({imdbCode})
+            .subtitles({ imdbCode })
             .then((response5) => {
                 //console.log('MINAA', response5)
+            }).catch(error => {
+                // console.log('Request was interrupted, but it\'s fine. I gotchu, bro :^\)', error)
             })
         setTimeout(() => {
             // console.log('TAMA', imdbCode)
-            axiosStuff.getSubs({imdbCode})
+            axiosStuff.getSubs({ imdbCode })
                 .then((response2) => {
                     //console.log('subs', response2)
                     setSubs(response2)
+                }).catch(error => {
+                    // console.log('Request was interrupted, but it\'s fine. I gotchu, bro :^\)', error)
                 })
         }, 1000)
 
         axiosStuff
-            .play({title, magnetUrl, imdbCode})
+            .play({ title, magnetUrl, imdbCode })
             .then((response) => {
                 // console.log('hii', response)
                 if (response.downloaded) {
@@ -102,6 +107,8 @@ const FilmDetail = ({itsMe}) => {
                 } else {
                     setPlayMovie(`http://localhost:3001/stream`)
                 }
+            }).catch(error => {
+                // console.log('Request was interrupted, but it\'s fine. I gotchu, bro :^\)', error)
             })
     }
 
@@ -124,7 +131,7 @@ const FilmDetail = ({itsMe}) => {
         <div>
             {loading ? (
                 <div className="py-20">
-                    <Loader/>
+                    <Loader />
                 </div>
             ) : (
                 <div className="">
@@ -134,11 +141,11 @@ const FilmDetail = ({itsMe}) => {
                             <div className="m-auto text-center">
                                 <div className="w-3/4 m-auto text-center">
                                     <img className="m-auto min-w-[25%] rounded"
-                                         src={
-                                             posterUrls[movies.imdb_code] ||
-                                             require('../images/noImage.png')
-                                         }
-                                         alt={movies.title}
+                                        src={
+                                            posterUrls[movies.imdb_code] ||
+                                            require('../images/noImage.png')
+                                        }
+                                        alt={movies.title}
                                     />
                                 </div>
                             </div>
@@ -193,7 +200,7 @@ const FilmDetail = ({itsMe}) => {
                                                 height='100%'
                                                 className='sm:w-auto sm:h-auto'
                                             />
-                                        ) : (<Loader/>)}
+                                        ) : (<Loader />)}
                                     </div>
                                 ) : null}
 
@@ -206,7 +213,7 @@ const FilmDetail = ({itsMe}) => {
                                     <div className="border-t divide-y divide-gray-200">
 
                                         <Disclosure as="div">
-                                            {({open}) => (
+                                            {({ open }) => (
                                                 <>
                                                     <h3>
                                                         <Disclosure.Button
@@ -239,7 +246,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     <h2 className="text-xl text-red-500">{t('FilmDetail.summary')}:</h2>
                                                                     <div
                                                                         className="space-y-6 text-base"
-                                                                        dangerouslySetInnerHTML={{__html: movies.description_full}}
+                                                                        dangerouslySetInnerHTML={{ __html: movies.description_full }}
                                                                     />
                                                                 </div>
                                                             </div>
@@ -282,7 +289,7 @@ const FilmDetail = ({itsMe}) => {
                                                                     )}
                                                                 </li>
                                                             </ul>
-                                                            <div className="mt-6 border-t divide-y divide-gray-200"/>
+                                                            <div className="mt-6 border-t divide-y divide-gray-200" />
                                                         </Disclosure.Panel>
                                                     </div>
                                                 </>
@@ -290,7 +297,7 @@ const FilmDetail = ({itsMe}) => {
                                         </Disclosure>
                                     </div>
                                     <Disclosure as="div">
-                                        {({open}) => (
+                                        {({ open }) => (
                                             <>
                                                 <h3>
                                                     <Disclosure.Button
@@ -317,7 +324,7 @@ const FilmDetail = ({itsMe}) => {
                                                 </h3>
 
                                                 {/* COMMENTS PANEL */}
-                                                <CommentElement id={id} itsMe={itsMe} movies={movies}/>
+                                                <CommentElement id={id} itsMe={itsMe} movies={movies} />
                                             </>
                                         )}
                                     </Disclosure>
