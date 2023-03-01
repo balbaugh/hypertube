@@ -70,7 +70,7 @@ router.post('/comments', (req, res) => {
                     console.log('adding comment', err)
                     return res.send({ value: false })
                 } else {
-                    console.log('Comment added successfully!')
+                    // console.log('Comment added successfully!')
                     return res.send({ value: true })
                 }
             })

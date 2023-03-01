@@ -36,10 +36,10 @@ const Homepage = () => {
     axios.defaults.withCredentials = true // For the sessions the work
 
     // useEffect(() => {
-    //     // axiosStuff
-    //     //     .movieTest().then((response) => {
-    //     //     console.log('oikee', response)
-    //     // })
+    //     axiosStuff
+    //         .movieTest().then((response) => {
+    //         console.log('oikee', response)
+    //     })
     //     setTimeout(() => {
     //         setLoading(false);
     //     }, 5000)
@@ -86,6 +86,7 @@ const Homepage = () => {
                     console.error(error);
                 }
             };
+
             fetchPoster(movie.imdb_code);
         });
     };
@@ -179,9 +180,10 @@ const Homepage = () => {
     const handleSearchKeyUp = (event) => {
         if (event.key === 'Enter') {
             const sanitizedQuery = DOMPurify.sanitize(query); // Sanitize the query using DOMPurify
-            handleQueryChange(sanitizedQuery).then(() => {
-                console.log('search results', searchResults);
-            });
+            handleQueryChange(sanitizedQuery)
+						// .then(() => {
+            //     console.log('search results', searchResults);
+            // });
         }
     };
 

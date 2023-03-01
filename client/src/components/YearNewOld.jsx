@@ -180,9 +180,10 @@ const YearNewOld = () => {
     const handleSearchKeyUp = (event) => {
         if (event.key === 'Enter') {
             const sanitizedQuery = DOMPurify.sanitize(query); // Sanitize the query using DOMPurify
-            handleQueryChange(sanitizedQuery).then(() => {
-                console.log('search results', searchResults);
-            });
+            handleQueryChange(sanitizedQuery)
+						// .then(() => {
+            //     console.log('search results', searchResults);
+            // });
         }
     };
 
