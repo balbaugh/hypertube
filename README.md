@@ -5,24 +5,18 @@
 
 Hypertube is the last project of Hive Helsinki's web branch. It's a streaming web app similar to Netflix, but it downloads and caches bittorrents to the server and then streams them to the user.
 
-![Language](https://img.shields.io/github/languages/top/balbaugh/hypertube?style=plastic)
+
+## Tech Stack
+**Client:** React, Redux, TailwindCSS
+
+**Server:** Node, Express
+
+**Dev Tools:** Docker, Data Grip, PG Admin, IntelliJ IDEA, VS Code
 
 
 ## Demo
 
 Insert gif or link to demo
-
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-
-## Tech Stack
-
-**Client:** React, Redux, TailwindCSS
-
-**Server:** Node, Express
 
 
 ## Features
@@ -98,10 +92,3 @@ Answer 2
 - [@balbaugh](https://www.github.com/balbaugh)
 - [@balbaugh](https://www.github.com/balbaugh)
 - [@balbaugh](https://www.github.com/balbaugh)
-
-
-**Organisation:**
-
-- Brian: Frontend (done: UI Components: homepage, loader, navbar, movie)
-- Teemu: Backend (done: Movie streamer)
-- Joonas: Backend
