@@ -16,7 +16,7 @@ Hypertube is the last project of Hive Helsinki's web branch. It's a streaming we
 
 ## Demo
 
-[![Alt text](https://github.com/balbaugh/hypertube/raw/master/demo2c.gif)](/path/to/video.mov)
+[![Demo](https://github.com/balbaugh/hypertube/raw/master/demo.gif)](/path/to/video.mov)
 
 
 
