@@ -1,5 +1,5 @@
 
-[![Logo](https://github.com/balbaugh/hypertube/raw/master/client/public/hypertubeLogo.png)](/path/to/logo.png)
+![Logo](https://github.com/balbaugh/hypertube/raw/master/client/public/hypertubeLogo.png)
 
 # Hypertube
 
@@ -16,7 +16,8 @@ Hypertube is the last project of Hive Helsinki's web branch. It's a streaming we
 
 ## Demo
 
-![Alt text](https://github.com/balbaugh/hypertube/raw/master/demo.gif){:height="250px" width="500px"}
+[![Alt text](https://github.com/balbaugh/hypertube/raw/master/demo2c.gif)](/path/to/video.mov)
+
 
 
 ## Features
