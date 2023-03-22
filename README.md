@@ -2,7 +2,7 @@
 
 # Hypertube
 
-Hypertube is the last project of Hive Helsinki's web branch. It's a streaming web app similar to Netflix, but it downloads and caches bittorrents to the server and then streams them to the user.
+Hypertube is the last project of Hive Helsinki's web branch. Hypertube is a web application that allows users to search and stream movies from various torrent sources. The application provides a user-friendly interface for browsing and watching video content, as well as maintaining a watch history and managing personal preferences.
 
 ## 
 ![Demo](https://github.com/balbaugh/hypertube/raw/master/demo.gif)
@@ -10,14 +10,14 @@ Hypertube is the last project of Hive Helsinki's web branch. It's a streaming we
 
 ## Features
 
-- OAuth Registration and Login
-- Torrent Search Download, and Stream
-- Translation i18n [Finnish, English]
-- YTS API [Torrents]
-- TMDB API [Poster Images]
-- OpenSubtitles API [Subtitles]
-- Credentials Login and Signup
-- Account Email Verification and Password Reset
+- User registration and authentication with email or OAuth providers (e.g., GitHub, 42 School)
+- Extensive catalog of movies aggregated from multiple torrent sources (e.g, YTS, TMDB)
+- Advanced search and sort functionality with filters for genres, ratings, release years, and more
+- Movie details, including descriptions, ratings, cast, and subtitles via OpenSubtitles API
+- Streaming capabilities with adaptive bitrate and support for multiple video formats
+- Finnish and English Translations via i18n
+- Watch history tracking
+- Responsive design for desktop and mobile devices
 
 
 ## Tech Stack
