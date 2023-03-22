@@ -1,4 +1,3 @@
-
 ![Logo](https://github.com/balbaugh/hypertube/raw/master/client/public/hypertubeLogo.png)
 
 # Hypertube
@@ -8,15 +7,6 @@ Hypertube is the last project of Hive Helsinki's web branch. It's a streaming we
 ## 
 ![Demo](https://github.com/balbaugh/hypertube/raw/master/demo.gif)
 
-## Tech Stack
-
-**Client:** React, Redux, TailwindCSS
-
-**Server:** Node, Express
-
-**Database:** PostgreSQL
-
-**Dev Tools:** Docker, Data Grip, PG Admin, IntelliJ IDEA, VS Code
 
 ## Features
 
@@ -28,6 +18,18 @@ Hypertube is the last project of Hive Helsinki's web branch. It's a streaming we
 - OpenSubtitles API [Subtitles]
 - Credentials Login and Signup
 - Account Email Verification and Password Reset
+
+
+## Tech Stack
+
+**Client:** React, Redux, TailwindCSS
+
+**Server:** Node, Express
+
+**Database:** PostgreSQL
+
+**Dev Tools:** Docker, Data Grip, PG Admin, IntelliJ IDEA, VS Code
+
 
 ## Authors
 
