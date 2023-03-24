@@ -2,7 +2,7 @@
 
 # Hypertube
 
-Hypertube is the last project of Hive Helsinki's web branch. Hypertube is a web application that allows users to search and stream movies from various torrent sources. The application provides a user-friendly interface for browsing and watching video content, as well as maintaining a watch history and managing personal preferences.
+Hypertube is the third and final project of Hive Helsinki / 42 School web branch. Hypertube is a web application that utilizes APIs allowing users to search and stream movies from various torrent sources. The application provides a user-friendly interface for browsing and watching video content, as well as maintaining a watch history and managing personal preferences.
 
 ## 
 ![Demo](https://github.com/balbaugh/hypertube/raw/master/demo.gif)
